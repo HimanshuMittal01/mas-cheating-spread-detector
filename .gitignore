@@ -1,0 +1,4 @@
+.env
+.venv
+pilot/runs/
+pilot/tasks.json
