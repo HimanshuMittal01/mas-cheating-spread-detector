@@ -1,0 +1,501 @@
+client_id,property_id,cedent_id,state,material_code,material_label,occupancy_code,occupancy_label,building_value_usd,contents_value_usd,tiv_usd,primary_hazard,reference_damage_factor,hazard_multiplier,reference_expected_loss_usd,currency,data_status
+NSR001,PROP00001,CED001,LA,01,Wood frame,C01,Commercial,877000,275000,1152000,Flood,0.35,1.1,443520.0,USD,synthetic_clean
+NSR001,PROP00002,CED002,CO,02,Masonry,R01,Residential,6232000,399000,6631000,Hurricane,0.15,1.15,1143847.5,USD,synthetic_clean
+NSR001,PROP00003,CED003,FL,01,Wood frame,C01,Commercial,5790000,1230000,7020000,Hurricane,0.35,1.15,2825550.0,USD,synthetic_clean
+NSR001,PROP00004,CED004,WA,09,Concrete block,R01,Residential,6327000,1195000,7522000,Hurricane,0.13,1.15,1124539.0,USD,synthetic_clean
+NSR001,PROP00005,CED005,NJ,09,Concrete block,C01,Commercial,4445000,1060000,5505000,Flood,0.23,1.1,1392765.0,USD,synthetic_clean
+NSR001,PROP00006,CED006,FL,05,Brick masonry,R01,Residential,3647000,635000,4282000,Flood,0.16,1.1,753632.0,USD,synthetic_clean
+NSR001,PROP00007,CED007,LA,06,Light metal,C01,Commercial,5658000,1829000,7487000,Flood,0.32,1.1,2635424.0,USD,synthetic_clean
+NSR001,PROP00008,CED008,TX,06,Light metal,R01,Residential,2952000,233000,3185000,Hurricane,0.22,1.15,805805.0,USD,synthetic_clean
+NSR001,PROP00009,CED009,NC,06,Light metal,R01,Residential,4454000,679000,5133000,Earthquake,0.22,1.05,1185723.0,USD,synthetic_clean
+NSR001,PROP00010,CED010,IL,01,Wood frame,R01,Residential,1386000,137000,1523000,Earthquake,0.2,1.05,319830.0,USD,synthetic_clean
+NSR001,PROP00011,CED011,TX,07,Pre-engineered steel,R01,Residential,6402000,444000,6846000,Earthquake,0.14,1.05,1006362.0,USD,synthetic_clean
+NSR001,PROP00012,CED012,NC,10,Composite material,R01,Residential,1661000,249000,1910000,Earthquake,0.17,1.05,340935.0,USD,synthetic_clean
+NSR001,PROP00013,CED013,FL,02,Masonry,R01,Residential,5104000,494000,5598000,Flood,0.15,1.1,923670.0,USD,synthetic_clean
+NSR001,PROP00014,CED014,NY,02,Masonry,C01,Commercial,5656000,973000,6629000,Hurricane,0.25,1.15,1905837.5,USD,synthetic_clean
+NSR001,PROP00015,CED015,NC,08,Mixed construction,R01,Residential,5159000,412000,5571000,Flood,0.18,1.1,1103058.0,USD,synthetic_clean
+NSR001,PROP00016,CED016,LA,04,Steel frame,R01,Residential,1272000,190000,1462000,Hurricane,0.12,1.15,201756.0,USD,synthetic_clean
+NSR001,PROP00017,CED017,CO,03,Reinforced concrete,C01,Commercial,4525000,610000,5135000,Flood,0.16,1.1,903760.0,USD,synthetic_clean
+NSR001,PROP00018,CED018,LA,07,Pre-engineered steel,R01,Residential,3768000,566000,4334000,Earthquake,0.14,1.05,637098.0,USD,synthetic_clean
+NSR001,PROP00019,CED019,FL,06,Light metal,R01,Residential,799000,116000,915000,Flood,0.22,1.1,221430.0,USD,synthetic_clean
+NSR001,PROP00020,CED020,NJ,06,Light metal,C01,Commercial,6162000,663000,6825000,Wildfire,0.32,1.2,2620800.0,USD,synthetic_clean
+NSR001,PROP00021,CED021,NC,10,Composite material,R01,Residential,7865000,875000,8740000,Flood,0.17,1.1,1634380.0,USD,synthetic_clean
+NSR001,PROP00022,CED022,IL,07,Pre-engineered steel,C01,Commercial,1858000,316000,2174000,Flood,0.21,1.1,502194.0,USD,synthetic_clean
+NSR001,PROP00023,CED023,CO,04,Steel frame,R01,Residential,3576000,477000,4053000,Earthquake,0.12,1.05,510678.0,USD,synthetic_clean
+NSR001,PROP00024,CED024,NJ,10,Composite material,R01,Residential,5356000,594000,5950000,Earthquake,0.17,1.05,1062075.0,USD,synthetic_clean
+NSR001,PROP00025,CED025,CA,04,Steel frame,R01,Residential,2794000,177000,2971000,Earthquake,0.12,1.05,374346.0,USD,synthetic_clean
+NSR001,PROP00026,CED026,TX,01,Wood frame,R01,Residential,357000,26000,383000,Flood,0.2,1.1,84260.0,USD,synthetic_clean
+NSR001,PROP00027,CED027,WA,07,Pre-engineered steel,C01,Commercial,4069000,794000,4863000,Hurricane,0.21,1.15,1174414.5,USD,synthetic_clean
+NSR001,PROP00028,CED028,IL,10,Composite material,R01,Residential,5625000,813000,6438000,Earthquake,0.17,1.05,1149183.0,USD,synthetic_clean
+NSR001,PROP00029,CED029,FL,09,Concrete block,R01,Residential,2859000,555000,3414000,Hurricane,0.13,1.15,510393.0,USD,synthetic_clean
+NSR001,PROP00030,CED030,LA,09,Concrete block,C01,Commercial,1102000,377000,1479000,Wildfire,0.23,1.2,408204.0,USD,synthetic_clean
+NSR001,PROP00031,CED031,CA,07,Pre-engineered steel,R01,Residential,2222000,260000,2482000,Severe Storm,0.14,1.0,347480.0,USD,synthetic_clean
+NSR001,PROP00032,CED032,CO,05,Brick masonry,R01,Residential,5786000,1072000,6858000,Flood,0.16,1.1,1207008.0,USD,synthetic_clean
+NSR001,PROP00033,CED033,LA,02,Masonry,R01,Residential,5823000,797000,6620000,Earthquake,0.15,1.05,1042650.0,USD,synthetic_clean
+NSR001,PROP00034,CED034,NC,03,Reinforced concrete,C01,Commercial,2572000,719000,3291000,Flood,0.16,1.1,579216.0,USD,synthetic_clean
+NSR001,PROP00035,CED035,FL,09,Concrete block,R01,Residential,2593000,356000,2949000,Earthquake,0.13,1.05,402538.5,USD,synthetic_clean
+NSR001,PROP00036,CED036,TX,01,Wood frame,R01,Residential,5085000,571000,5656000,Wildfire,0.2,1.2,1357440.0,USD,synthetic_clean
+NSR001,PROP00037,CED037,NY,05,Brick masonry,I01,Industrial,1651000,538000,2189000,Hurricane,0.36,1.15,906246.0,USD,synthetic_clean
+NSR001,PROP00038,CED038,TX,10,Composite material,R01,Residential,2759000,208000,2967000,Hurricane,0.17,1.15,580048.5,USD,synthetic_clean
+NSR001,PROP00039,CED039,CO,02,Masonry,C01,Commercial,3675000,388000,4063000,Flood,0.25,1.1,1117325.0,USD,synthetic_clean
+NSR001,PROP00040,CED040,CO,08,Mixed construction,R01,Residential,2892000,353000,3245000,Flood,0.18,1.1,642510.0,USD,synthetic_clean
+NSR001,PROP00041,CED041,NJ,10,Composite material,R01,Residential,2337000,288000,2625000,Flood,0.17,1.1,490875.0,USD,synthetic_clean
+NSR001,PROP00042,CED042,LA,04,Steel frame,I01,Industrial,3985000,994000,4979000,Severe Storm,0.3,1.0,1493700.0,USD,synthetic_clean
+NSR001,PROP00043,CED043,IL,06,Light metal,I01,Industrial,4441000,1767000,6208000,Earthquake,0.42,1.05,2737728.0,USD,synthetic_clean
+NSR001,PROP00044,CED044,NY,04,Steel frame,R01,Residential,4251000,783000,5034000,Hurricane,0.12,1.15,694692.0,USD,synthetic_clean
+NSR001,PROP00045,CED045,CO,10,Composite material,R01,Residential,2648000,399000,3047000,Flood,0.17,1.1,569789.0,USD,synthetic_clean
+NSR001,PROP00046,CED046,TX,01,Wood frame,C01,Commercial,1029000,300000,1329000,Hurricane,0.35,1.15,534922.5,USD,synthetic_clean
+NSR001,PROP00047,CED047,NC,01,Wood frame,R01,Residential,4986000,421000,5407000,Hurricane,0.2,1.15,1243610.0,USD,synthetic_clean
+NSR001,PROP00048,CED048,IL,05,Brick masonry,R01,Residential,7343000,775000,8118000,Flood,0.16,1.1,1428768.0,USD,synthetic_clean
+NSR001,PROP00049,CED049,WA,10,Composite material,R01,Residential,7712000,1487000,9199000,Severe Storm,0.17,1.0,1563830.0,USD,synthetic_clean
+NSR001,PROP00050,CED050,NJ,08,Mixed construction,R01,Residential,2660000,235000,2895000,Flood,0.18,1.1,573210.0,USD,synthetic_clean
+NSR001,PROP00051,CED001,NC,07,Pre-engineered steel,R01,Residential,4349000,501000,4850000,Severe Storm,0.14,1.0,679000.0,USD,synthetic_clean
+NSR001,PROP00052,CED002,TX,01,Wood frame,R01,Residential,531000,86000,617000,Hurricane,0.2,1.15,141910.0,USD,synthetic_clean
+NSR001,PROP00053,CED003,TX,06,Light metal,R01,Residential,1086000,105000,1191000,Flood,0.22,1.1,288222.0,USD,synthetic_clean
+NSR001,PROP00054,CED004,IL,09,Concrete block,R01,Residential,4237000,449000,4686000,Flood,0.13,1.1,670098.0,USD,synthetic_clean
+NSR001,PROP00055,CED005,IL,05,Brick masonry,R01,Residential,3151000,600000,3751000,Flood,0.16,1.1,660176.0,USD,synthetic_clean
+NSR001,PROP00056,CED006,IL,02,Masonry,I01,Industrial,2232000,454000,2686000,Earthquake,0.35,1.05,987105.0,USD,synthetic_clean
+NSR001,PROP00057,CED007,FL,09,Concrete block,R01,Residential,3051000,552000,3603000,Hurricane,0.13,1.15,538648.5,USD,synthetic_clean
+NSR001,PROP00058,CED008,CA,04,Steel frame,I01,Industrial,4867000,1461000,6328000,Severe Storm,0.3,1.0,1898400.0,USD,synthetic_clean
+NSR001,PROP00059,CED009,NJ,04,Steel frame,R01,Residential,3571000,186000,3757000,Hurricane,0.12,1.15,518466.0,USD,synthetic_clean
+NSR001,PROP00060,CED010,NJ,01,Wood frame,R01,Residential,1305000,197000,1502000,Wildfire,0.2,1.2,360480.0,USD,synthetic_clean
+NSR001,PROP00061,CED011,LA,08,Mixed construction,I01,Industrial,7433000,2908000,10341000,Severe Storm,0.4,1.0,4136400.0,USD,synthetic_clean
+NSR001,PROP00062,CED012,IL,09,Concrete block,C01,Commercial,5609000,1597000,7206000,Flood,0.23,1.1,1823118.0,USD,synthetic_clean
+NSR001,PROP00063,CED013,FL,04,Steel frame,R01,Residential,3572000,675000,4247000,Earthquake,0.12,1.05,535122.0,USD,synthetic_clean
+NSR001,PROP00064,CED014,NC,01,Wood frame,C01,Commercial,1147000,304000,1451000,Hurricane,0.35,1.15,584027.5,USD,synthetic_clean
+NSR001,PROP00065,CED015,CO,08,Mixed construction,R01,Residential,4254000,802000,5056000,Earthquake,0.18,1.05,955584.0,USD,synthetic_clean
+NSR001,PROP00066,CED016,TX,09,Concrete block,R01,Residential,2420000,351000,2771000,Flood,0.13,1.1,396253.0,USD,synthetic_clean
+NSR001,PROP00067,CED017,NY,02,Masonry,R01,Residential,6035000,1176000,7211000,Severe Storm,0.15,1.0,1081650.0,USD,synthetic_clean
+NSR001,PROP00068,CED018,NY,10,Composite material,R01,Residential,3457000,589000,4046000,Earthquake,0.17,1.05,722211.0,USD,synthetic_clean
+NSR001,PROP00069,CED019,TX,10,Composite material,C01,Commercial,6803000,2090000,8893000,Severe Storm,0.27,1.0,2401110.0,USD,synthetic_clean
+NSR001,PROP00070,CED020,CO,10,Composite material,C01,Commercial,319000,74000,393000,Wildfire,0.27,1.2,127332.0,USD,synthetic_clean
+NSR001,PROP00071,CED021,NC,04,Steel frame,I01,Industrial,7477000,1960000,9437000,Flood,0.3,1.1,3114210.0,USD,synthetic_clean
+NSR001,PROP00072,CED022,LA,03,Reinforced concrete,R01,Residential,6965000,793000,7758000,Severe Storm,0.1,1.0,775800.0,USD,synthetic_clean
+NSR001,PROP00073,CED023,FL,02,Masonry,R01,Residential,2323000,202000,2525000,Severe Storm,0.15,1.0,378750.0,USD,synthetic_clean
+NSR001,PROP00074,CED024,TX,10,Composite material,C01,Commercial,3729000,471000,4200000,Hurricane,0.27,1.15,1304100.0,USD,synthetic_clean
+NSR001,PROP00075,CED025,LA,09,Concrete block,R01,Residential,3897000,280000,4177000,Flood,0.13,1.1,597311.0,USD,synthetic_clean
+NSR001,PROP00076,CED026,NY,02,Masonry,I01,Industrial,4828000,963000,5791000,Wildfire,0.35,1.2,2432220.0,USD,synthetic_clean
+NSR001,PROP00077,CED027,CO,08,Mixed construction,R01,Residential,1398000,102000,1500000,Wildfire,0.18,1.2,324000.0,USD,synthetic_clean
+NSR001,PROP00078,CED028,FL,09,Concrete block,C01,Commercial,2406000,345000,2751000,Earthquake,0.23,1.05,664366.5,USD,synthetic_clean
+NSR001,PROP00079,CED029,CA,02,Masonry,R01,Residential,3536000,537000,4073000,Wildfire,0.15,1.2,733140.0,USD,synthetic_clean
+NSR001,PROP00080,CED030,CO,02,Masonry,R01,Residential,4802000,603000,5405000,Flood,0.15,1.1,891825.0,USD,synthetic_clean
+NSR001,PROP00081,CED031,NY,10,Composite material,R01,Residential,4375000,337000,4712000,Wildfire,0.17,1.2,961248.0,USD,synthetic_clean
+NSR001,PROP00082,CED032,CO,05,Brick masonry,R01,Residential,519000,70000,589000,Severe Storm,0.16,1.0,94240.0,USD,synthetic_clean
+NSR001,PROP00083,CED033,TX,01,Wood frame,R01,Residential,235000,30000,265000,Severe Storm,0.2,1.0,53000.0,USD,synthetic_clean
+NSR001,PROP00084,CED034,FL,01,Wood frame,C01,Commercial,3101000,1027000,4128000,Wildfire,0.35,1.2,1733760.0,USD,synthetic_clean
+NSR001,PROP00085,CED035,CA,05,Brick masonry,C01,Commercial,6726000,2319000,9045000,Severe Storm,0.26,1.0,2351700.0,USD,synthetic_clean
+NSR001,PROP00086,CED036,CO,07,Pre-engineered steel,C01,Commercial,6776000,1765000,8541000,Hurricane,0.21,1.15,2062651.5,USD,synthetic_clean
+NSR001,PROP00087,CED037,CO,03,Reinforced concrete,R01,Residential,5959000,777000,6736000,Hurricane,0.1,1.15,774640.0,USD,synthetic_clean
+NSR001,PROP00088,CED038,CO,10,Composite material,C01,Commercial,1232000,241000,1473000,Flood,0.27,1.1,437481.0,USD,synthetic_clean
+NSR001,PROP00089,CED039,LA,01,Wood frame,R01,Residential,2133000,151000,2284000,Wildfire,0.2,1.2,548160.0,USD,synthetic_clean
+NSR001,PROP00090,CED040,NC,01,Wood frame,I01,Industrial,2263000,588000,2851000,Flood,0.55,1.1,1724855.0,USD,synthetic_clean
+NSR001,PROP00091,CED041,NC,02,Masonry,C01,Commercial,5942000,1612000,7554000,Earthquake,0.25,1.05,1982925.0,USD,synthetic_clean
+NSR001,PROP00092,CED042,WA,07,Pre-engineered steel,I01,Industrial,2741000,806000,3547000,Flood,0.29,1.1,1131493.0,USD,synthetic_clean
+NSR001,PROP00093,CED043,CA,04,Steel frame,I01,Industrial,6203000,2144000,8347000,Flood,0.3,1.1,2754510.0,USD,synthetic_clean
+NSR001,PROP00094,CED044,CA,01,Wood frame,I01,Industrial,2747000,933000,3680000,Wildfire,0.55,1.2,2428800.0,USD,synthetic_clean
+NSR001,PROP00095,CED045,NY,07,Pre-engineered steel,C01,Commercial,746000,112000,858000,Wildfire,0.21,1.2,216216.0,USD,synthetic_clean
+NSR001,PROP00096,CED046,NJ,02,Masonry,R01,Residential,2433000,435000,2868000,Hurricane,0.15,1.15,494730.0,USD,synthetic_clean
+NSR001,PROP00097,CED047,NY,04,Steel frame,I01,Industrial,5155000,2220000,7375000,Severe Storm,0.3,1.0,2212500.0,USD,synthetic_clean
+NSR001,PROP00098,CED048,NY,04,Steel frame,R01,Residential,923000,65000,988000,Hurricane,0.12,1.15,136344.0,USD,synthetic_clean
+NSR001,PROP00099,CED049,NC,07,Pre-engineered steel,C01,Commercial,3360000,1003000,4363000,Wildfire,0.21,1.2,1099476.0,USD,synthetic_clean
+NSR001,PROP00100,CED050,NC,05,Brick masonry,I01,Industrial,4822000,860000,5682000,Earthquake,0.36,1.05,2147796.0,USD,synthetic_clean
+NSR001,PROP00101,CED001,NC,09,Concrete block,R01,Residential,4250000,321000,4571000,Hurricane,0.13,1.15,683364.5,USD,synthetic_clean
+NSR001,PROP00102,CED002,CA,05,Brick masonry,R01,Residential,4998000,599000,5597000,Earthquake,0.16,1.05,940296.0,USD,synthetic_clean
+NSR001,PROP00103,CED003,FL,05,Brick masonry,I01,Industrial,7375000,3166000,10541000,Hurricane,0.36,1.15,4363974.0,USD,synthetic_clean
+NSR001,PROP00104,CED004,NC,06,Light metal,C01,Commercial,6430000,831000,7261000,Severe Storm,0.32,1.0,2323520.0,USD,synthetic_clean
+NSR001,PROP00105,CED005,TX,09,Concrete block,C01,Commercial,3997000,1173000,5170000,Severe Storm,0.23,1.0,1189100.0,USD,synthetic_clean
+NSR001,PROP00106,CED006,LA,04,Steel frame,I01,Industrial,5324000,2016000,7340000,Hurricane,0.3,1.15,2532300.0,USD,synthetic_clean
+NSR001,PROP00107,CED007,CO,01,Wood frame,C01,Commercial,5141000,918000,6059000,Earthquake,0.35,1.05,2226682.5,USD,synthetic_clean
+NSR001,PROP00108,CED008,NC,04,Steel frame,C01,Commercial,2295000,766000,3061000,Severe Storm,0.2,1.0,612200.0,USD,synthetic_clean
+NSR001,PROP00109,CED009,WA,06,Light metal,R01,Residential,5947000,948000,6895000,Wildfire,0.22,1.2,1820280.0,USD,synthetic_clean
+NSR001,PROP00110,CED010,LA,02,Masonry,C01,Commercial,3177000,698000,3875000,Earthquake,0.25,1.05,1017187.5,USD,synthetic_clean
+NSR001,PROP00111,CED011,NC,07,Pre-engineered steel,R01,Residential,5278000,832000,6110000,Severe Storm,0.14,1.0,855400.0,USD,synthetic_clean
+NSR001,PROP00112,CED012,CA,09,Concrete block,C01,Commercial,7895000,2046000,9941000,Flood,0.23,1.1,2515073.0,USD,synthetic_clean
+NSR001,PROP00113,CED013,CA,07,Pre-engineered steel,R01,Residential,3919000,599000,4518000,Earthquake,0.14,1.05,664146.0,USD,synthetic_clean
+NSR001,PROP00114,CED014,CO,07,Pre-engineered steel,C01,Commercial,4780000,830000,5610000,Hurricane,0.21,1.15,1354815.0,USD,synthetic_clean
+NSR001,PROP00115,CED015,NJ,04,Steel frame,R01,Residential,2646000,252000,2898000,Earthquake,0.12,1.05,365148.0,USD,synthetic_clean
+NSR001,PROP00116,CED016,IL,06,Light metal,C01,Commercial,3638000,1270000,4908000,Severe Storm,0.32,1.0,1570560.0,USD,synthetic_clean
+NSR001,PROP00117,CED017,CO,04,Steel frame,R01,Residential,5532000,971000,6503000,Severe Storm,0.12,1.0,780360.0,USD,synthetic_clean
+NSR001,PROP00118,CED018,TX,03,Reinforced concrete,C01,Commercial,2400000,630000,3030000,Wildfire,0.16,1.2,581760.0,USD,synthetic_clean
+NSR001,PROP00119,CED019,NC,10,Composite material,R01,Residential,5503000,299000,5802000,Hurricane,0.17,1.15,1134291.0,USD,synthetic_clean
+NSR001,PROP00120,CED020,LA,04,Steel frame,C01,Commercial,7194000,1075000,8269000,Flood,0.2,1.1,1819180.0,USD,synthetic_clean
+NSR001,PROP00121,CED021,FL,03,Reinforced concrete,C01,Commercial,2439000,247000,2686000,Hurricane,0.16,1.15,494224.0,USD,synthetic_clean
+NSR001,PROP00122,CED022,WA,08,Mixed construction,R01,Residential,5312000,748000,6060000,Hurricane,0.18,1.15,1254420.0,USD,synthetic_clean
+NSR001,PROP00123,CED023,NY,10,Composite material,R01,Residential,2430000,142000,2572000,Severe Storm,0.17,1.0,437240.0,USD,synthetic_clean
+NSR001,PROP00124,CED024,CA,04,Steel frame,R01,Residential,6822000,1131000,7953000,Hurricane,0.12,1.15,1097514.0,USD,synthetic_clean
+NSR001,PROP00125,CED025,NJ,02,Masonry,I01,Industrial,3672000,1106000,4778000,Flood,0.35,1.1,1839530.0,USD,synthetic_clean
+NSR001,PROP00126,CED026,IL,09,Concrete block,R01,Residential,493000,79000,572000,Hurricane,0.13,1.15,85514.0,USD,synthetic_clean
+NSR001,PROP00127,CED027,IL,02,Masonry,C01,Commercial,3689000,546000,4235000,Flood,0.25,1.1,1164625.0,USD,synthetic_clean
+NSR001,PROP00128,CED028,CO,09,Concrete block,C01,Commercial,1393000,480000,1873000,Earthquake,0.23,1.05,452329.5,USD,synthetic_clean
+NSR001,PROP00129,CED029,WA,08,Mixed construction,R01,Residential,4162000,592000,4754000,Earthquake,0.18,1.05,898506.0,USD,synthetic_clean
+NSR001,PROP00130,CED030,IL,09,Concrete block,R01,Residential,606000,94000,700000,Flood,0.13,1.1,100100.0,USD,synthetic_clean
+NSR001,PROP00131,CED031,IL,08,Mixed construction,C01,Commercial,6203000,1331000,7534000,Wildfire,0.29,1.2,2621832.0,USD,synthetic_clean
+NSR001,PROP00132,CED032,CO,05,Brick masonry,C01,Commercial,1615000,392000,2007000,Severe Storm,0.26,1.0,521820.0,USD,synthetic_clean
+NSR001,PROP00133,CED033,IL,05,Brick masonry,C01,Commercial,2121000,518000,2639000,Hurricane,0.26,1.15,789061.0,USD,synthetic_clean
+NSR001,PROP00134,CED034,LA,04,Steel frame,C01,Commercial,7577000,2539000,10116000,Wildfire,0.2,1.2,2427840.0,USD,synthetic_clean
+NSR001,PROP00135,CED035,TX,09,Concrete block,R01,Residential,3790000,419000,4209000,Flood,0.13,1.1,601887.0,USD,synthetic_clean
+NSR001,PROP00136,CED036,CA,07,Pre-engineered steel,R01,Residential,4155000,291000,4446000,Flood,0.14,1.1,684684.0,USD,synthetic_clean
+NSR001,PROP00137,CED037,NC,07,Pre-engineered steel,R01,Residential,4986000,706000,5692000,Earthquake,0.14,1.05,836724.0,USD,synthetic_clean
+NSR001,PROP00138,CED038,NY,01,Wood frame,R01,Residential,3526000,392000,3918000,Severe Storm,0.2,1.0,783600.0,USD,synthetic_clean
+NSR001,PROP00139,CED039,FL,10,Composite material,R01,Residential,4884000,270000,5154000,Earthquake,0.17,1.05,919989.0,USD,synthetic_clean
+NSR001,PROP00140,CED040,NC,01,Wood frame,R01,Residential,2659000,222000,2881000,Wildfire,0.2,1.2,691440.0,USD,synthetic_clean
+NSR001,PROP00141,CED041,CO,07,Pre-engineered steel,C01,Commercial,4791000,1260000,6051000,Earthquake,0.21,1.05,1334245.5,USD,synthetic_clean
+NSR001,PROP00142,CED042,IL,04,Steel frame,C01,Commercial,5669000,1345000,7014000,Flood,0.2,1.1,1543080.0,USD,synthetic_clean
+NSR001,PROP00143,CED043,FL,08,Mixed construction,R01,Residential,4321000,449000,4770000,Severe Storm,0.18,1.0,858600.0,USD,synthetic_clean
+NSR001,PROP00144,CED044,CA,07,Pre-engineered steel,R01,Residential,5075000,928000,6003000,Severe Storm,0.14,1.0,840420.0,USD,synthetic_clean
+NSR001,PROP00145,CED045,CO,10,Composite material,I01,Industrial,5915000,2373000,8288000,Hurricane,0.38,1.15,3621856.0,USD,synthetic_clean
+NSR001,PROP00146,CED046,WA,10,Composite material,I01,Industrial,4248000,729000,4977000,Hurricane,0.38,1.15,2174949.0,USD,synthetic_clean
+NSR001,PROP00147,CED047,CA,07,Pre-engineered steel,R01,Residential,6971000,406000,7377000,Severe Storm,0.14,1.0,1032780.0,USD,synthetic_clean
+NSR001,PROP00148,CED048,NJ,05,Brick masonry,R01,Residential,6764000,513000,7277000,Wildfire,0.16,1.2,1397184.0,USD,synthetic_clean
+NSR001,PROP00149,CED049,NC,06,Light metal,R01,Residential,7239000,1260000,8499000,Severe Storm,0.22,1.0,1869780.0,USD,synthetic_clean
+NSR001,PROP00150,CED050,LA,07,Pre-engineered steel,R01,Residential,294000,21000,315000,Hurricane,0.14,1.15,50715.0,USD,synthetic_clean
+NSR001,PROP00151,CED001,FL,09,Concrete block,R01,Residential,4154000,804000,4958000,Wildfire,0.13,1.2,773448.0,USD,synthetic_clean
+NSR001,PROP00152,CED002,FL,02,Masonry,R01,Residential,3033000,293000,3326000,Hurricane,0.15,1.15,573735.0,USD,synthetic_clean
+NSR001,PROP00153,CED003,FL,04,Steel frame,I01,Industrial,6069000,1290000,7359000,Earthquake,0.3,1.05,2318085.0,USD,synthetic_clean
+NSR001,PROP00154,CED004,IL,03,Reinforced concrete,R01,Residential,3212000,413000,3625000,Hurricane,0.1,1.15,416875.0,USD,synthetic_clean
+NSR001,PROP00155,CED005,IL,04,Steel frame,C01,Commercial,3446000,823000,4269000,Wildfire,0.2,1.2,1024560.0,USD,synthetic_clean
+NSR001,PROP00156,CED006,WA,03,Reinforced concrete,C01,Commercial,6719000,909000,7628000,Earthquake,0.16,1.05,1281504.0,USD,synthetic_clean
+NSR001,PROP00157,CED007,CA,02,Masonry,I01,Industrial,6771000,1896000,8667000,Wildfire,0.35,1.2,3640140.0,USD,synthetic_clean
+NSR001,PROP00158,CED008,LA,01,Wood frame,R01,Residential,3249000,391000,3640000,Earthquake,0.2,1.05,764400.0,USD,synthetic_clean
+NSR001,PROP00159,CED009,NJ,07,Pre-engineered steel,C01,Commercial,2088000,330000,2418000,Flood,0.21,1.1,558558.0,USD,synthetic_clean
+NSR001,PROP00160,CED010,TX,04,Steel frame,R01,Residential,7273000,898000,8171000,Wildfire,0.12,1.2,1176624.0,USD,synthetic_clean
+NSR001,PROP00161,CED011,TX,10,Composite material,I01,Industrial,288000,98000,386000,Earthquake,0.38,1.05,154014.0,USD,synthetic_clean
+NSR001,PROP00162,CED012,CO,06,Light metal,C01,Commercial,4529000,1316000,5845000,Severe Storm,0.32,1.0,1870400.0,USD,synthetic_clean
+NSR001,PROP00163,CED013,CO,02,Masonry,C01,Commercial,5256000,1234000,6490000,Wildfire,0.25,1.2,1947000.0,USD,synthetic_clean
+NSR001,PROP00164,CED014,IL,07,Pre-engineered steel,R01,Residential,7463000,913000,8376000,Hurricane,0.14,1.15,1348536.0,USD,synthetic_clean
+NSR001,PROP00165,CED015,IL,06,Light metal,R01,Residential,6783000,852000,7635000,Flood,0.22,1.1,1847670.0,USD,synthetic_clean
+NSR001,PROP00166,CED016,LA,09,Concrete block,R01,Residential,1119000,113000,1232000,Earthquake,0.13,1.05,168168.0,USD,synthetic_clean
+NSR001,PROP00167,CED017,IL,09,Concrete block,C01,Commercial,6829000,1363000,8192000,Severe Storm,0.23,1.0,1884160.0,USD,synthetic_clean
+NSR001,PROP00168,CED018,LA,10,Composite material,R01,Residential,5098000,390000,5488000,Wildfire,0.17,1.2,1119552.0,USD,synthetic_clean
+NSR001,PROP00169,CED019,LA,02,Masonry,I01,Industrial,5113000,1454000,6567000,Severe Storm,0.35,1.0,2298450.0,USD,synthetic_clean
+NSR001,PROP00170,CED020,WA,08,Mixed construction,R01,Residential,3466000,484000,3950000,Earthquake,0.18,1.05,746550.0,USD,synthetic_clean
+NSR001,PROP00171,CED021,FL,06,Light metal,C01,Commercial,2584000,667000,3251000,Severe Storm,0.32,1.0,1040320.0,USD,synthetic_clean
+NSR001,PROP00172,CED022,IL,03,Reinforced concrete,I01,Industrial,6457000,2718000,9175000,Flood,0.22,1.1,2220350.0,USD,synthetic_clean
+NSR001,PROP00173,CED023,NC,05,Brick masonry,R01,Residential,5031000,795000,5826000,Wildfire,0.16,1.2,1118592.0,USD,synthetic_clean
+NSR001,PROP00174,CED024,CO,05,Brick masonry,I01,Industrial,3782000,1066000,4848000,Hurricane,0.36,1.15,2007072.0,USD,synthetic_clean
+NSR001,PROP00175,CED025,TX,04,Steel frame,R01,Residential,6958000,925000,7883000,Flood,0.12,1.1,1040556.0,USD,synthetic_clean
+NSR001,PROP00176,CED026,CO,08,Mixed construction,C01,Commercial,1018000,288000,1306000,Flood,0.29,1.1,416614.0,USD,synthetic_clean
+NSR001,PROP00177,CED027,IL,08,Mixed construction,C01,Commercial,7879000,1031000,8910000,Hurricane,0.29,1.15,2971485.0,USD,synthetic_clean
+NSR001,PROP00178,CED028,NJ,04,Steel frame,R01,Residential,4153000,512000,4665000,Flood,0.12,1.1,615780.0,USD,synthetic_clean
+NSR001,PROP00179,CED029,NC,10,Composite material,R01,Residential,6258000,1230000,7488000,Severe Storm,0.17,1.0,1272960.0,USD,synthetic_clean
+NSR001,PROP00180,CED030,NJ,06,Light metal,C01,Commercial,5261000,1581000,6842000,Earthquake,0.32,1.05,2298912.0,USD,synthetic_clean
+NSR001,PROP00181,CED031,LA,08,Mixed construction,R01,Residential,843000,146000,989000,Wildfire,0.18,1.2,213624.0,USD,synthetic_clean
+NSR001,PROP00182,CED032,NY,02,Masonry,R01,Residential,7633000,506000,8139000,Wildfire,0.15,1.2,1465020.0,USD,synthetic_clean
+NSR001,PROP00183,CED033,CA,09,Concrete block,R01,Residential,560000,92000,652000,Flood,0.13,1.1,93236.0,USD,synthetic_clean
+NSR001,PROP00184,CED034,LA,08,Mixed construction,R01,Residential,3256000,186000,3442000,Earthquake,0.18,1.05,650538.0,USD,synthetic_clean
+NSR001,PROP00185,CED035,WA,09,Concrete block,I01,Industrial,6442000,1960000,8402000,Wildfire,0.33,1.2,3327192.0,USD,synthetic_clean
+NSR001,PROP00186,CED036,LA,04,Steel frame,I01,Industrial,2236000,936000,3172000,Flood,0.3,1.1,1046760.0,USD,synthetic_clean
+NSR001,PROP00187,CED037,FL,05,Brick masonry,R01,Residential,5476000,825000,6301000,Earthquake,0.16,1.05,1058568.0,USD,synthetic_clean
+NSR001,PROP00188,CED038,FL,01,Wood frame,R01,Residential,4279000,761000,5040000,Earthquake,0.2,1.05,1058400.0,USD,synthetic_clean
+NSR001,PROP00189,CED039,IL,03,Reinforced concrete,R01,Residential,2901000,317000,3218000,Hurricane,0.1,1.15,370070.0,USD,synthetic_clean
+NSR001,PROP00190,CED040,LA,10,Composite material,I01,Industrial,6954000,2540000,9494000,Severe Storm,0.38,1.0,3607720.0,USD,synthetic_clean
+NSR001,PROP00191,CED041,CA,06,Light metal,R01,Residential,1646000,281000,1927000,Hurricane,0.22,1.15,487531.0,USD,synthetic_clean
+NSR001,PROP00192,CED042,TX,08,Mixed construction,R01,Residential,6242000,440000,6682000,Hurricane,0.18,1.15,1383174.0,USD,synthetic_clean
+NSR001,PROP00193,CED043,WA,02,Masonry,R01,Residential,3370000,522000,3892000,Hurricane,0.15,1.15,671370.0,USD,synthetic_clean
+NSR001,PROP00194,CED044,LA,10,Composite material,R01,Residential,4057000,505000,4562000,Hurricane,0.17,1.15,891871.0,USD,synthetic_clean
+NSR001,PROP00195,CED045,CO,02,Masonry,I01,Industrial,7337000,1139000,8476000,Severe Storm,0.35,1.0,2966600.0,USD,synthetic_clean
+NSR001,PROP00196,CED046,NY,10,Composite material,C01,Commercial,2540000,471000,3011000,Earthquake,0.27,1.05,853618.5,USD,synthetic_clean
+NSR001,PROP00197,CED047,LA,08,Mixed construction,R01,Residential,3724000,722000,4446000,Earthquake,0.18,1.05,840294.0,USD,synthetic_clean
+NSR001,PROP00198,CED048,WA,05,Brick masonry,I01,Industrial,7847000,1942000,9789000,Earthquake,0.36,1.05,3700242.0,USD,synthetic_clean
+NSR001,PROP00199,CED049,NY,02,Masonry,R01,Residential,2405000,448000,2853000,Flood,0.15,1.1,470745.0,USD,synthetic_clean
+NSR001,PROP00200,CED050,CA,02,Masonry,R01,Residential,1866000,276000,2142000,Flood,0.15,1.1,353430.0,USD,synthetic_clean
+NSR001,PROP00201,CED001,CA,02,Masonry,R01,Residential,4799000,472000,5271000,Hurricane,0.15,1.15,909247.5,USD,synthetic_clean
+NSR001,PROP00202,CED002,IL,10,Composite material,R01,Residential,192000,25000,217000,Wildfire,0.17,1.2,44268.0,USD,synthetic_clean
+NSR001,PROP00203,CED003,LA,05,Brick masonry,R01,Residential,2394000,277000,2671000,Severe Storm,0.16,1.0,427360.0,USD,synthetic_clean
+NSR001,PROP00204,CED004,LA,04,Steel frame,R01,Residential,4786000,824000,5610000,Earthquake,0.12,1.05,706860.0,USD,synthetic_clean
+NSR001,PROP00205,CED005,NJ,04,Steel frame,C01,Commercial,5455000,1312000,6767000,Hurricane,0.2,1.15,1556410.0,USD,synthetic_clean
+NSR001,PROP00206,CED006,LA,03,Reinforced concrete,R01,Residential,3520000,680000,4200000,Flood,0.1,1.1,462000.0,USD,synthetic_clean
+NSR001,PROP00207,CED007,LA,03,Reinforced concrete,R01,Residential,5285000,292000,5577000,Earthquake,0.1,1.05,585585.0,USD,synthetic_clean
+NSR001,PROP00208,CED008,LA,10,Composite material,C01,Commercial,2476000,288000,2764000,Severe Storm,0.27,1.0,746280.0,USD,synthetic_clean
+NSR001,PROP00209,CED009,NJ,05,Brick masonry,R01,Residential,501000,63000,564000,Wildfire,0.16,1.2,108288.0,USD,synthetic_clean
+NSR001,PROP00210,CED010,IL,08,Mixed construction,R01,Residential,6842000,736000,7578000,Hurricane,0.18,1.15,1568646.0,USD,synthetic_clean
+NSR001,PROP00211,CED011,NC,07,Pre-engineered steel,C01,Commercial,1052000,184000,1236000,Earthquake,0.21,1.05,272538.0,USD,synthetic_clean
+NSR001,PROP00212,CED012,NY,02,Masonry,R01,Residential,1982000,99000,2081000,Earthquake,0.15,1.05,327757.5,USD,synthetic_clean
+NSR001,PROP00213,CED013,LA,01,Wood frame,C01,Commercial,3437000,780000,4217000,Earthquake,0.35,1.05,1549747.5,USD,synthetic_clean
+NSR001,PROP00214,CED014,IL,03,Reinforced concrete,R01,Residential,408000,46000,454000,Earthquake,0.1,1.05,47670.0,USD,synthetic_clean
+NSR001,PROP00215,CED015,CA,05,Brick masonry,C01,Commercial,2784000,502000,3286000,Earthquake,0.26,1.05,897078.0,USD,synthetic_clean
+NSR001,PROP00216,CED016,TX,08,Mixed construction,R01,Residential,7328000,1117000,8445000,Severe Storm,0.18,1.0,1520100.0,USD,synthetic_clean
+NSR001,PROP00217,CED017,NC,06,Light metal,R01,Residential,3932000,745000,4677000,Hurricane,0.22,1.15,1183281.0,USD,synthetic_clean
+NSR001,PROP00218,CED018,NJ,06,Light metal,I01,Industrial,6936000,1327000,8263000,Severe Storm,0.42,1.0,3470460.0,USD,synthetic_clean
+NSR001,PROP00219,CED019,CO,07,Pre-engineered steel,R01,Residential,5744000,1078000,6822000,Hurricane,0.14,1.15,1098342.0,USD,synthetic_clean
+NSR001,PROP00220,CED020,LA,06,Light metal,R01,Residential,6565000,437000,7002000,Wildfire,0.22,1.2,1848528.0,USD,synthetic_clean
+NSR001,PROP00221,CED021,CO,07,Pre-engineered steel,R01,Residential,424000,57000,481000,Hurricane,0.14,1.15,77441.0,USD,synthetic_clean
+NSR001,PROP00222,CED022,IL,09,Concrete block,C01,Commercial,4042000,1029000,5071000,Severe Storm,0.23,1.0,1166330.0,USD,synthetic_clean
+NSR001,PROP00223,CED023,NC,09,Concrete block,R01,Residential,217000,36000,253000,Earthquake,0.13,1.05,34534.5,USD,synthetic_clean
+NSR001,PROP00224,CED024,FL,08,Mixed construction,C01,Commercial,2123000,532000,2655000,Flood,0.29,1.1,846945.0,USD,synthetic_clean
+NSR001,PROP00225,CED025,LA,03,Reinforced concrete,R01,Residential,7364000,767000,8131000,Severe Storm,0.1,1.0,813100.0,USD,synthetic_clean
+NSR001,PROP00226,CED026,TX,08,Mixed construction,I01,Industrial,4466000,1224000,5690000,Hurricane,0.4,1.15,2617400.0,USD,synthetic_clean
+NSR001,PROP00227,CED027,NY,10,Composite material,I01,Industrial,6429000,1021000,7450000,Flood,0.38,1.1,3114100.0,USD,synthetic_clean
+NSR001,PROP00228,CED028,CO,01,Wood frame,R01,Residential,5934000,313000,6247000,Severe Storm,0.2,1.0,1249400.0,USD,synthetic_clean
+NSR001,PROP00229,CED029,IL,02,Masonry,R01,Residential,2889000,451000,3340000,Hurricane,0.15,1.15,576150.0,USD,synthetic_clean
+NSR001,PROP00230,CED030,IL,03,Reinforced concrete,C01,Commercial,1151000,151000,1302000,Wildfire,0.16,1.2,249984.0,USD,synthetic_clean
+NSR001,PROP00231,CED031,NJ,05,Brick masonry,R01,Residential,7139000,1099000,8238000,Severe Storm,0.16,1.0,1318080.0,USD,synthetic_clean
+NSR001,PROP00232,CED032,IL,04,Steel frame,I01,Industrial,1128000,505000,1633000,Earthquake,0.3,1.05,514395.0,USD,synthetic_clean
+NSR001,PROP00233,CED033,WA,04,Steel frame,R01,Residential,7935000,1092000,9027000,Earthquake,0.12,1.05,1137402.0,USD,synthetic_clean
+NSR001,PROP00234,CED034,TX,03,Reinforced concrete,C01,Commercial,892000,227000,1119000,Wildfire,0.16,1.2,214848.0,USD,synthetic_clean
+NSR001,PROP00235,CED035,NC,07,Pre-engineered steel,C01,Commercial,7064000,1756000,8820000,Earthquake,0.21,1.05,1944810.0,USD,synthetic_clean
+NSR001,PROP00236,CED036,LA,01,Wood frame,R01,Residential,2866000,502000,3368000,Wildfire,0.2,1.2,808320.0,USD,synthetic_clean
+NSR001,PROP00237,CED037,IL,10,Composite material,C01,Commercial,5369000,1709000,7078000,Flood,0.27,1.1,2102166.0,USD,synthetic_clean
+NSR001,PROP00238,CED038,NC,08,Mixed construction,R01,Residential,5025000,668000,5693000,Wildfire,0.18,1.2,1229688.0,USD,synthetic_clean
+NSR001,PROP00239,CED039,NJ,09,Concrete block,C01,Commercial,4956000,1198000,6154000,Severe Storm,0.23,1.0,1415420.0,USD,synthetic_clean
+NSR001,PROP00240,CED040,NY,04,Steel frame,I01,Industrial,5791000,890000,6681000,Earthquake,0.3,1.05,2104515.0,USD,synthetic_clean
+NSR001,PROP00241,CED041,FL,07,Pre-engineered steel,R01,Residential,7870000,1333000,9203000,Wildfire,0.14,1.2,1546104.0,USD,synthetic_clean
+NSR001,PROP00242,CED042,NJ,07,Pre-engineered steel,C01,Commercial,7526000,1495000,9021000,Flood,0.21,1.1,2083851.0,USD,synthetic_clean
+NSR001,PROP00243,CED043,CA,01,Wood frame,R01,Residential,915000,66000,981000,Earthquake,0.2,1.05,206010.0,USD,synthetic_clean
+NSR001,PROP00244,CED044,TX,06,Light metal,I01,Industrial,5513000,1177000,6690000,Severe Storm,0.42,1.0,2809800.0,USD,synthetic_clean
+NSR001,PROP00245,CED045,FL,08,Mixed construction,R01,Residential,1740000,209000,1949000,Flood,0.18,1.1,385902.0,USD,synthetic_clean
+NSR001,PROP00246,CED046,TX,03,Reinforced concrete,R01,Residential,5230000,667000,5897000,Severe Storm,0.1,1.0,589700.0,USD,synthetic_clean
+NSR001,PROP00247,CED047,NC,05,Brick masonry,C01,Commercial,3144000,762000,3906000,Earthquake,0.26,1.05,1066338.0,USD,synthetic_clean
+NSR001,PROP00248,CED048,NC,02,Masonry,C01,Commercial,6269000,1877000,8146000,Earthquake,0.25,1.05,2138325.0,USD,synthetic_clean
+NSR001,PROP00249,CED049,IL,06,Light metal,R01,Residential,7249000,584000,7833000,Earthquake,0.22,1.05,1809423.0,USD,synthetic_clean
+NSR001,PROP00250,CED050,NY,02,Masonry,R01,Residential,1824000,194000,2018000,Wildfire,0.15,1.2,363240.0,USD,synthetic_clean
+NSR001,PROP00251,CED001,NJ,02,Masonry,I01,Industrial,7837000,2606000,10443000,Hurricane,0.35,1.15,4203307.5,USD,synthetic_clean
+NSR001,PROP00252,CED002,IL,02,Masonry,C01,Commercial,4648000,1164000,5812000,Flood,0.25,1.1,1598300.0,USD,synthetic_clean
+NSR001,PROP00253,CED003,FL,01,Wood frame,C01,Commercial,4723000,704000,5427000,Wildfire,0.35,1.2,2279340.0,USD,synthetic_clean
+NSR001,PROP00254,CED004,NC,05,Brick masonry,C01,Commercial,3016000,424000,3440000,Wildfire,0.26,1.2,1073280.0,USD,synthetic_clean
+NSR001,PROP00255,CED005,CO,04,Steel frame,R01,Residential,3261000,329000,3590000,Severe Storm,0.12,1.0,430800.0,USD,synthetic_clean
+NSR001,PROP00256,CED006,CA,03,Reinforced concrete,C01,Commercial,1729000,553000,2282000,Flood,0.16,1.1,401632.0,USD,synthetic_clean
+NSR001,PROP00257,CED007,WA,07,Pre-engineered steel,R01,Residential,953000,76000,1029000,Flood,0.14,1.1,158466.0,USD,synthetic_clean
+NSR001,PROP00258,CED008,CA,10,Composite material,R01,Residential,626000,55000,681000,Flood,0.17,1.1,127347.0,USD,synthetic_clean
+NSR001,PROP00259,CED009,IL,05,Brick masonry,R01,Residential,3843000,745000,4588000,Wildfire,0.16,1.2,880896.0,USD,synthetic_clean
+NSR001,PROP00260,CED010,LA,08,Mixed construction,C01,Commercial,7089000,1231000,8320000,Earthquake,0.29,1.05,2533440.0,USD,synthetic_clean
+NSR001,PROP00261,CED011,NC,08,Mixed construction,R01,Residential,1045000,189000,1234000,Earthquake,0.18,1.05,233226.0,USD,synthetic_clean
+NSR001,PROP00262,CED012,LA,07,Pre-engineered steel,R01,Residential,4981000,961000,5942000,Severe Storm,0.14,1.0,831880.0,USD,synthetic_clean
+NSR001,PROP00263,CED013,NJ,04,Steel frame,C01,Commercial,7862000,1872000,9734000,Severe Storm,0.2,1.0,1946800.0,USD,synthetic_clean
+NSR001,PROP00264,CED014,WA,07,Pre-engineered steel,R01,Residential,6564000,935000,7499000,Wildfire,0.14,1.2,1259832.0,USD,synthetic_clean
+NSR001,PROP00265,CED015,FL,05,Brick masonry,C01,Commercial,6794000,951000,7745000,Severe Storm,0.26,1.0,2013700.0,USD,synthetic_clean
+NSR001,PROP00266,CED016,FL,10,Composite material,R01,Residential,3112000,498000,3610000,Earthquake,0.17,1.05,644385.0,USD,synthetic_clean
+NSR001,PROP00267,CED017,NY,05,Brick masonry,C01,Commercial,4748000,1376000,6124000,Earthquake,0.26,1.05,1671852.0,USD,synthetic_clean
+NSR001,PROP00268,CED018,NY,04,Steel frame,C01,Commercial,517000,67000,584000,Earthquake,0.2,1.05,122640.0,USD,synthetic_clean
+NSR001,PROP00269,CED019,TX,03,Reinforced concrete,R01,Residential,1797000,116000,1913000,Hurricane,0.1,1.15,219995.0,USD,synthetic_clean
+NSR001,PROP00270,CED020,FL,08,Mixed construction,R01,Residential,5010000,561000,5571000,Earthquake,0.18,1.05,1052919.0,USD,synthetic_clean
+NSR001,PROP00271,CED021,TX,03,Reinforced concrete,R01,Residential,1583000,247000,1830000,Wildfire,0.1,1.2,219600.0,USD,synthetic_clean
+NSR001,PROP00272,CED022,CA,07,Pre-engineered steel,R01,Residential,6022000,780000,6802000,Flood,0.14,1.1,1047508.0,USD,synthetic_clean
+NSR001,PROP00273,CED023,NC,09,Concrete block,R01,Residential,2833000,210000,3043000,Earthquake,0.13,1.05,415369.5,USD,synthetic_clean
+NSR001,PROP00274,CED024,CA,05,Brick masonry,R01,Residential,204000,26000,230000,Wildfire,0.16,1.2,44160.0,USD,synthetic_clean
+NSR001,PROP00275,CED025,LA,08,Mixed construction,I01,Industrial,6258000,1186000,7444000,Wildfire,0.4,1.2,3573120.0,USD,synthetic_clean
+NSR001,PROP00276,CED026,TX,08,Mixed construction,C01,Commercial,2992000,659000,3651000,Flood,0.29,1.1,1164669.0,USD,synthetic_clean
+NSR001,PROP00277,CED027,NJ,04,Steel frame,C01,Commercial,1162000,277000,1439000,Earthquake,0.2,1.05,302190.0,USD,synthetic_clean
+NSR001,PROP00278,CED028,FL,07,Pre-engineered steel,R01,Residential,1465000,79000,1544000,Wildfire,0.14,1.2,259392.0,USD,synthetic_clean
+NSR001,PROP00279,CED029,NC,08,Mixed construction,R01,Residential,2159000,212000,2371000,Wildfire,0.18,1.2,512136.0,USD,synthetic_clean
+NSR001,PROP00280,CED030,TX,06,Light metal,C01,Commercial,7772000,1141000,8913000,Flood,0.32,1.1,3137376.0,USD,synthetic_clean
+NSR001,PROP00281,CED031,CO,10,Composite material,R01,Residential,3311000,571000,3882000,Wildfire,0.17,1.2,791928.0,USD,synthetic_clean
+NSR001,PROP00282,CED032,TX,04,Steel frame,I01,Industrial,6742000,1112000,7854000,Severe Storm,0.3,1.0,2356200.0,USD,synthetic_clean
+NSR001,PROP00283,CED033,NJ,05,Brick masonry,I01,Industrial,1375000,463000,1838000,Hurricane,0.36,1.15,760932.0,USD,synthetic_clean
+NSR001,PROP00284,CED034,LA,01,Wood frame,R01,Residential,603000,101000,704000,Severe Storm,0.2,1.0,140800.0,USD,synthetic_clean
+NSR001,PROP00285,CED035,CO,04,Steel frame,R01,Residential,6051000,700000,6751000,Flood,0.12,1.1,891132.0,USD,synthetic_clean
+NSR001,PROP00286,CED036,CO,06,Light metal,R01,Residential,4501000,414000,4915000,Severe Storm,0.22,1.0,1081300.0,USD,synthetic_clean
+NSR001,PROP00287,CED037,NJ,03,Reinforced concrete,C01,Commercial,7948000,1097000,9045000,Hurricane,0.16,1.15,1664280.0,USD,synthetic_clean
+NSR001,PROP00288,CED038,NJ,10,Composite material,C01,Commercial,4064000,730000,4794000,Wildfire,0.27,1.2,1553256.0,USD,synthetic_clean
+NSR001,PROP00289,CED039,NY,06,Light metal,R01,Residential,3252000,387000,3639000,Severe Storm,0.22,1.0,800580.0,USD,synthetic_clean
+NSR001,PROP00290,CED040,NC,04,Steel frame,R01,Residential,749000,144000,893000,Hurricane,0.12,1.15,123234.0,USD,synthetic_clean
+NSR001,PROP00291,CED041,CO,06,Light metal,I01,Industrial,3877000,628000,4505000,Wildfire,0.42,1.2,2270520.0,USD,synthetic_clean
+NSR001,PROP00292,CED042,NY,05,Brick masonry,R01,Residential,7905000,1453000,9358000,Hurricane,0.16,1.15,1721872.0,USD,synthetic_clean
+NSR001,PROP00293,CED043,TX,08,Mixed construction,I01,Industrial,3696000,889000,4585000,Flood,0.4,1.1,2017400.0,USD,synthetic_clean
+NSR001,PROP00294,CED044,FL,10,Composite material,C01,Commercial,3004000,855000,3859000,Hurricane,0.27,1.15,1198219.5,USD,synthetic_clean
+NSR001,PROP00295,CED045,CA,04,Steel frame,C01,Commercial,7589000,2124000,9713000,Earthquake,0.2,1.05,2039730.0,USD,synthetic_clean
+NSR001,PROP00296,CED046,NY,09,Concrete block,R01,Residential,5850000,660000,6510000,Earthquake,0.13,1.05,888615.0,USD,synthetic_clean
+NSR001,PROP00297,CED047,NC,04,Steel frame,R01,Residential,7273000,808000,8081000,Flood,0.12,1.1,1066692.0,USD,synthetic_clean
+NSR001,PROP00298,CED048,FL,10,Composite material,C01,Commercial,6648000,1754000,8402000,Wildfire,0.27,1.2,2722248.0,USD,synthetic_clean
+NSR001,PROP00299,CED049,CA,03,Reinforced concrete,I01,Industrial,897000,187000,1084000,Earthquake,0.22,1.05,250404.0,USD,synthetic_clean
+NSR001,PROP00300,CED050,TX,03,Reinforced concrete,R01,Residential,1450000,259000,1709000,Hurricane,0.1,1.15,196535.0,USD,synthetic_clean
+NSR001,PROP00301,CED001,NY,06,Light metal,R01,Residential,6265000,434000,6699000,Earthquake,0.22,1.05,1547469.0,USD,synthetic_clean
+NSR001,PROP00302,CED002,LA,03,Reinforced concrete,R01,Residential,2373000,358000,2731000,Hurricane,0.1,1.15,314065.0,USD,synthetic_clean
+NSR001,PROP00303,CED003,CO,07,Pre-engineered steel,R01,Residential,2397000,314000,2711000,Hurricane,0.14,1.15,436471.0,USD,synthetic_clean
+NSR001,PROP00304,CED004,IL,08,Mixed construction,C01,Commercial,4734000,1213000,5947000,Wildfire,0.29,1.2,2069556.0,USD,synthetic_clean
+NSR001,PROP00305,CED005,IL,02,Masonry,R01,Residential,4950000,972000,5922000,Earthquake,0.15,1.05,932715.0,USD,synthetic_clean
+NSR001,PROP00306,CED006,FL,10,Composite material,R01,Residential,4437000,488000,4925000,Earthquake,0.17,1.05,879112.5,USD,synthetic_clean
+NSR001,PROP00307,CED007,FL,01,Wood frame,R01,Residential,361000,42000,403000,Severe Storm,0.2,1.0,80600.0,USD,synthetic_clean
+NSR001,PROP00308,CED008,TX,07,Pre-engineered steel,C01,Commercial,2745000,610000,3355000,Severe Storm,0.21,1.0,704550.0,USD,synthetic_clean
+NSR001,PROP00309,CED009,TX,08,Mixed construction,C01,Commercial,2699000,434000,3133000,Hurricane,0.29,1.15,1044855.5,USD,synthetic_clean
+NSR001,PROP00310,CED010,TX,03,Reinforced concrete,R01,Residential,7643000,1348000,8991000,Flood,0.1,1.1,989010.0,USD,synthetic_clean
+NSR001,PROP00311,CED011,CO,10,Composite material,R01,Residential,7404000,1219000,8623000,Wildfire,0.17,1.2,1759092.0,USD,synthetic_clean
+NSR001,PROP00312,CED012,CO,10,Composite material,R01,Residential,5077000,436000,5513000,Wildfire,0.17,1.2,1124652.0,USD,synthetic_clean
+NSR001,PROP00313,CED013,NJ,10,Composite material,R01,Residential,3749000,332000,4081000,Hurricane,0.17,1.15,797835.5,USD,synthetic_clean
+NSR001,PROP00314,CED014,CO,02,Masonry,C01,Commercial,2419000,762000,3181000,Flood,0.25,1.1,874775.0,USD,synthetic_clean
+NSR001,PROP00315,CED015,NJ,04,Steel frame,R01,Residential,1891000,96000,1987000,Wildfire,0.12,1.2,286128.0,USD,synthetic_clean
+NSR001,PROP00316,CED016,NJ,07,Pre-engineered steel,C01,Commercial,1230000,361000,1591000,Hurricane,0.21,1.15,384226.5,USD,synthetic_clean
+NSR001,PROP00317,CED017,LA,06,Light metal,R01,Residential,6742000,731000,7473000,Wildfire,0.22,1.2,1972872.0,USD,synthetic_clean
+NSR001,PROP00318,CED018,TX,08,Mixed construction,I01,Industrial,7576000,3256000,10832000,Hurricane,0.4,1.15,4982720.0,USD,synthetic_clean
+NSR001,PROP00319,CED019,NJ,02,Masonry,C01,Commercial,1383000,162000,1545000,Hurricane,0.25,1.15,444187.5,USD,synthetic_clean
+NSR001,PROP00320,CED020,CA,06,Light metal,C01,Commercial,4782000,1536000,6318000,Earthquake,0.32,1.05,2122848.0,USD,synthetic_clean
+NSR001,PROP00321,CED021,CO,09,Concrete block,R01,Residential,6363000,424000,6787000,Wildfire,0.13,1.2,1058772.0,USD,synthetic_clean
+NSR001,PROP00322,CED022,NC,07,Pre-engineered steel,C01,Commercial,1397000,314000,1711000,Severe Storm,0.21,1.0,359310.0,USD,synthetic_clean
+NSR001,PROP00323,CED023,LA,01,Wood frame,I01,Industrial,3491000,1570000,5061000,Earthquake,0.55,1.05,2922727.5,USD,synthetic_clean
+NSR001,PROP00324,CED024,WA,02,Masonry,R01,Residential,428000,27000,455000,Earthquake,0.15,1.05,71662.5,USD,synthetic_clean
+NSR001,PROP00325,CED025,NY,08,Mixed construction,R01,Residential,4218000,412000,4630000,Hurricane,0.18,1.15,958410.0,USD,synthetic_clean
+NSR001,PROP00326,CED026,NC,09,Concrete block,R01,Residential,1822000,274000,2096000,Hurricane,0.13,1.15,313352.0,USD,synthetic_clean
+NSR001,PROP00327,CED027,NY,10,Composite material,C01,Commercial,582000,177000,759000,Severe Storm,0.27,1.0,204930.0,USD,synthetic_clean
+NSR001,PROP00328,CED028,WA,10,Composite material,C01,Commercial,3266000,980000,4246000,Earthquake,0.27,1.05,1203741.0,USD,synthetic_clean
+NSR001,PROP00329,CED029,FL,05,Brick masonry,R01,Residential,2694000,495000,3189000,Flood,0.16,1.1,561264.0,USD,synthetic_clean
+NSR001,PROP00330,CED030,NC,05,Brick masonry,R01,Residential,7341000,536000,7877000,Wildfire,0.16,1.2,1512384.0,USD,synthetic_clean
+NSR001,PROP00331,CED031,WA,03,Reinforced concrete,R01,Residential,931000,53000,984000,Severe Storm,0.1,1.0,98400.0,USD,synthetic_clean
+NSR001,PROP00332,CED032,TX,01,Wood frame,R01,Residential,6832000,377000,7209000,Earthquake,0.2,1.05,1513890.0,USD,synthetic_clean
+NSR001,PROP00333,CED033,IL,07,Pre-engineered steel,R01,Residential,6237000,469000,6706000,Wildfire,0.14,1.2,1126608.0,USD,synthetic_clean
+NSR001,PROP00334,CED034,NC,05,Brick masonry,R01,Residential,2278000,298000,2576000,Earthquake,0.16,1.05,432768.0,USD,synthetic_clean
+NSR001,PROP00335,CED035,CA,01,Wood frame,C01,Commercial,6616000,1881000,8497000,Flood,0.35,1.1,3271345.0,USD,synthetic_clean
+NSR001,PROP00336,CED036,TX,01,Wood frame,C01,Commercial,2739000,787000,3526000,Wildfire,0.35,1.2,1480920.0,USD,synthetic_clean
+NSR001,PROP00337,CED037,IL,07,Pre-engineered steel,R01,Residential,6063000,637000,6700000,Earthquake,0.14,1.05,984900.0,USD,synthetic_clean
+NSR001,PROP00338,CED038,NY,05,Brick masonry,R01,Residential,5252000,356000,5608000,Earthquake,0.16,1.05,942144.0,USD,synthetic_clean
+NSR001,PROP00339,CED039,TX,07,Pre-engineered steel,R01,Residential,6056000,462000,6518000,Wildfire,0.14,1.2,1095024.0,USD,synthetic_clean
+NSR001,PROP00340,CED040,IL,10,Composite material,C01,Commercial,5647000,1487000,7134000,Earthquake,0.27,1.05,2022489.0,USD,synthetic_clean
+NSR001,PROP00341,CED041,NY,01,Wood frame,C01,Commercial,7924000,2525000,10449000,Severe Storm,0.35,1.0,3657150.0,USD,synthetic_clean
+NSR001,PROP00342,CED042,FL,01,Wood frame,I01,Industrial,7653000,2654000,10307000,Flood,0.55,1.1,6235735.0,USD,synthetic_clean
+NSR001,PROP00343,CED043,CA,04,Steel frame,R01,Residential,7005000,654000,7659000,Wildfire,0.12,1.2,1102896.0,USD,synthetic_clean
+NSR001,PROP00344,CED044,FL,02,Masonry,R01,Residential,6013000,1047000,7060000,Severe Storm,0.15,1.0,1059000.0,USD,synthetic_clean
+NSR001,PROP00345,CED045,CA,03,Reinforced concrete,C01,Commercial,4488000,1123000,5611000,Severe Storm,0.16,1.0,897760.0,USD,synthetic_clean
+NSR001,PROP00346,CED046,CO,04,Steel frame,R01,Residential,5021000,566000,5587000,Earthquake,0.12,1.05,703962.0,USD,synthetic_clean
+NSR001,PROP00347,CED047,TX,06,Light metal,C01,Commercial,2214000,434000,2648000,Severe Storm,0.32,1.0,847360.0,USD,synthetic_clean
+NSR001,PROP00348,CED048,NJ,01,Wood frame,I01,Industrial,1214000,428000,1642000,Hurricane,0.55,1.15,1038565.0,USD,synthetic_clean
+NSR001,PROP00349,CED049,NC,02,Masonry,R01,Residential,4261000,255000,4516000,Earthquake,0.15,1.05,711270.0,USD,synthetic_clean
+NSR001,PROP00350,CED050,NJ,07,Pre-engineered steel,R01,Residential,4857000,713000,5570000,Wildfire,0.14,1.2,935760.0,USD,synthetic_clean
+NSR001,PROP00351,CED001,NC,01,Wood frame,R01,Residential,7175000,864000,8039000,Flood,0.2,1.1,1768580.0,USD,synthetic_clean
+NSR001,PROP00352,CED002,IL,10,Composite material,C01,Commercial,3891000,958000,4849000,Wildfire,0.27,1.2,1571076.0,USD,synthetic_clean
+NSR001,PROP00353,CED003,NY,02,Masonry,R01,Residential,645000,97000,742000,Severe Storm,0.15,1.0,111300.0,USD,synthetic_clean
+NSR001,PROP00354,CED004,TX,09,Concrete block,C01,Commercial,3423000,493000,3916000,Severe Storm,0.23,1.0,900680.0,USD,synthetic_clean
+NSR001,PROP00355,CED005,NY,06,Light metal,I01,Industrial,1798000,464000,2262000,Wildfire,0.42,1.2,1140048.0,USD,synthetic_clean
+NSR001,PROP00356,CED006,CO,02,Masonry,C01,Commercial,2090000,347000,2437000,Hurricane,0.25,1.15,700637.5,USD,synthetic_clean
+NSR001,PROP00357,CED007,NC,04,Steel frame,R01,Residential,612000,49000,661000,Wildfire,0.12,1.2,95184.0,USD,synthetic_clean
+NSR001,PROP00358,CED008,NY,03,Reinforced concrete,C01,Commercial,5649000,727000,6376000,Hurricane,0.16,1.15,1173184.0,USD,synthetic_clean
+NSR001,PROP00359,CED009,CA,04,Steel frame,R01,Residential,960000,65000,1025000,Earthquake,0.12,1.05,129150.0,USD,synthetic_clean
+NSR001,PROP00360,CED010,CA,02,Masonry,R01,Residential,988000,127000,1115000,Severe Storm,0.15,1.0,167250.0,USD,synthetic_clean
+NSR001,PROP00361,CED011,WA,10,Composite material,R01,Residential,6590000,726000,7316000,Severe Storm,0.17,1.0,1243720.0,USD,synthetic_clean
+NSR001,PROP00362,CED012,WA,10,Composite material,C01,Commercial,855000,121000,976000,Wildfire,0.27,1.2,316224.0,USD,synthetic_clean
+NSR001,PROP00363,CED013,CA,06,Light metal,I01,Industrial,4691000,2069000,6760000,Severe Storm,0.42,1.0,2839200.0,USD,synthetic_clean
+NSR001,PROP00364,CED014,LA,08,Mixed construction,R01,Residential,7659000,839000,8498000,Wildfire,0.18,1.2,1835568.0,USD,synthetic_clean
+NSR001,PROP00365,CED015,CO,06,Light metal,C01,Commercial,3157000,468000,3625000,Hurricane,0.32,1.15,1334000.0,USD,synthetic_clean
+NSR001,PROP00366,CED016,FL,08,Mixed construction,R01,Residential,6424000,889000,7313000,Hurricane,0.18,1.15,1513791.0,USD,synthetic_clean
+NSR001,PROP00367,CED017,TX,05,Brick masonry,R01,Residential,6953000,797000,7750000,Hurricane,0.16,1.15,1426000.0,USD,synthetic_clean
+NSR001,PROP00368,CED018,NJ,09,Concrete block,C01,Commercial,6452000,1176000,7628000,Severe Storm,0.23,1.0,1754440.0,USD,synthetic_clean
+NSR001,PROP00369,CED019,IL,01,Wood frame,C01,Commercial,7474000,1610000,9084000,Earthquake,0.35,1.05,3338370.0,USD,synthetic_clean
+NSR001,PROP00370,CED020,WA,06,Light metal,C01,Commercial,2920000,544000,3464000,Severe Storm,0.32,1.0,1108480.0,USD,synthetic_clean
+NSR001,PROP00371,CED021,IL,01,Wood frame,R01,Residential,4515000,289000,4804000,Hurricane,0.2,1.15,1104920.0,USD,synthetic_clean
+NSR001,PROP00372,CED022,TX,06,Light metal,C01,Commercial,7753000,1865000,9618000,Earthquake,0.32,1.05,3231648.0,USD,synthetic_clean
+NSR001,PROP00373,CED023,NY,01,Wood frame,C01,Commercial,3222000,988000,4210000,Severe Storm,0.35,1.0,1473500.0,USD,synthetic_clean
+NSR001,PROP00374,CED024,CO,09,Concrete block,I01,Industrial,1599000,693000,2292000,Earthquake,0.33,1.05,794178.0,USD,synthetic_clean
+NSR001,PROP00375,CED025,LA,06,Light metal,R01,Residential,4851000,528000,5379000,Severe Storm,0.22,1.0,1183380.0,USD,synthetic_clean
+NSR001,PROP00376,CED026,WA,06,Light metal,R01,Residential,7834000,436000,8270000,Hurricane,0.22,1.15,2092310.0,USD,synthetic_clean
+NSR001,PROP00377,CED027,TX,06,Light metal,C01,Commercial,216000,61000,277000,Wildfire,0.32,1.2,106368.0,USD,synthetic_clean
+NSR001,PROP00378,CED028,LA,07,Pre-engineered steel,R01,Residential,2052000,245000,2297000,Wildfire,0.14,1.2,385896.0,USD,synthetic_clean
+NSR001,PROP00379,CED029,CA,10,Composite material,C01,Commercial,4061000,1298000,5359000,Wildfire,0.27,1.2,1736316.0,USD,synthetic_clean
+NSR001,PROP00380,CED030,NC,03,Reinforced concrete,R01,Residential,6833000,618000,7451000,Wildfire,0.1,1.2,894120.0,USD,synthetic_clean
+NSR001,PROP00381,CED031,CA,07,Pre-engineered steel,I01,Industrial,4598000,2021000,6619000,Earthquake,0.29,1.05,2015485.5,USD,synthetic_clean
+NSR001,PROP00382,CED032,LA,02,Masonry,C01,Commercial,779000,114000,893000,Earthquake,0.25,1.05,234412.5,USD,synthetic_clean
+NSR001,PROP00383,CED033,CA,06,Light metal,R01,Residential,7715000,1401000,9116000,Earthquake,0.22,1.05,2105796.0,USD,synthetic_clean
+NSR001,PROP00384,CED034,CO,07,Pre-engineered steel,R01,Residential,3227000,394000,3621000,Wildfire,0.14,1.2,608328.0,USD,synthetic_clean
+NSR001,PROP00385,CED035,CA,05,Brick masonry,R01,Residential,6521000,919000,7440000,Flood,0.16,1.1,1309440.0,USD,synthetic_clean
+NSR001,PROP00386,CED036,NY,08,Mixed construction,R01,Residential,1179000,79000,1258000,Flood,0.18,1.1,249084.0,USD,synthetic_clean
+NSR001,PROP00387,CED037,TX,03,Reinforced concrete,I01,Industrial,3445000,1420000,4865000,Wildfire,0.22,1.2,1284360.0,USD,synthetic_clean
+NSR001,PROP00388,CED038,CO,02,Masonry,C01,Commercial,696000,150000,846000,Earthquake,0.25,1.05,222075.0,USD,synthetic_clean
+NSR001,PROP00389,CED039,FL,09,Concrete block,C01,Commercial,367000,98000,465000,Wildfire,0.23,1.2,128340.0,USD,synthetic_clean
+NSR001,PROP00390,CED040,CA,10,Composite material,I01,Industrial,6361000,1950000,8311000,Earthquake,0.38,1.05,3316089.0,USD,synthetic_clean
+NSR001,PROP00391,CED041,CA,03,Reinforced concrete,R01,Residential,5018000,412000,5430000,Earthquake,0.1,1.05,570150.0,USD,synthetic_clean
+NSR001,PROP00392,CED042,IL,03,Reinforced concrete,C01,Commercial,4029000,1357000,5386000,Hurricane,0.16,1.15,991024.0,USD,synthetic_clean
+NSR001,PROP00393,CED043,IL,04,Steel frame,R01,Residential,2871000,491000,3362000,Earthquake,0.12,1.05,423612.0,USD,synthetic_clean
+NSR001,PROP00394,CED044,NY,08,Mixed construction,R01,Residential,4735000,855000,5590000,Earthquake,0.18,1.05,1056510.0,USD,synthetic_clean
+NSR001,PROP00395,CED045,NY,08,Mixed construction,R01,Residential,5276000,604000,5880000,Wildfire,0.18,1.2,1270080.0,USD,synthetic_clean
+NSR001,PROP00396,CED046,IL,10,Composite material,C01,Commercial,3068000,337000,3405000,Severe Storm,0.27,1.0,919350.0,USD,synthetic_clean
+NSR001,PROP00397,CED047,CO,07,Pre-engineered steel,C01,Commercial,7949000,2589000,10538000,Earthquake,0.21,1.05,2323629.0,USD,synthetic_clean
+NSR001,PROP00398,CED048,NY,03,Reinforced concrete,R01,Residential,2611000,458000,3069000,Earthquake,0.1,1.05,322245.0,USD,synthetic_clean
+NSR001,PROP00399,CED049,FL,05,Brick masonry,R01,Residential,7498000,1313000,8811000,Severe Storm,0.16,1.0,1409760.0,USD,synthetic_clean
+NSR001,PROP00400,CED050,TX,09,Concrete block,I01,Industrial,721000,204000,925000,Earthquake,0.33,1.05,320512.5,USD,synthetic_clean
+NSR001,PROP00401,CED001,TX,05,Brick masonry,I01,Industrial,7341000,1785000,9126000,Flood,0.36,1.1,3613896.0,USD,synthetic_clean
+NSR001,PROP00402,CED002,CA,09,Concrete block,R01,Residential,6367000,591000,6958000,Severe Storm,0.13,1.0,904540.0,USD,synthetic_clean
+NSR001,PROP00403,CED003,IL,04,Steel frame,R01,Residential,1660000,298000,1958000,Wildfire,0.12,1.2,281952.0,USD,synthetic_clean
+NSR001,PROP00404,CED004,FL,07,Pre-engineered steel,I01,Industrial,1172000,220000,1392000,Severe Storm,0.29,1.0,403680.0,USD,synthetic_clean
+NSR001,PROP00405,CED005,NJ,04,Steel frame,R01,Residential,7811000,1322000,9133000,Hurricane,0.12,1.15,1260354.0,USD,synthetic_clean
+NSR001,PROP00406,CED006,NC,01,Wood frame,R01,Residential,7729000,1513000,9242000,Hurricane,0.2,1.15,2125660.0,USD,synthetic_clean
+NSR001,PROP00407,CED007,CA,06,Light metal,C01,Commercial,7209000,1417000,8626000,Flood,0.32,1.1,3036352.0,USD,synthetic_clean
+NSR001,PROP00408,CED008,CA,08,Mixed construction,R01,Residential,1703000,108000,1811000,Severe Storm,0.18,1.0,325980.0,USD,synthetic_clean
+NSR001,PROP00409,CED009,TX,01,Wood frame,R01,Residential,3241000,378000,3619000,Hurricane,0.2,1.15,832370.0,USD,synthetic_clean
+NSR001,PROP00410,CED010,CO,03,Reinforced concrete,R01,Residential,858000,63000,921000,Earthquake,0.1,1.05,96705.0,USD,synthetic_clean
+NSR001,PROP00411,CED011,LA,02,Masonry,R01,Residential,455000,37000,492000,Flood,0.15,1.1,81180.0,USD,synthetic_clean
+NSR001,PROP00412,CED012,NY,01,Wood frame,R01,Residential,6992000,597000,7589000,Severe Storm,0.2,1.0,1517800.0,USD,synthetic_clean
+NSR001,PROP00413,CED013,IL,10,Composite material,C01,Commercial,7821000,1163000,8984000,Hurricane,0.27,1.15,2789532.0,USD,synthetic_clean
+NSR001,PROP00414,CED014,WA,08,Mixed construction,R01,Residential,3029000,395000,3424000,Earthquake,0.18,1.05,647136.0,USD,synthetic_clean
+NSR001,PROP00415,CED015,WA,09,Concrete block,R01,Residential,7315000,1244000,8559000,Flood,0.13,1.1,1223937.0,USD,synthetic_clean
+NSR001,PROP00416,CED016,NJ,05,Brick masonry,C01,Commercial,5066000,621000,5687000,Hurricane,0.26,1.15,1700413.0,USD,synthetic_clean
+NSR001,PROP00417,CED017,WA,04,Steel frame,C01,Commercial,7599000,2556000,10155000,Severe Storm,0.2,1.0,2031000.0,USD,synthetic_clean
+NSR001,PROP00418,CED018,CO,02,Masonry,R01,Residential,2726000,357000,3083000,Wildfire,0.15,1.2,554940.0,USD,synthetic_clean
+NSR001,PROP00419,CED019,CO,09,Concrete block,R01,Residential,6207000,918000,7125000,Earthquake,0.13,1.05,972562.5,USD,synthetic_clean
+NSR001,PROP00420,CED020,CO,09,Concrete block,C01,Commercial,6498000,924000,7422000,Hurricane,0.23,1.15,1963119.0,USD,synthetic_clean
+NSR001,PROP00421,CED021,FL,08,Mixed construction,R01,Residential,1968000,153000,2121000,Severe Storm,0.18,1.0,381780.0,USD,synthetic_clean
+NSR001,PROP00422,CED022,FL,05,Brick masonry,I01,Industrial,4333000,1943000,6276000,Wildfire,0.36,1.2,2711232.0,USD,synthetic_clean
+NSR001,PROP00423,CED023,NY,06,Light metal,C01,Commercial,4242000,931000,5173000,Hurricane,0.32,1.15,1903664.0,USD,synthetic_clean
+NSR001,PROP00424,CED024,CA,06,Light metal,C01,Commercial,7791000,1223000,9014000,Hurricane,0.32,1.15,3317152.0,USD,synthetic_clean
+NSR001,PROP00425,CED025,CA,06,Light metal,R01,Residential,702000,40000,742000,Severe Storm,0.22,1.0,163240.0,USD,synthetic_clean
+NSR001,PROP00426,CED026,CA,08,Mixed construction,I01,Industrial,4046000,1604000,5650000,Flood,0.4,1.1,2486000.0,USD,synthetic_clean
+NSR001,PROP00427,CED027,FL,08,Mixed construction,R01,Residential,7192000,1058000,8250000,Wildfire,0.18,1.2,1782000.0,USD,synthetic_clean
+NSR001,PROP00428,CED028,FL,04,Steel frame,R01,Residential,3746000,668000,4414000,Wildfire,0.12,1.2,635616.0,USD,synthetic_clean
+NSR001,PROP00429,CED029,NJ,09,Concrete block,I01,Industrial,5168000,2264000,7432000,Earthquake,0.33,1.05,2575188.0,USD,synthetic_clean
+NSR001,PROP00430,CED030,NY,01,Wood frame,R01,Residential,5692000,647000,6339000,Wildfire,0.2,1.2,1521360.0,USD,synthetic_clean
+NSR001,PROP00431,CED031,NC,01,Wood frame,R01,Residential,3080000,494000,3574000,Wildfire,0.2,1.2,857760.0,USD,synthetic_clean
+NSR001,PROP00432,CED032,NJ,06,Light metal,R01,Residential,4856000,338000,5194000,Severe Storm,0.22,1.0,1142680.0,USD,synthetic_clean
+NSR001,PROP00433,CED033,NC,07,Pre-engineered steel,C01,Commercial,6007000,1944000,7951000,Flood,0.21,1.1,1836681.0,USD,synthetic_clean
+NSR001,PROP00434,CED034,NC,08,Mixed construction,R01,Residential,4584000,886000,5470000,Earthquake,0.18,1.05,1033830.0,USD,synthetic_clean
+NSR001,PROP00435,CED035,NJ,02,Masonry,R01,Residential,1045000,97000,1142000,Hurricane,0.15,1.15,196995.0,USD,synthetic_clean
+NSR001,PROP00436,CED036,CO,03,Reinforced concrete,R01,Residential,5870000,917000,6787000,Wildfire,0.1,1.2,814440.0,USD,synthetic_clean
+NSR001,PROP00437,CED037,NC,02,Masonry,R01,Residential,6127000,746000,6873000,Wildfire,0.15,1.2,1237140.0,USD,synthetic_clean
+NSR001,PROP00438,CED038,NJ,10,Composite material,R01,Residential,2122000,146000,2268000,Flood,0.17,1.1,424116.0,USD,synthetic_clean
+NSR001,PROP00439,CED039,IL,06,Light metal,C01,Commercial,2591000,570000,3161000,Hurricane,0.32,1.15,1163248.0,USD,synthetic_clean
+NSR001,PROP00440,CED040,WA,06,Light metal,C01,Commercial,4727000,1002000,5729000,Severe Storm,0.32,1.0,1833280.0,USD,synthetic_clean
+NSR001,PROP00441,CED041,TX,01,Wood frame,R01,Residential,6029000,519000,6548000,Severe Storm,0.2,1.0,1309600.0,USD,synthetic_clean
+NSR001,PROP00442,CED042,FL,03,Reinforced concrete,R01,Residential,1989000,216000,2205000,Flood,0.1,1.1,242550.0,USD,synthetic_clean
+NSR001,PROP00443,CED043,FL,08,Mixed construction,C01,Commercial,3835000,645000,4480000,Flood,0.29,1.1,1429120.0,USD,synthetic_clean
+NSR001,PROP00444,CED044,NC,06,Light metal,R01,Residential,292000,27000,319000,Severe Storm,0.22,1.0,70180.0,USD,synthetic_clean
+NSR001,PROP00445,CED045,WA,01,Wood frame,I01,Industrial,3611000,1081000,4692000,Flood,0.55,1.1,2838660.0,USD,synthetic_clean
+NSR001,PROP00446,CED046,NC,06,Light metal,C01,Commercial,5094000,1781000,6875000,Severe Storm,0.32,1.0,2200000.0,USD,synthetic_clean
+NSR001,PROP00447,CED047,CA,10,Composite material,C01,Commercial,5208000,1703000,6911000,Earthquake,0.27,1.05,1959268.5,USD,synthetic_clean
+NSR001,PROP00448,CED048,LA,06,Light metal,R01,Residential,2985000,185000,3170000,Flood,0.22,1.1,767140.0,USD,synthetic_clean
+NSR001,PROP00449,CED049,CA,01,Wood frame,I01,Industrial,3784000,1212000,4996000,Severe Storm,0.55,1.0,2747800.0,USD,synthetic_clean
+NSR001,PROP00450,CED050,TX,09,Concrete block,R01,Residential,6150000,1079000,7229000,Wildfire,0.13,1.2,1127724.0,USD,synthetic_clean
+NSR001,PROP00451,CED001,NY,08,Mixed construction,C01,Commercial,4497000,1402000,5899000,Earthquake,0.29,1.05,1796245.5,USD,synthetic_clean
+NSR001,PROP00452,CED002,NY,08,Mixed construction,R01,Residential,5403000,991000,6394000,Hurricane,0.18,1.15,1323558.0,USD,synthetic_clean
+NSR001,PROP00453,CED003,IL,02,Masonry,R01,Residential,7006000,632000,7638000,Flood,0.15,1.1,1260270.0,USD,synthetic_clean
+NSR001,PROP00454,CED004,TX,08,Mixed construction,I01,Industrial,3557000,714000,4271000,Wildfire,0.4,1.2,2050080.0,USD,synthetic_clean
+NSR001,PROP00455,CED005,CO,02,Masonry,C01,Commercial,2875000,329000,3204000,Earthquake,0.25,1.05,841050.0,USD,synthetic_clean
+NSR001,PROP00456,CED006,CA,05,Brick masonry,R01,Residential,6166000,1079000,7245000,Flood,0.16,1.1,1275120.0,USD,synthetic_clean
+NSR001,PROP00457,CED007,NY,09,Concrete block,C01,Commercial,3330000,1008000,4338000,Hurricane,0.23,1.15,1147401.0,USD,synthetic_clean
+NSR001,PROP00458,CED008,NY,03,Reinforced concrete,I01,Industrial,7384000,2911000,10295000,Severe Storm,0.22,1.0,2264900.0,USD,synthetic_clean
+NSR001,PROP00459,CED009,WA,09,Concrete block,R01,Residential,7321000,624000,7945000,Wildfire,0.13,1.2,1239420.0,USD,synthetic_clean
+NSR001,PROP00460,CED010,CA,09,Concrete block,R01,Residential,4572000,523000,5095000,Earthquake,0.13,1.05,695467.5,USD,synthetic_clean
+NSR001,PROP00461,CED011,LA,02,Masonry,I01,Industrial,2249000,592000,2841000,Severe Storm,0.35,1.0,994350.0,USD,synthetic_clean
+NSR001,PROP00462,CED012,CO,08,Mixed construction,I01,Industrial,5950000,1912000,7862000,Severe Storm,0.4,1.0,3144800.0,USD,synthetic_clean
+NSR001,PROP00463,CED013,TX,10,Composite material,C01,Commercial,6710000,735000,7445000,Flood,0.27,1.1,2211165.0,USD,synthetic_clean
+NSR001,PROP00464,CED014,IL,02,Masonry,I01,Industrial,7198000,1933000,9131000,Severe Storm,0.35,1.0,3195850.0,USD,synthetic_clean
+NSR001,PROP00465,CED015,CA,06,Light metal,C01,Commercial,4237000,817000,5054000,Earthquake,0.32,1.05,1698144.0,USD,synthetic_clean
+NSR001,PROP00466,CED016,CA,03,Reinforced concrete,C01,Commercial,1531000,336000,1867000,Severe Storm,0.16,1.0,298720.0,USD,synthetic_clean
+NSR001,PROP00467,CED017,TX,01,Wood frame,R01,Residential,1708000,249000,1957000,Earthquake,0.2,1.05,410970.0,USD,synthetic_clean
+NSR001,PROP00468,CED018,CA,03,Reinforced concrete,R01,Residential,1468000,162000,1630000,Wildfire,0.1,1.2,195600.0,USD,synthetic_clean
+NSR001,PROP00469,CED019,NC,04,Steel frame,I01,Industrial,3400000,609000,4009000,Earthquake,0.3,1.05,1262835.0,USD,synthetic_clean
+NSR001,PROP00470,CED020,LA,02,Masonry,I01,Industrial,3417000,988000,4405000,Flood,0.35,1.1,1695925.0,USD,synthetic_clean
+NSR001,PROP00471,CED021,LA,09,Concrete block,C01,Commercial,3841000,1148000,4989000,Flood,0.23,1.1,1262217.0,USD,synthetic_clean
+NSR001,PROP00472,CED022,CO,10,Composite material,C01,Commercial,4393000,740000,5133000,Hurricane,0.27,1.15,1593796.5,USD,synthetic_clean
+NSR001,PROP00473,CED023,WA,03,Reinforced concrete,R01,Residential,6457000,453000,6910000,Earthquake,0.1,1.05,725550.0,USD,synthetic_clean
+NSR001,PROP00474,CED024,WA,10,Composite material,R01,Residential,7452000,1319000,8771000,Wildfire,0.17,1.2,1789284.0,USD,synthetic_clean
+NSR001,PROP00475,CED025,FL,10,Composite material,C01,Commercial,1937000,503000,2440000,Hurricane,0.27,1.15,757620.0,USD,synthetic_clean
+NSR001,PROP00476,CED026,LA,10,Composite material,R01,Residential,1437000,269000,1706000,Flood,0.17,1.1,319022.0,USD,synthetic_clean
+NSR001,PROP00477,CED027,WA,07,Pre-engineered steel,C01,Commercial,1829000,206000,2035000,Hurricane,0.21,1.15,491452.5,USD,synthetic_clean
+NSR001,PROP00478,CED028,LA,09,Concrete block,R01,Residential,4414000,630000,5044000,Wildfire,0.13,1.2,786864.0,USD,synthetic_clean
+NSR001,PROP00479,CED029,LA,07,Pre-engineered steel,R01,Residential,2571000,429000,3000000,Severe Storm,0.14,1.0,420000.0,USD,synthetic_clean
+NSR001,PROP00480,CED030,CA,01,Wood frame,R01,Residential,7806000,1416000,9222000,Severe Storm,0.2,1.0,1844400.0,USD,synthetic_clean
+NSR001,PROP00481,CED031,NY,08,Mixed construction,R01,Residential,3630000,628000,4258000,Wildfire,0.18,1.2,919728.0,USD,synthetic_clean
+NSR001,PROP00482,CED032,NC,06,Light metal,C01,Commercial,3492000,788000,4280000,Wildfire,0.32,1.2,1643520.0,USD,synthetic_clean
+NSR001,PROP00483,CED033,NC,03,Reinforced concrete,I01,Industrial,1101000,425000,1526000,Earthquake,0.22,1.05,352506.0,USD,synthetic_clean
+NSR001,PROP00484,CED034,NY,06,Light metal,C01,Commercial,7695000,2186000,9881000,Severe Storm,0.32,1.0,3161920.0,USD,synthetic_clean
+NSR001,PROP00485,CED035,NY,08,Mixed construction,R01,Residential,7320000,940000,8260000,Flood,0.18,1.1,1635480.0,USD,synthetic_clean
+NSR001,PROP00486,CED036,NJ,05,Brick masonry,R01,Residential,3728000,590000,4318000,Earthquake,0.16,1.05,725424.0,USD,synthetic_clean
+NSR001,PROP00487,CED037,NC,03,Reinforced concrete,R01,Residential,7692000,790000,8482000,Earthquake,0.1,1.05,890610.0,USD,synthetic_clean
+NSR001,PROP00488,CED038,CA,04,Steel frame,C01,Commercial,735000,149000,884000,Severe Storm,0.2,1.0,176800.0,USD,synthetic_clean
+NSR001,PROP00489,CED039,IL,08,Mixed construction,I01,Industrial,7895000,2090000,9985000,Wildfire,0.4,1.2,4792800.0,USD,synthetic_clean
+NSR001,PROP00490,CED040,NJ,02,Masonry,R01,Residential,4950000,903000,5853000,Earthquake,0.15,1.05,921847.5,USD,synthetic_clean
+NSR001,PROP00491,CED041,NY,04,Steel frame,R01,Residential,7843000,788000,8631000,Earthquake,0.12,1.05,1087506.0,USD,synthetic_clean
+NSR001,PROP00492,CED042,LA,01,Wood frame,R01,Residential,7490000,401000,7891000,Severe Storm,0.2,1.0,1578200.0,USD,synthetic_clean
+NSR001,PROP00493,CED043,LA,08,Mixed construction,C01,Commercial,6667000,1492000,8159000,Earthquake,0.29,1.05,2484415.5,USD,synthetic_clean
+NSR001,PROP00494,CED044,NJ,02,Masonry,R01,Residential,3718000,668000,4386000,Flood,0.15,1.1,723690.0,USD,synthetic_clean
+NSR001,PROP00495,CED045,NJ,06,Light metal,I01,Industrial,2903000,1088000,3991000,Wildfire,0.42,1.2,2011464.0,USD,synthetic_clean
+NSR001,PROP00496,CED046,WA,01,Wood frame,R01,Residential,4393000,790000,5183000,Earthquake,0.2,1.05,1088430.0,USD,synthetic_clean
+NSR001,PROP00497,CED047,LA,09,Concrete block,R01,Residential,2194000,180000,2374000,Hurricane,0.13,1.15,354913.0,USD,synthetic_clean
+NSR001,PROP00498,CED048,CO,08,Mixed construction,R01,Residential,6428000,543000,6971000,Wildfire,0.18,1.2,1505736.0,USD,synthetic_clean
+NSR001,PROP00499,CED049,WA,10,Composite material,C01,Commercial,2101000,543000,2644000,Hurricane,0.27,1.15,820962.0,USD,synthetic_clean
+NSR001,PROP00500,CED050,NJ,02,Masonry,R01,Residential,7437000,903000,8340000,Wildfire,0.15,1.2,1501200.0,USD,synthetic_clean
