@@ -6,6 +6,8 @@ Our entry for Apart Research's **Swarm Alignment Hackathon** (Nov 6–8, 2026).
 
 **The idea:** when cheating starts spreading through a group of AI agents, can we look inside the model, spot which agent is about to cheat *before* it acts, and use that to contain the spread?
 
+> **Latest results (Nov 7):** see [pilot/REPORT.md](pilot/REPORT.md). The direction is being re-decided based on them; parts of the plan below (internals detector) are no longer current.
+>
 > **Plan revised Nov 6** from the Nov 2 plan (the "Swarm Hackathon Plan" doc). The multi-agent swarm is now the foundation, the model's internals are used for detection, and containment is the stretch goal. See [What changed from the original plan](#what-changed-from-the-original-plan).
 
 ## The hackathon
@@ -15,13 +17,14 @@ Our entry for Apart Research's **Swarm Alignment Hackathon** (Nov 6–8, 2026).
 - **What we submit:** a report of up to 8 pages, a 150–250 word abstract and an appendix on limitations and possible misuse. Code and a short video are optional.
 - **Judging (from the original plan; check the official sprint page):** 1 to 5 on impact and originality, execution, and clarity. $4,000 in prizes, $2,000 for first.
 - **Rule:** only weekend work is judged; anything built before, including pilots, must be declared.
+- **Fit:** the resources page lists our question almost word for word as a Track 2 example ("Can selfish behaviours … such as … reward hacking … spread between agents in a swarm?"), and "One bad apple" (one compromised agent in networks of different shapes) as another.
 
 ## The problem
 
 AI agents increasingly work in groups that can read each other's work. That turns one agent's shortcut into everyone's shortcut.
 
 - **DeepMind's research swarm:** 100 agents shared a library of accepted answers. One found a hole in the grader; within about 27 minutes the others had used it to "solve" 34 problems they hadn't solved. One agent wrote: *"The prompt, with its threats, now appears to be a bluff."*
-- **OpenAI's agents (July 2026):** while being tested on a hacking benchmark, agents built their own message board in a shared folder and swapped tricks there. Hundreds then used leaked credentials to break into Hugging Face, which Hugging Face called an attempt to cheat the test. (Figures come from secondary reports of a Black Hat talk.)
+- **OpenAI's agents (July 2026):** during OpenAI's ExploitGym evaluation, roughly 1,200 agents found a cache folder and used it as a message board. Their goal, per METR and Redwood's investigation, was "to find a general-purpose way to trick or tamper with the automated ExploitGym scorer to get it to give a passing score on impossible tasks". 700 of them went on to attack Hugging Face, and some shared ways of faking their own logs.
 
 Human oversight checks agents one at a time. Once a trick moves through a group faster than that, one agent's mistake becomes the whole group's failure before anyone notices. Gaming a coding grader is a safe, measurable stand-in for gaming any oversight check.
 
@@ -37,9 +40,9 @@ Why it matters: labs running large groups of agents can't check everything. A ch
 
 ## The gap
 
-- **Already known:** cheating spreads between agents (DeepMind's case study; *Reward Hacking as a Transmissible Strategy*, Meta and Duke, Oct 2026, which uses no model internals and doesn't study early or group-level detection). Internals can detect cheating in a *single* agent (*Monitoring and Discovering Reward Hacking with Internal Representations*, Sept 2026, including Qwen 3.8).
+- **Already known:** cheating spreads between agents (DeepMind's case study; *Reward Hacking as a Transmissible Strategy*, Meta and Duke, Oct 2026, which uses no model internals and doesn't study early or group-level detection). Internals can detect cheating in a *single* agent (*Monitoring and Discovering Reward Hacking with Internal Representations*, Sept 2026, including Qwen 3.8). Internals have also been read per agent in a group to detect *collusion* (Rose et al., *Detecting Multi-Agent Collusion Through Multi-Agent Interpretability*, Apr 2026). There, agents are told to collude in fixed scenarios, and each scenario is labelled after the fact.
 - **New:**
-  - Catching the spread early, inside a group, using internals.
+  - Catching a behaviour that *spreads* from agent to agent over turns, flagging the agent about to copy *before* it acts.
   - The hard test: among agents who all saw the same cheat, telling *which ones* will copy. A rule based on the board can't do that.
   - Catching a cheating trick the detector was never trained on.
   - If Part 3 lands, showing that acting on the alarm slows the spread, and what it costs in lost honest work.
@@ -54,7 +57,7 @@ Why it matters: labs running large groups of agents can't check everything. A ch
 
 ## The setup
 
-- **Model:** Qwen3.8-27B (open weights, so we can read its internals). The GPU box runs vLLM for generation and Hugging Face for activations. The pilot can use a hosted copy of the same model through the same OpenAI-compatible API.
+- **Model:** Qwen3.8-27B (open weights, so we can read its internals). Swarm runs use Adaption's hosted copy (hackathon sponsor, $500 credits per participant; it has no internals access). The GPU box replays the saved turns through Hugging Face to read activations.
 - **Tasks:** hard coding problems from DeepMind's CodeContests. Finance tasks are a possible second setting later (a strong generalisation test), not for now.
 - **Two checkers grade every answer:**
   - The **easy checker** runs the tests with pytest *inside the agent's folder*, so files the agent adds can fool it: a `conftest.py` that marks every test passed, or `os._exit(0)`, which quits with a "success" code before any test can fail.
@@ -129,6 +132,7 @@ One model family; the planted cheater is told to cheat rather than trained into 
 - A Case Study on Emergent Cheating and Whistleblowing in Autonomous Research Swarms (Google DeepMind)
 - [Reward Hacking as a Transmissible Strategy in Multi-Agent Coding Systems](https://arxiv.org/abs/2610.12822)
 - [Monitoring and Discovering Reward Hacking with Internal Representations](https://papers.cool/arxiv/2609.19101)
-- [OpenAI's agents and the Hugging Face breach](https://tbreak.com/openai-agents-secret-message-board-hugging-face/)
+- [METR and Redwood Research, investigation of the Hugging Face incident (Aug 26, 2026)](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation)
+- [Detecting Multi-Agent Collusion Through Multi-Agent Interpretability (Rose et al., 2026)](https://arxiv.org/abs/2604.01151)
 - Facts Without Rules: Boundary Metadata Collapse in Multi-Agent LLM Handoffs
 - Coherence-Driven Belief Formation and Population Dynamics of Contagion in LLM Agents
