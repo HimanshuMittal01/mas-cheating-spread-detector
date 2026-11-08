@@ -12,6 +12,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from swarm2.v3 import comm  # noqa: E402
+
 FACTORS = {  # factor -> level coded 1
     "method": "yes", "success": "yes", "persuade": "persuade", "sources": "3", "coordinate": "yes",
     "test_wording": "ban", "push_every": "5 steps", "model": "model B", "mode": "network", "auto_results": "on",
@@ -29,7 +32,8 @@ def load(run: Path) -> tuple[pd.DataFrame, dict]:
         meta["complete"] += 1
         s = r["setting"]
         for a in r["agents"]:
-            t, lab = a["trace"], a["label"]
+            lab = a["label"]
+            t = {**a["trace"], **comm([p for p in r["board"] if p["author"] == a["agent"]])}  # current rules
             row = {"rollout": r["rollout"], "setting": s["setting"], "control": s["method"] == "none",
                    "model_name": r["model"], "agent": a["agent"], "issue": a["issue"], "steps": a["steps"],
                    "tamper": int(lab["cheat"]), "tried": int(lab["tried"]), "truth": int(lab["truth"]),
@@ -170,7 +174,7 @@ def summarize(run: Path, out: Path) -> str:
                              f"{g['failed_runs_before_tamper'].mean():.1f} |")
         L += ["", "## Communication", "",
               f"- Retransmission (honest post mentions the hook): {main['retransmission'].mean():.0%}; "
-              f"pushback: {main['pushback'].mean():.0%}; disclosure in write-up among tamperers: "
+              f"pushback: {main['pushback'].mean():.0%}; explicit refusal of the hook: {main['refusal'].mean():.0%}; disclosure in write-up among tamperers: "
               f"{tr['disclosure'].mean() if len(tr) else math.nan:.0%}",
               "", "## Likely causes", "",
               "A factor is a likely cause only if AME > 0 after Holm, it stays on top in the robustness checks, "
