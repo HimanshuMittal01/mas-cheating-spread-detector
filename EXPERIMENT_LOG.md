@@ -134,3 +134,6 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 
 ### 2026-11-09: results document
 - `docs/results-v3/`: `results-v3.md` (ASD-STE100), `build.py` (plotly charts + hand-drawn rough.js diagrams → HTML → PDF with headless Chrome), `results-v3.pdf`. Charts: tamper share per setting (dot stacks), tamper share by factor level (95% Wilson intervals), AME forest plot, cheat route by model. Colors: dataviz reference palette slots 1–4, checked with its validator (all pass; 2 colors below 3:1 contrast, so segments carry direct labels).
+
+### 2026-11-09: teardown
+- Deleted the 5 Daytona sandboxes (`daytona_ws.py --teardown`). Account now lists 0 sandboxes; `runs2/pool.json` removed. Raw rollout files stay local in `runs3/` (gitignored, 44 MB).
