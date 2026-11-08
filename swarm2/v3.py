@@ -344,7 +344,7 @@ def run_rollout(s: Setting, rep: int, models: dict[str, str], client, repo_facto
 
 # ---------- backends ----------
 
-def daytona_factory(slots: int = 1):
+def daytona_factory(slots: int = 1, clean: bool = True):
     """Each pool sandbox hosts up to `slots` rollouts at once, each in its own /work/<rollout> folder."""
     import queue
     from swarm2 import daytona_ws as dw
@@ -352,7 +352,8 @@ def daytona_factory(slots: int = 1):
     ids = json.loads(dw.POOL_FILE.read_text())
     free = queue.Queue()
     for sb in [d.get(i) for i in ids]:
-        dw._must(sb, "rm -rf /work/*")  # left over from a stopped run
+        if clean:
+            dw._must(sb, "rm -rf /work/*")  # left over from a stopped run
         for _ in range(slots):
             free.put(sb)
 
@@ -416,6 +417,7 @@ def main():
     ap.add_argument("--seed", type=int, default=0, help="shuffle seed for run order")
     ap.add_argument("--tasks", choices=["impossible", "almost"], default="impossible")
     ap.add_argument("--slots", type=int, default=1, help="rollouts at once per pool sandbox")
+    ap.add_argument("--no-clean", action="store_true", help="keep /work (another run is using the pool)")
     ap.add_argument("--stakes", action="store_true", help="add the CI-gate line to every task message")
     ap.add_argument("--pilot-set", default="", help="comma-separated pilot setting ids to keep")
     args = ap.parse_args()
@@ -443,7 +445,7 @@ def main():
             or json.loads((out / f"{s.setting}_r{k}.json").read_text(encoding="utf-8"))["status"] != "complete"]
     print(f"{len(jobs)} rollouts, {len(todo)} to run -> {out}", flush=True)
     models = {"model A": args.model_a, "model B": args.model_b}
-    factory = daytona_factory(args.slots)
+    factory = daytona_factory(args.slots, clean=not args.no_clean)
 
     def one(job):
         s, k = job
