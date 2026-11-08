@@ -1,95 +1,5 @@
 [
  {
-  "name": "gregor_and_the_pawn_game",
-  "description": "There is a chessboard of size n by n. The square in the i-th row from top and j-th column from the left is labelled (i,j).\n\nCurrently, Gregor has some pawns in the n-th row. There are also enemy pawns in the 1-st row. On one turn, Gregor moves one of his pawns. A pawn can move one square up (from (i,j) to (i-1,j)) if there is no pawn in the destination square. Additionally, a pawn can move one square diagonally up (from (i,j) to either (i-1,j-1) or (i-1,j+1)) if and only if there is an enemy pawn in that square. The enemy pawn is also removed.\n\nGregor wants to know what is the maximum number of his pawns that can reach row 1?\n\nNote that only Gregor takes turns in this game, and the enemy pawns never move. Also, when Gregor's pawn reaches row 1, it is stuck and cannot make any further moves.\n\nInput\n\nThe first line of the input contains one integer t (1\u2264 t\u2264 2\u22c5 10^4) \u2014 the number of test cases. Then t test cases follow.\n\nEach test case consists of three lines. The first line contains a single integer n (2\u2264 n\u2264 2\u22c5{10}^{5}) \u2014 the size of the chessboard.\n\nThe second line consists of a string of binary digits of length n, where a 1 in the i-th position corresponds to an enemy pawn in the i-th cell from the left, and 0 corresponds to an empty cell.\n\nThe third line consists of a string of binary digits of length n, where a 1 in the i-th position corresponds to a Gregor's pawn in the i-th cell from the left, and 0 corresponds to an empty cell.\n\nIt is guaranteed that the sum of n across all test cases is less than 2\u22c5{10}^{5}.\n\nOutput\n\nFor each test case, print one integer: the maximum number of Gregor's pawns which can reach the 1-st row.\n\nExample\n\nInput\n\n\n4\n3\n000\n111\n4\n1111\n1111\n3\n010\n010\n5\n11001\n00000\n\n\nOutput\n\n\n3\n4\n0\n0\n\nNote\n\nIn the first example, Gregor can simply advance all 3 of his pawns forward. Thus, the answer is 3.\n\nIn the second example, Gregor can guarantee that all 4 of his pawns reach the enemy row, by following the colored paths as demonstrated in the diagram below. Remember, only Gregor takes turns in this \"game\"!\n\n<image>\n\nIn the third example, Gregor's only pawn is stuck behind the enemy pawn, and cannot reach the end.\n\nIn the fourth example, Gregor has no pawns, so the answer is clearly 0.",
-  "reference": "for _ in range(int(input())):\n    n = int(input())\n    s = list(map(int,list(input())))\n    m = list(map(int,list(input())))\n    ans = 0\n    if m[0] == 1:\n        if s[0]==0: ans +=1\n        elif s[1] == 1: ans +=1; s[1] = 2\n    for x in range(1, n):\n        if m[x] == 1:\n            if s[x] == 0:\n                ans +=1\n            elif s[x-1] == 1:\n                ans += 1\n            elif x+1 != n and s[x+1] == 1:\n                ans +=1\n                s[x + 1] = 2\n    print(ans)",
-  "incorrect": "\ndef solve(a,l):\n    occ=[0]*len(a)\n    ans=0\n    n=len(a)\n    if n==1:\n        if a[0]==0:\n            return 0\n        if l[i]==1:\n            return 0\n        else:\n            return 1\n    for i in range(len(a)):\n        if a[i]==1:\n            if l[i]==0:\n                ans+=1\n                occ[i]=1\n            else:\n                if i!=0 and i!=n-1:\n                    if l[i+1]==1 and occ[i+1]==0:\n                        ans+=1\n                        occ[i+1]=1\n                    elif l[i-1]==1 and occ[i-1]==0:\n                        ans+=1\n                        occ[i-1]=1 \n                elif i==0:\n                    if l[i+1]==1:\n                        ans+=1\n                        occ[i+1]=1\n                elif i==n-1:\n                    if l[i-1]==1 and occ[i-1]==0:\n                        ans+=1\n                        occ[i-1]=1\n    return ans\nfor _ in range(int(input())):\n    n=int(input())\n    l=list(map(int,input()))\n    a=list(map(int,input()))\n    print(solve(a,l))",
-  "easy": [
-   1,
-   2,
-   3,
-   4,
-   5,
-   6,
-   7,
-   8,
-   9,
-   10,
-   11,
-   12,
-   13,
-   14,
-   15,
-   16,
-   17,
-   18,
-   19
-  ],
-  "hard": [
-   0
-  ]
- },
- {
-  "name": "integers_have_friends",
-  "description": "British mathematician John Littlewood once said about Indian mathematician Srinivasa Ramanujan that \"every positive integer was one of his personal friends.\"\n\nIt turns out that positive integers can also be friends with each other! You are given an array a of distinct positive integers. \n\nDefine a subarray a_i, a_{i+1}, \u2026, a_j to be a friend group if and only if there exists an integer m \u2265 2 such that a_i mod m = a_{i+1} mod m = \u2026 = a_j mod m, where x mod y denotes the remainder when x is divided by y.\n\nYour friend Gregor wants to know the size of the largest friend group in a.\n\nInput\n\nEach test contains multiple test cases. The first line contains the number of test cases t (1 \u2264 t \u2264 2\u22c5 10^4). \n\nEach test case begins with a line containing the integer n (1 \u2264 n \u2264 2 \u22c5 10^5), the size of the array a.\n\nThe next line contains n positive integers a_1, a_2, \u2026, a_n (1 \u2264 a_i \u2264 {10}^{18}), representing the contents of the array a. It is guaranteed that all the numbers in a are distinct.\n\nIt is guaranteed that the sum of n over all test cases is less than 2\u22c5 10^5.\n\nOutput\n\nYour output should consist of t lines. Each line should consist of a single integer, the size of the largest friend group in a.\n\nExample\n\nInput\n\n\n4\n5\n1 5 2 4 6\n4\n8 2 5 10\n2\n1000 2000\n8\n465 55 3 54 234 12 45 78\n\n\nOutput\n\n\n3\n3\n2\n6\n\nNote\n\nIn the first test case, the array is [1,5,2,4,6]. The largest friend group is [2,4,6], since all those numbers are congruent to 0 modulo 2, so m=2.\n\nIn the second test case, the array is [8,2,5,10]. The largest friend group is [8,2,5], since all those numbers are congruent to 2 modulo 3, so m=3.\n\nIn the third case, the largest friend group is [1000,2000]. There are clearly many possible values of m that work.",
-  "reference": "import math\nfor case in range(int(input())):\n    n = int(input())\n    a = [int(i) for i in input().split()]\n    b = [1] + [abs(a[i]-a[i-1]) for i in range(1, n)]\n    cur = {1 : 0}\n    ans = 0\n    for i in range(1, n):\n        g = b[i]\n        d = {}\n        d[g] = i\n        if g != 1:\n            tmp = sorted(list(cur.keys()), reverse = True)\n            for j in tmp:\n                g = math.gcd(g, j)\n                if g not in d:\n                    d[g] = cur[j]\n                if g == 1:\n                    ans = max(ans, i - cur[j])\n                    break\n        cur = d\n    print(ans + 1)",
-  "incorrect": "'''\n\n* Author : Ayushman Chahar #\n* About  : IT Junior       #\n* Insti  : VIT, Vellore    #\n\n'''\n\nimport os\nimport sys\n# from collections import *\n# from itertools import *\nfrom math import gcd, log2\n# from queue import *\n# from heapq import *\n# from bisect import *\nfrom io import BytesIO, IOBase\n\nBUFSIZE = 8192\n\n\nclass FastIO(IOBase):\n    newlines = 0\n\n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n\n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n\n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\nreadint = lambda: int(sys.stdin.readline().rstrip(\"\\r\\n\"))\nreadints = lambda: map(int, sys.stdin.readline().rstrip(\"\\r\\n\").split())\nreadstr = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\nreadstrs = lambda: map(str, sys.stdin.readline().rstrip(\"\\r\\n\").split())\nreadarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip(\"\\r\\n\").split()]\nreadarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip(\"\\r\\n\").split()]\n\nK = 25\nMAXN = int(2e5) + 1\nst = [[0 for _ in range(K + 1)] for _ in range(MAXN)]\nlg = [0, 1]\nfor i in range(2, MAXN + 1):\n    lg.append(lg[i >> 1] + 1)\narr = list()\n\n\ndef sparse(n):\n    global st\n    for j in range(n):\n        st[j][0] = arr[j]\n    for j in range(1, K + 1):\n        for z in range(0, n + 1 - (1 << j)):\n            st[z][j] = gcd(st[z][j - 1], st[z + (1 << (j - 1))][j - 1])\n\n\ndef query(l, r):\n    f = lg[r - l + 1] - 1\n    return gcd(st[l][f], st[r - (1 << f) + 1][f])\n\n\ndef solve():\n    global arr\n    n = readint()\n    a = readarri()\n    if (n == 1):\n        print(1)\n        return\n    arr = [0] * (n - 1)\n    for i in range(n - 1):\n        arr[i] = abs(a[i + 1] - a[i])\n    sparse(n - 1)\n    ans = ptr = 0\n    for i in range(n - 1):\n        while (ptr <= i and query(ptr, i) == 1):\n            ptr += 1\n        ans = max(ans, abs(ptr - i) + 2)\n    print(ans)\n\n\ndef main():\n    t = 1\n    t = readint()\n    for _ in range(t):\n        # print(\"Case #\" + str(_ + 1) + \": \", end=\"\")\n        solve()\n\n\nif __name__ == \"__main__\":\n    main()\n",
-  "easy": [
-   0,
-   1,
-   3,
-   5,
-   6,
-   7,
-   8,
-   9,
-   10,
-   12,
-   13,
-   14,
-   15,
-   16,
-   17,
-   18,
-   19
-  ],
-  "hard": [
-   2,
-   4,
-   11
-  ]
- },
- {
-  "name": "domino_easy_version",
-  "description": "The only difference between this problem and D2 is that you don't have to provide the way to construct the answer in this problem, but you have to do it in D2.\n\nThere's a table of n \u00d7 m cells (n rows and m columns). The value of n \u22c5 m is even.\n\nA domino is a figure that consists of two cells having a common side. It may be horizontal (one of the cells is to the right of the other) or vertical (one of the cells is above the other).\n\nYou need to find out whether it is possible to place nm/2 dominoes on the table so that exactly k of them are horizontal and all the other dominoes are vertical. The dominoes cannot overlap and must fill the whole table.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 10) \u2014 the number of test cases. Then t test cases follow.\n\nEach test case consists of a single line. The line contains three integers n, m, k (1 \u2264 n,m \u2264 100, 0 \u2264 k \u2264 nm/2, n \u22c5 m is even) \u2014 the number of rows, columns and horizontal dominoes, respectively.\n\nOutput\n\nFor each test case output \"YES\", if it is possible to place dominoes in the desired way, or \"NO\" otherwise.\n\nYou may print each letter in any case (YES, yes, Yes will all be recognized as positive answer, NO, no and nO will all be recognized as negative answer).\n\nExample\n\nInput\n\n\n8\n4 4 2\n2 3 0\n3 2 3\n1 2 0\n2 4 2\n5 2 2\n2 17 16\n2 1 1\n\n\nOutput\n\n\nYES\nYES\nYES\nNO\nYES\nNO\nYES\nNO",
-  "reference": "import io,os\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\ndef main(t):\n\n\n    m,n,k = map(int,input().split())\n\n#    if m==1:\n#        if k==m*n//2:  print(\"YES\")\n#        else:  print(\"NO\")\n#        return \n\n#    if n==1:\n#        if k==0: print(\"YES\")\n#        else: print(\"NO\")\n#        return \n\n\n\n    if m%2==1:\n        if (m*n//2-k)%2==0 and k>=n//2:  print(\"YES\")\n        else: print(\"NO\")\n    elif n%2==1:\n        if k%2==0 and (m*n//2-k)>=m//2:  print(\"YES\")\n        else: print(\"NO\")\n    else:\n        if k%2==0:  print(\"YES\")\n        else:  print(\"NO\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nT = int(input())\nt = 1\nwhile t<=T:\n    main(t)\n    t += 1\n",
-  "incorrect": "\"\"\"\nID: happyn61\nLANG: PYTHON3\nPROB: loan\n\"\"\"\nfrom itertools import product\nimport itertools\nimport math\n#from collections import defaultdict\nimport sys\nimport heapq\nfrom collections import deque\nMOD=1000000000007\n#fin = open ('loan.in', 'r')\n#fout = open ('loan.out', 'w')\n#print(dic[\"4734\"])\ndef find(parent,i):\n\n\n    if parent[i] != i: \n        parent[i]=find(parent,parent[i]) \n    return parent[i] \n\n        # A utility function to do union of two subsets \ndef union(parent,rank,xx,yy): \n    x=find(parent,xx)\n    y=find(parent,yy)\n    if rank[x]>rank[y]:\n        parent[y]=x\n    elif rank[y]>rank[x]:\n        parent[x]=y\n    else:\n        parent[y]=x\n        rank[x]+=1\nans=0\n#NK=sys.stdin.readline().strip().split()\nK=int(sys.stdin.readline().strip())\n#N=int(NK[0])\n#K=int(NK[1])\n#M=int(NK[2])\n#ol=list(map(int,sys.stdin.readline().strip().split()))\n#d={0:0,1:0}\n\nx=0\ny=0\n\n#print(pp)\n#d={\"N\":(0,1),\"S\":(0,-1),\"W\":(-1,0),\"E\":(1,0)}\nfor _ in range(K):\n    n,m,k=list(map(int,sys.stdin.readline().strip().split()))\n    if n%2==0 and m%2==0:\n        if k%2:\n            print(\"NO\")\n        else:\n            print(\"YES\")\n    elif m%2:\n        if k%2==0 and k<=(m-1)*n:\n            print(\"YES\")\n        else:\n            print(\"NO\")\n    else:\n        if k>=m//2 and (k-m//2)%2==0 and (k-m//2)//2<=(n-1)*m:\n            print(\"YES\")\n        else:\n            print(\"NO\")\n",
-  "easy": [
-   0,
-   1,
-   4,
-   5,
-   6,
-   7,
-   8,
-   9,
-   10,
-   12,
-   13,
-   14,
-   15,
-   16,
-   17,
-   18,
-   19
-  ],
-  "hard": [
-   2,
-   3,
-   11
-  ]
- },
- {
   "name": "fixed_points",
   "description": "Consider a sequence of integers a_1, a_2, \u2026, a_n. In one move, you can select any element of the sequence and delete it. After an element is deleted, all elements to the right are shifted to the left by 1 position, so there are no empty spaces in the sequence. So after you make a move, the sequence's length decreases by 1. The indices of the elements after the move are recalculated.\n\nE. g. let the sequence be a=[3, 2, 2, 1, 5]. Let's select the element a_3=2 in a move. Then after the move the sequence will be equal to a=[3, 2, 1, 5], so the 3-rd element of the new sequence will be a_3=1 and the 4-th element will be a_4=5.\n\nYou are given a sequence a_1, a_2, \u2026, a_n and a number k. You need to find the minimum number of moves you have to make so that in the resulting sequence there will be at least k elements that are equal to their indices, i. e. the resulting sequence b_1, b_2, \u2026, b_m will contain at least k indices i such that b_i = i.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 100) \u2014 the number of test cases. Then t test cases follow.\n\nEach test case consists of two consecutive lines. The first line contains two integers n and k (1 \u2264 k \u2264 n \u2264 2000). The second line contains a sequence of integers a_1, a_2, \u2026, a_n (1 \u2264 a_i \u2264 n). The numbers in the sequence are not necessarily different.\n\nIt is guaranteed that the sum of n over all test cases doesn't exceed 2000.\n\nOutput\n\nFor each test case output in a single line:\n\n  * -1 if there's no desired move sequence; \n  * otherwise, the integer x (0 \u2264 x \u2264 n) \u2014 the minimum number of the moves to be made so that the resulting sequence will contain at least k elements that are equal to their indices. \n\nExample\n\nInput\n\n\n4\n7 6\n1 1 2 3 4 5 6\n5 2\n5 1 3 2 3\n5 2\n5 5 5 5 4\n8 4\n1 2 3 3 2 2 5 5\n\n\nOutput\n\n\n1\n2\n-1\n2\n\nNote\n\nIn the first test case the sequence doesn't satisfy the desired condition, but it can be provided by deleting the first element, hence the sequence will be [1, 2, 3, 4, 5, 6] and 6 elements will be equal to their indices.\n\nIn the second test case there are two ways to get the desired result in 2 moves: the first one is to delete the 1-st and the 3-rd elements so that the sequence will be [1, 2, 3] and have 3 elements equal to their indices; the second way is to delete the 2-nd and the 3-rd elements to get the sequence [5, 2, 3] with 2 desired elements.",
   "reference": "def solve(A, k):\n    n = len(A)\n\n    dp = [[0] * (n + 1) for _ in range(n + 1)]\n\n    for i in range(n):\n        for l in range(1, i + 2):\n            dp[i][l] = max(dp[i][l], dp[i - 1][l])\n                \n            d = 1 if (A[i] == l) else 0\n            dp[i][l] = max(dp[i][l], dp[i - 1][l - 1] + d)\n\n    for i in reversed(range(n + 1)):\n        if dp[n - 1][i] >= k:\n            return n - i\n\n    return -1\n\n\nT = int(input())\nfor _ in range(T):\n    n, k = map(int, input().split(' '))\n    A = list(map(int, input().split(' ')))\n\n    print(solve(A, k))\n",
@@ -117,126 +27,6 @@
   ],
   "hard": [
    4
-  ]
- },
- {
-  "name": "running_for_gold",
-  "description": "The Olympic Games have just started and Federico is eager to watch the marathon race.\n\nThere will be n athletes, numbered from 1 to n, competing in the marathon, and all of them have taken part in 5 important marathons, numbered from 1 to 5, in the past. For each 1\u2264 i\u2264 n and 1\u2264 j\u2264 5, Federico remembers that athlete i ranked r_{i,j}-th in marathon j (e.g., r_{2,4}=3 means that athlete 2 was third in marathon 4).\n\nFederico considers athlete x superior to athlete y if athlete x ranked better than athlete y in at least 3 past marathons, i.e., r_{x,j}<r_{y,j} for at least 3 distinct values of j.\n\nFederico believes that an athlete is likely to get the gold medal at the Olympics if he is superior to all other athletes.\n\nFind any athlete who is likely to get the gold medal (that is, an athlete who is superior to all other athletes), or determine that there is no such athlete.\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 1000) \u2014 the number of test cases. Then t test cases follow.\n\nThe first line of each test case contains a single integer n (1\u2264 n\u2264 50 000) \u2014 the number of athletes.\n\nThen n lines follow, each describing the ranking positions of one athlete.\n\nThe i-th of these lines contains the 5 integers r_{i,1},\\,r_{i,2},\\,r_{i,3},\\,r_{i,4},  r_{i,5} (1\u2264 r_{i,j}\u2264 50 000) \u2014 the ranking positions of athlete i in the past 5 marathons. It is guaranteed that, in each of the 5 past marathons, the n athletes have distinct ranking positions, i.e., for each 1\u2264 j\u2264 5, the n values r_{1,j},  r_{2, j},  ...,  r_{n, j} are distinct.\n\nIt is guaranteed that the sum of n over all test cases does not exceed 50 000.\n\nOutput\n\nFor each test case, print a single integer \u2014 the number of an athlete who is likely to get the gold medal (that is, an athlete who is superior to all other athletes). If there are no such athletes, print -1. If there is more than such one athlete, print any of them.\n\nExample\n\nInput\n\n\n4\n1\n50000 1 50000 50000 50000\n3\n10 10 20 30 30\n20 20 30 10 10\n30 30 10 20 20\n3\n1 1 1 1 1\n2 2 2 2 2\n3 3 3 3 3\n6\n9 5 3 7 1\n7 4 1 6 8\n5 6 7 3 2\n6 7 8 8 6\n4 2 2 4 5\n8 3 6 9 4\n\n\nOutput\n\n\n1\n-1\n1\n5\n\nNote\n\nExplanation of the first test case: There is only one athlete, therefore he is superior to everyone else (since there is no one else), and thus he is likely to get the gold medal.\n\nExplanation of the second test case: There are n=3 athletes. \n\n  * Athlete 1 is superior to athlete 2. Indeed athlete 1 ranks better than athlete 2 in the marathons 1, 2 and 3. \n  * Athlete 2 is superior to athlete 3. Indeed athlete 2 ranks better than athlete 3 in the marathons 1, 2, 4 and 5. \n  * Athlete 3 is superior to athlete 1. Indeed athlete 3 ranks better than athlete 1 in the marathons 3, 4 and 5. \n\n\n\nExplanation of the third test case: There are n=3 athletes. \n\n  * Athlete 1 is superior to athletes 2 and 3. Since he is superior to all other athletes, he is likely to get the gold medal. \n  * Athlete 2 is superior to athlete 3. \n  * Athlete 3 is not superior to any other athlete. \n\n\n\nExplanation of the fourth test case: There are n=6 athletes. \n\n  * Athlete 1 is superior to athletes 3, 4, 6. \n  * Athlete 2 is superior to athletes 1, 4, 6. \n  * Athlete 3 is superior to athletes 2, 4, 6. \n  * Athlete 4 is not superior to any other athlete. \n  * Athlete 5 is superior to athletes 1, 2, 3, 4, 6. Since he is superior to all other athletes, he is likely to get the gold medal. \n  * Athlete 6 is only superior to athlete 4. ",
-  "reference": "t = int(input().strip())\nwhile(t):\n    t-=1\n    n = int(input().strip())\n    a = []\n    for i in range(n):\n        a.append(list(map(int ,input().strip().split())))\n\n    if n==1:\n        print(1)\n        continue\n    \n    res = -1\n    gold = 0        # 0 is index of first player assuming he is superior\n\n    for i in range(1,n):\n        num = 0\n        for j in range(5):\n            if(a[i][j]<a[gold][j]):\n                num+=1\n        if(num>=3):\n            gold = i        \n\n    i = 0\n    for i in range(0,n):\n        num = 0\n        if(i!=gold):\n            for j in range(5):\n                if(a[i][j]<a[gold][j]):\n                    num+=1\n            if(num>=3):\n                res = -1\n                break\n    if(i==n-1):\n        res = gold+1\n\n    print(res)                            \n\n\n    # ath_rec = []\n\n    # for i in range(n):\n    #     ath_rec.append(list(map(int, input().strip().split())))\n\n    # # so ath_rec is a (N*5) matrix now we check for each column \n\n    # superior = [0]*(n+1)\n\n    # for k in range(5):\n    #     for i in range(n):\n    #         for j in range(n):\n    #             if(ath_rec[i][k]<ath_rec[j][k]):\n    #                 superior[i+1] +=1\n\n    # print(superior)                \n        \n\n\n\n    ",
-  "incorrect": "for hbdcjcsk in range(int(input())):\n    n=int(input())\n    a={}\n    for i in range(1,n+1):\n        l=list(map(int,input().split()))\n        a[i]=l\n    ans=-1\n    for i in a:\n        sum=50000*5-(a[i][0]+a[i][1]+a[i][2]+a[i][3]+a[i][4])\n        if sum<n-1:\n            break\n        sup=True\n        for j in a:\n            if j!=i:\n                count=0\n                if a[i][0]<a[j][0]:\n                    count+=1\n                if a[i][1]<a[j][1]:\n                    count+=1\n                if a[i][2]<a[j][2]:\n                    count+=1\n                if a[i][3]<a[j][3]:\n                    count+=1\n                if a[i][4]<a[j][4]:\n                    count+=1\n                if count<3:\n                    sup=False\n                    break\n        if sup:\n            ans=i\n            break\n    print(ans)",
-  "easy": [
-   0,
-   1,
-   2,
-   3,
-   4,
-   5,
-   6,
-   7,
-   8,
-   10,
-   12,
-   14,
-   15,
-   16,
-   17,
-   18
-  ],
-  "hard": [
-   9,
-   11,
-   13,
-   19
-  ]
- },
- {
-  "name": "maximize_the_intersections",
-  "description": "On a circle lie 2n distinct points, with the following property: however you choose 3 chords that connect 3 disjoint pairs of points, no point strictly inside the circle belongs to all 3 chords. The points are numbered 1,   2,   ...,   2n in clockwise order.\n\nInitially, k chords connect k pairs of points, in such a way that all the 2k endpoints of these chords are distinct.\n\nYou want to draw n - k additional chords that connect the remaining 2(n - k) points (each point must be an endpoint of exactly one chord).\n\nIn the end, let x be the total number of intersections among all n chords. Compute the maximum value that x can attain if you choose the n - k chords optimally.\n\nNote that the exact position of the 2n points is not relevant, as long as the property stated in the first paragraph holds.\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 100) \u2014 the number of test cases. Then t test cases follow.\n\nThe first line of each test case contains two integers n and k (1 \u2264 n \u2264 100, 0 \u2264 k \u2264 n) \u2014 half the number of points and the number of chords initially drawn.\n\nThen k lines follow. The i-th of them contains two integers x_i and y_i (1 \u2264 x_i,   y_i \u2264 2n, x_i \u2260 y_i) \u2014 the endpoints of the i-th chord. It is guaranteed that the 2k numbers x_1,   y_1,   x_2,   y_2,   ...,   x_k,   y_k are all distinct.\n\nOutput\n\nFor each test case, output the maximum number of intersections that can be obtained by drawing n - k additional chords.\n\nExample\n\nInput\n\n\n4\n4 2\n8 2\n1 5\n1 1\n2 1\n2 0\n10 6\n14 6\n2 20\n9 10\n13 18\n15 12\n11 7\n\n\nOutput\n\n\n4\n0\n1\n14\n\nNote\n\nIn the first test case, there are three ways to draw the 2 additional chords, shown below (black chords are the ones initially drawn, while red chords are the new ones):\n\n<image>\n\nWe see that the third way gives the maximum number of intersections, namely 4.\n\nIn the second test case, there are no more chords to draw. Of course, with only one chord present there are no intersections.\n\nIn the third test case, we can make at most one intersection by drawing chords 1-3 and 2-4, as shown below:\n\n<image>",
-  "reference": "def ch(x,y):\n    if (y[0]<x[0]<y[1] and not(y[0]<x[1]<y[1])) or (y[0]<x[1]<y[1] and not(y[0]<x[0]<y[1])):\n        return 1\n    return 0\n    \nt = int(input())\nfor i in range(t):\n    n, k = [int(i) for i in input().split()]\n    m = []\n    use  = [0]*(2*n+1)\n    for j in range(k):\n        l,r = [int(i) for i in input().split()]\n        if l>r:\n            l,r = r,l\n        use[l]=1\n        use[r]=1\n        m.append([l,r])\n    dontuse = []\n    for j in range(1, 2*n+1):\n        if not(use[j]):\n            dontuse.append(j)\n    ll = len(dontuse)\n    for j in range(ll//2):\n        m.append([dontuse[j],dontuse[j+ll//2]])\n    m.sort()\n    ans = 0\n    for j in range(n):\n        for k in range(j+1, n):\n            if ch(m[j],m[k]):\n                ans+=1\n    print(ans)\n        \n        \n        \n    \n    \n",
-  "incorrect": "def side(chord, i, n):\n    a, b = chord\n    a, b  = min(a, b), max(a, b)\n    if b-a==n and (i < a or i > b):\n        return 'Small'\n    elif b-a==n and (i < a < b):\n        return 'Large'\n    elif b-a < n and a < i < b:\n        return 'Small'\n    elif b-a> n and (i > b or i < a):\n        return 'Small'\n    else:\n        return 'Large'\n    \ndef process(n, chords):\n    k = len(chords)\n    answer = (n-k)*(n-k-1)//2\n    answer2 = 0\n    for a, b in chords:\n        a, b = min(a, b), max(a, b)\n        for a1, b1 in chords:\n            S1 = side([a, b], a1, n)\n            S2 = side([a, b], b1, n)\n            if abs(b1-a1)==n and abs(b-a)==n:\n                answer2+=1\n            elif S1 != S2:\n                answer2+=1\n    S = set([])\n    for a, b in chords:\n        S.add(a)\n        S.add(b)\n    answer2 = answer2//2\n    answer3 = 0\n    d = {}\n    for i in range(1, 2*n+1):\n        if i not in S:\n            for c in chords:\n                if c[0] not in d:\n                    d[c[0]] = [0, 0]\n                if side(c, i, n)=='Small':\n                    d[c[0]][0]+=1\n                else:\n                    d[c[0]][1]+=1\n    for c in d:\n        answer3+=min(d[c][0], d[c][1])\n    return answer+answer2+answer3\n\nt = int(input())\nfor i in range(t):\n    n, k  = [int(x) for x in input().split()]\n    chords = []\n    for j in range(k):\n        a, b = [int(x) for x in input().split()]\n        chords.append([a, b])\n    print(process(n, chords))",
-  "easy": [
-   0,
-   1,
-   2,
-   3,
-   4,
-   5,
-   6,
-   7,
-   8,
-   9,
-   10,
-   11,
-   12,
-   13,
-   14,
-   16,
-   17,
-   18,
-   19
-  ],
-  "hard": [
-   15
-  ]
- },
- {
-  "name": "digits_sum",
-  "description": "Let's define S(x) to be the sum of digits of number x written in decimal system. For example, S(5) = 5, S(10) = 1, S(322) = 7.\n\nWe will call an integer x interesting if S(x + 1) < S(x). In each test you will be given one integer n. Your task is to calculate the number of integers x such that 1 \u2264 x \u2264 n and x is interesting.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 1000) \u2014 number of test cases.\n\nThen t lines follow, the i-th line contains one integer n (1 \u2264 n \u2264 10^9) for the i-th test case.\n\nOutput\n\nPrint t integers, the i-th should be the answer for the i-th test case.\n\nExample\n\nInput\n\n\n5\n1\n9\n10\n34\n880055535\n\n\nOutput\n\n\n0\n1\n1\n3\n88005553\n\nNote\n\nThe first interesting number is equal to 9.",
-  "reference": "x=int(input())\nfor i in range(x):\n  y=int(input())\n  print((y+1)//10)",
-  "incorrect": "t = int(input())\nfor _ in range(t):\n    n = int(input())\n    if n<9:\n        print(0);\n    elif n==9:\n        print(1)\n    else:\n        print(n//10)",
-  "easy": [
-   0,
-   1,
-   2,
-   3,
-   4,
-   5,
-   6,
-   7,
-   8,
-   9,
-   10,
-   11,
-   12,
-   13,
-   14,
-   15,
-   16,
-   17,
-   19
-  ],
-  "hard": [
-   18
-  ]
- },
- {
-  "name": "penalty",
-  "description": "Consider a simplified penalty phase at the end of a football match.\n\nA penalty phase consists of at most 10 kicks, the first team takes the first kick, the second team takes the second kick, then the first team takes the third kick, and so on. The team that scores more goals wins; if both teams score the same number of goals, the game results in a tie (note that it goes against the usual football rules). The penalty phase is stopped if one team has scored more goals than the other team could reach with all of its remaining kicks. For example, if after the 7-th kick the first team has scored 1 goal, and the second team has scored 3 goals, the penalty phase ends \u2014 the first team cannot reach 3 goals.\n\nYou know which player will be taking each kick, so you have your predictions for each of the 10 kicks. These predictions are represented by a string s consisting of 10 characters. Each character can either be 1, 0, or ?. This string represents your predictions in the following way:\n\n  * if s_i is 1, then the i-th kick will definitely score a goal; \n  * if s_i is 0, then the i-th kick definitely won't score a goal; \n  * if s_i is ?, then the i-th kick could go either way. \n\n\n\nBased on your predictions, you have to calculate the minimum possible number of kicks there can be in the penalty phase (that means, the earliest moment when the penalty phase is stopped, considering all possible ways it could go). Note that the referee doesn't take into account any predictions when deciding to stop the penalty phase \u2014 you may know that some kick will/won't be scored, but the referee doesn't.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 1 000) \u2014 the number of test cases.\n\nEach test case is represented by one line containing the string s, consisting of exactly 10 characters. Each character is either 1, 0, or ?.\n\nOutput\n\nFor each test case, print one integer \u2014 the minimum possible number of kicks in the penalty phase.\n\nExample\n\nInput\n\n\n4\n1?0???1001\n1111111111\n??????????\n0100000000\n\n\nOutput\n\n\n7\n10\n6\n9\n\nNote\n\nConsider the example test:\n\nIn the first test case, consider the situation when the 1-st, 5-th and 7-th kicks score goals, and kicks 2, 3, 4 and 6 are unsuccessful. Then the current number of goals for the first team is 3, for the second team is 0, and the referee sees that the second team can score at most 2 goals in the remaining kicks. So the penalty phase can be stopped after the 7-th kick.\n\nIn the second test case, the penalty phase won't be stopped until all 10 kicks are finished.\n\nIn the third test case, if the first team doesn't score any of its three first kicks and the second team scores all of its three first kicks, then after the 6-th kick, the first team has scored 0 goals and the second team has scored 3 goals, and the referee sees that the first team can score at most 2 goals in the remaining kicks. So, the penalty phase can be stopped after the 6-th kick.\n\nIn the fourth test case, even though you can predict the whole penalty phase, the referee understands that the phase should be ended only after the 9-th kick.",
-  "reference": "#----------FASTIOSTART-----------#\nfrom __future__ import division, print_function\nimport os\nimport sys\nfrom io import BytesIO, IOBase\nif sys.version_info[0] < 3:\n\tfrom __builtin__ import xrange as range\n\tfrom future_builtins import ascii, filter, hex, map, oct, zip\nBUFSIZE = 8192\nclass FastIO(IOBase):\n\tnewlines = 0\n\tdef __init__(self, file):\n\t\tself._fd = file.fileno()\n\t\tself.buffer = BytesIO()\n\t\tself.writable = \"x\" in file.mode or \"r\" not in file.mode\n\t\tself.write = self.buffer.write if self.writable else None\n\tdef read(self):\n\t\twhile True:\n\t\t\tb = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n\t\t\tif not b:\n\t\t\t\tbreak\n\t\t\tptr = self.buffer.tell()\n\t\t\tself.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n\t\tself.newlines = 0\n\t\treturn self.buffer.read()\n\tdef readline(self):\n\t\twhile self.newlines == 0:\n\t\t\tb = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n\t\t\tself.newlines = b.count(b\"\\n\") + (not b)\n\t\t\tptr = self.buffer.tell()\n\t\t\tself.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n\t\tself.newlines -= 1\n\t\treturn self.buffer.readline()\n\tdef flush(self):\n\t\tif self.writable:\n\t\t\tos.write(self._fd, self.buffer.getvalue())\n\t\t\tself.buffer.truncate(0), self.buffer.seek(0)\nclass IOWrapper(IOBase):\n\tdef __init__(self, file):\n\t\tself.buffer = FastIO(file)\n\t\tself.flush = self.buffer.flush\n\t\tself.writable = self.buffer.writable\n\t\tself.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n\t\tself.read = lambda: self.buffer.read().decode(\"ascii\")\n\t\tself.readline = lambda: self.buffer.readline().decode(\"ascii\")\ndef print(*args, **kwargs):\n\tsep, file = kwargs.pop(\"sep\", \" \"), kwargs.pop(\"file\", sys.stdout)\n\tat_start = True\n\tfor x in args:\n\t\tif not at_start:\n\t\t\tfile.write(sep)\n\t\tfile.write(str(x))\n\t\tat_start = False\n\tfile.write(kwargs.pop(\"end\", \"\\n\"))\n\tif kwargs.pop(\"flush\", False):\n\t\tfile.flush()\nif sys.version_info[0] < 3:\n\tsys.stdin, sys.stdout = FastIO(sys.stdin), FastIO(sys.stdout)\nelse:\n\tsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n#----------FASTIOFINISH----------#\nimport collections,string,bisect,re,random,queue,itertools,statistics,math\nfrom collections import *\nfrom bisect import *\nfrom string import *\nfrom itertools import * \nfrom statistics import *\nfrom math import *\nfrom re import *\nfrom queue import *\n#----------SASTA_STL-------------#\n# stack\nclass Stack:\n    def __init__(self):self.items = []\n    def push(self, item):self.items.append(item)\n    def pop(self):return self.items.pop()\n    def empty(self):return self.items == []\n    def size(self):return len(self.items)\n    def at(self,idx):\n    \ttry:return self.items[idx]\n    \texcept:return -1\n#priority_queue\nclass priority_queue(object):\n    def __init__(self):self.queue = []\n    def __str__(self):return ' '.join([str(i) for i in self.queue])\n    def empty(self):return len(self.queue) == 0\n    def push(self, data):self.queue.append(data)\n    def pop(self):\n        try:\n            max = 0\n            for i in range(len(self.queue)):\n                if self.queue[i] > self.queue[max]:\n                    max = i\n            item = self.queue[max]\n            del self.queue[max]\n            return item\n        except IndexError:\n            print()\n            exit()\n#----------SASTA_STL-------------#\nmod  = int(1e9+7)\nimax = float(\"inf\")\nimin = float(\"-inf\")\ntrue = True\nfalse= False\nN \t = int(1e5)\nnone = None\ninp = lambda : input()\nI   = lambda : int(inp())\nM   = lambda : map(int,inp().split())\nMS  = lambda : map(str,inp().split())\nS   = lambda : list(MS())\nL   = lambda : list(M())\ndef IO():\n\ttry:sys.stdin = open('input.txt', 'r');sys.stdout = open('uttar.txt', 'w')\n\texcept:pass\nIO()\n#----------TOTKA---------#\n\ndef kabraji_ka_totka():\n\t# totka hai dosto !\n\ts=inp()\n\tteam1=0;\n\tteam2=0;\n\tres=9;\n\tres=10\n\tmaxa=0;\n\tmaxb=0;\n\tmina=0\n\tminb=0\n\tfor i in range(10):\n\t\tif(i&1):\n\t\t\tif(s[i]!=\"0\"):\n\t\t\t\tmaxb+=1\n\t\t\tif(s[i]==\"1\"):\n\t\t\t\tminb+=1\n\t\telse:\n\t\t\tif(s[i]!=\"0\"):\n\t\t\t\tmaxa+=1\n\t\t\tif(s[i]==\"1\"):\n\t\t\t\tmina+=1\n\t\tif(maxa-minb > (10-i)//2):\n\t\t\tres=i+1\n\t\t\tbreak\n\t\tif(maxb-mina > (9-i)//2):\n\t\t\tres=i+1\n\t\t\tbreak\n\tprint(res)\n\n#----------TOTKA----------#\nif __name__ == '__main__':\n\tfor i in range(I()):kabraji_ka_totka()",
-  "incorrect": "t=int(input())\nfor x in range(t):\n    strr=list(input())\n    Ga=0\n    Gb=0\n    A=5\n    B=5\n    for i in range(10):\n        if i%2==0 and strr[i]=='?':\n            strr[i]=1\n        if i%2==1 and strr[i]=='?':\n            strr[i]=0\n        if i%2==0:\n            Ga+=int(strr[i])\n            A-=1\n        if i%2==1:\n            Gb+=int(strr[i])\n            B-=1\n        if Ga>Gb+B and Ga>=1:\n            print(i+1)\n            break\n        if Gb>Ga+A and Gb>=1:\n            print(i+1)\n            break\n        if i==9:\n            print(10)\n        \n        ",
-  "easy": [
-   0,
-   1,
-   3,
-   5,
-   6,
-   7,
-   8,
-   10,
-   11,
-   12,
-   13,
-   14,
-   15,
-   16,
-   18,
-   19
-  ],
-  "hard": [
-   2,
-   4,
-   9,
-   17
   ]
  },
  {
@@ -270,77 +60,16 @@
   ]
  },
  {
-  "name": "cherry",
-  "description": "You are given n integers a_1, a_2, \u2026, a_n. Find the maximum value of max(a_l, a_{l + 1}, \u2026, a_r) \u22c5 min(a_l, a_{l + 1}, \u2026, a_r) over all pairs (l, r) of integers for which 1 \u2264 l < r \u2264 n.\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 10 000) \u2014 the number of test cases.\n\nThe first line of each test case contains a single integer n (2 \u2264 n \u2264 10^5).\n\nThe second line of each test case contains n integers a_1, a_2, \u2026, a_n (1 \u2264 a_i \u2264 10^6).\n\nIt is guaranteed that the sum of n over all test cases doesn't exceed 3 \u22c5 10^5.\n\nOutput\n\nFor each test case, print a single integer \u2014 the maximum possible value of the product from the statement.\n\nExample\n\nInput\n\n\n4\n3\n2 4 3\n4\n3 2 3 1\n2\n69 69\n6\n719313 273225 402638 473783 804745 323328\n\n\nOutput\n\n\n12\n6\n4761\n381274500335\n\nNote\n\nLet f(l, r) = max(a_l, a_{l + 1}, \u2026, a_r) \u22c5 min(a_l, a_{l + 1}, \u2026, a_r).\n\nIn the first test case, \n\n  * f(1, 2) = max(a_1, a_2) \u22c5 min(a_1, a_2) = max(2, 4) \u22c5 min(2, 4) = 4 \u22c5 2 = 8. \n  * f(1, 3) = max(a_1, a_2, a_3) \u22c5 min(a_1, a_2, a_3) = max(2, 4, 3) \u22c5 min(2, 4, 3) = 4 \u22c5 2 = 8. \n  * f(2, 3) = max(a_2, a_3) \u22c5 min(a_2, a_3) = max(4, 3) \u22c5 min(4, 3) = 4 \u22c5 3 = 12. \n\n\n\nSo the maximum is f(2, 3) = 12.\n\nIn the second test case, the maximum is f(1, 2) = f(1, 3) = f(2, 3) = 6.",
-  "reference": "for _ in range(int(input())):\n    n=int(input())\n    l=list(map(int,input().split()))\n    mx=-10**9\n    for i in range(n-1):\n        if l[i]*l[i+1]>mx:\n            mx=l[i]*l[i+1]\n    print(mx)\n            ",
-  "incorrect": "'''Author- Nipun Jain'''\nimport os,sys;\nimport itertools\nfrom io import BytesIO, IOBase\nBUFSIZE = 8192\nclass FastIO(IOBase):\n    newlines = 0\n    def __init__(self, file):\n        self._fd = file.fileno();self.buffer = BytesIO();self.writable = \"x\" in file.mode or \"r\" not in file.mode;self.write = self.buffer.write if self.writable else None\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:break\n            ptr = self.buffer.tell();self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n    def readline(self):\n        while self.newlines == 0:b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE));self.newlines = b.count(b\"\\n\") + (not b);ptr = self.buffer.tell();self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n    def flush(self):\n        if self.writable:os.write(self._fd, self.buffer.getvalue());self.buffer.truncate(0), self.buffer.seek(0)\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file);self.flush = self.buffer.flush;self.writable = self.buffer.writable;self.write = lambda s: self.buffer.write(s.encode(\"ascii\"));self.read = lambda: self.buffer.read().decode(\"ascii\");self.readline = lambda: self.buffer.readline().decode(\"ascii\")\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ntry:\n    sys.stdin,sys.stdout=open('input.txt','r'),open('output.txt','w')\nexcept:\n    pass\nmod=int(1e9 + 7);from collections import *;\nimport math\nfrom sys import stdin, stdout\ndef input_array():\n    return list(map(int, stdin.readline().split()))\ndef input_one():\n    return int(stdin.readline())\ndef input_two():\n    a, b = map(int, stdin.readline().split())\n    return a, b\ndef input_three():\n    a, b, c = map(int, stdin.readline().split())\n    return a, b, c\ndef input_four():\n    a, b, c, d = map(int, stdin.readline().split())\n    return a, b, c, d\ndef input_five():\n    a, b, c, d, e = map(int, stdin.readline().split())\n    return a, b, c, d, e\ndef input_six():\n    a, b, c, d, e, f = map(int, stdin.readline().split())\n    return a, b, c, d, e, f\ndef input_s():\n    s=input()\n    return s\n# sys.setrecursionlimit(500000)\n###################### Start Here ######################\n    \nn=int(input())\nfor i in range(n):\n    t=int(input())\n    l=[int(x) for x in input().split()]\n    # a=sorted(l)\n    count=0\n    for i in range(0,t):\n        count=max(count,l[i]*l[i-1])\n    print(count)\n",
-  "easy": [
-   0,
-   1,
-   2,
-   3,
-   4,
-   5,
-   6,
-   7,
-   8,
-   9,
-   10,
-   11,
-   13,
-   14,
-   15,
-   16,
-   17,
-   18,
-   19
-  ],
-  "hard": [
-   12
-  ]
- },
- {
-  "name": "cobb",
-  "description": "You are given n integers a_1, a_2, \u2026, a_n and an integer k. Find the maximum value of i \u22c5 j - k \u22c5 (a_i | a_j) over all pairs (i, j) of integers with 1 \u2264 i < j \u2264 n. Here, | is the [bitwise OR operator](https://en.wikipedia.org/wiki/Bitwise_operation#OR).\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 10 000) \u2014 the number of test cases.\n\nThe first line of each test case contains two integers n (2 \u2264 n \u2264 10^5) and k (1 \u2264 k \u2264 min(n, 100)).\n\nThe second line of each test case contains n integers a_1, a_2, \u2026, a_n (0 \u2264 a_i \u2264 n).\n\nIt is guaranteed that the sum of n over all test cases doesn't exceed 3 \u22c5 10^5.\n\nOutput\n\nFor each test case, print a single integer \u2014 the maximum possible value of i \u22c5 j - k \u22c5 (a_i | a_j).\n\nExample\n\nInput\n\n\n4\n3 3\n1 1 3\n2 2\n1 2\n4 3\n0 1 2 3\n6 6\n3 2 0 0 5 6\n\n\nOutput\n\n\n-1\n-4\n3\n12\n\nNote\n\nLet f(i, j) = i \u22c5 j - k \u22c5 (a_i | a_j).\n\nIn the first test case, \n\n  * f(1, 2) = 1 \u22c5 2 - k \u22c5 (a_1 | a_2) = 2 - 3 \u22c5 (1 | 1) = -1. \n  * f(1, 3) = 1 \u22c5 3 - k \u22c5 (a_1 | a_3) = 3 - 3 \u22c5 (1 | 3) = -6. \n  * f(2, 3) = 2 \u22c5 3 - k \u22c5 (a_2 | a_3) = 6 - 3 \u22c5 (1 | 3) = -3. \n\n\n\nSo the maximum is f(1, 2) = -1.\n\nIn the fourth test case, the maximum is f(3, 4) = 12.",
-  "reference": "for _ in range(int(input())):\n    n,k  = map( int, input().split(' ') )\n    arr = [int(w) for w in input().split(' ')]\n    ans = -10**18\n    temp =[]\n    cnt = 0 \n    for i in range(n-1,-1,-1):\n        temp.append( (arr[i],i) )\n        cnt += 1 \n        if cnt==300:\n            break \n    for i in range(len(temp)):\n        for j in range(i+1,len(temp)):\n            u1,v1 = temp[i]\n            u2,v2 = temp[j]\n            ans = max(ans ,  (v1+1)*(v2+1) - k*(u1|u2)  )\n    print(ans)",
-  "incorrect": "def solve(n, k, a):\n  x = n * (n - 1) - k * (a[-1] | a[-2])\n  r = list(reversed(range(n)))\n  for i in r:\n    for j in r:\n      if j >= i: continue\n      if i * j < x: return x\n      y = (i + 1) * (j + 1) - k * (a[i] | a[j])\n      x = max(x, y)\n\n  return x\n\nt = int(input())\nfor i in range(t):\n  n, k = map(int, input().split())\n  a = list(map(int, input().split()))\n  print(solve(n, k, a))\n",
-  "easy": [
-   0,
-   1,
-   2,
-   3,
-   4,
-   5,
-   6,
-   8,
-   11,
-   12,
-   14,
-   15,
-   16,
-   17,
-   18,
-   19
-  ],
-  "hard": [
-   7,
-   9,
-   10,
-   13
-  ]
- },
- {
-  "name": "mikasa",
-  "description": "You are given two integers n and m. Find the \\operatorname{MEX} of the sequence n \u2295 0, n \u2295 1, \u2026, n \u2295 m. Here, \u2295 is the [bitwise XOR operator](https://en.wikipedia.org/wiki/Bitwise_operation#XOR).\n\n\\operatorname{MEX} of the sequence of non-negative integers is the smallest non-negative integer that doesn't appear in this sequence. For example, \\operatorname{MEX}(0, 1, 2, 4) = 3, and \\operatorname{MEX}(1, 2021) = 0. \n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 30 000) \u2014 the number of test cases.\n\nThe first and only line of each test case contains two integers n and m (0 \u2264 n, m \u2264 10^9).\n\nOutput\n\nFor each test case, print a single integer \u2014 the answer to the problem.\n\nExample\n\nInput\n\n\n5\n3 5\n4 6\n3 2\n69 696\n123456 654321\n\n\nOutput\n\n\n4\n3\n0\n640\n530866\n\nNote\n\nIn the first test case, the sequence is 3 \u2295 0, 3 \u2295 1, 3 \u2295 2, 3 \u2295 3, 3 \u2295 4, 3 \u2295 5, or 3, 2, 1, 0, 7, 6. The smallest non-negative integer which isn't present in the sequence i. e. the \\operatorname{MEX} of the sequence is 4.\n\nIn the second test case, the sequence is 4 \u2295 0, 4 \u2295 1, 4 \u2295 2, 4 \u2295 3, 4 \u2295 4, 4 \u2295 5, 4 \u2295 6, or 4, 5, 6, 7, 0, 1, 2. The smallest non-negative integer which isn't present in the sequence i. e. the \\operatorname{MEX} of the sequence is 3.\n\nIn the third test case, the sequence is 3 \u2295 0, 3 \u2295 1, 3 \u2295 2, or 3, 2, 1. The smallest non-negative integer which isn't present in the sequence i. e. the \\operatorname{MEX} of the sequence is 0.",
-  "reference": "import sys\n\n\ninput = sys.stdin.readline\n\n\n# sys.setrecursionlimit(400000)\ndef I(): return input().strip()\n\n\ndef II(): return int(input().strip())\n\n\ndef LI(): return [*map(int, input().strip().split())]\n\n\nimport copy, string, math, time, functools, random, fractions\nfrom heapq import heappush, heappop, heapify\nfrom bisect import bisect_left, bisect_right\nfrom collections import deque, defaultdict, Counter, OrderedDict\nfrom itertools import permutations, combinations, groupby\nfrom operator import itemgetter\n\n\nfor _ in range(II()):\n    a, b = LI()\n    if a > b:\n        print(0)\n        continue\n    get_bin = lambda x, n: format(x, 'b').zfill(n)\n    A, B = get_bin(a, 32), get_bin(b + 1, 32)\n    ans = [0] * 32\n    for i in range(32):\n        if A[i] == B[i]:\n            continue\n        if A[i] == '1':\n            break\n        ans[i] = 1\n    print(int(''.join([str(x) for x in ans]), 2))",
-  "incorrect": "import math\nfor _ in range(int(input())):\n    n,m=map(int,input().split())\n    a=\" \"\n    b=0\n    li=[]\n    for i in range(32):\n        li.append(i)\n    if(n>m):\n        print(0)\n    else:\n        a=bin(n)[2:]\n        b=len(a)\n        i=b-1\n        j=0\n        while(i>=0):\n            if(a[i]==\"1\"):\n                li.remove(j)\n            j=j+1 \n            i=i-1\n        li.append(-1)\n        x=n \n        k=m-n+1\n        while(x<=m):\n            y=int(math.log(k,2))\n            for i in range(len(li)):\n                if(li[i]>=y and li[i-1]<y ):\n                    y=li[i]\n                    # print(li)\n                    break\n            x=x+(2**y)\n            k=k-(2**y)\n            # print(x,k,y,li)\n        print(x-n)",
+  "name": "equilibrium",
+  "description": "<image>\n\nWilliam has two arrays a and b, each consisting of n items.\n\nFor some segments l..r of these arrays William wants to know if it is possible to equalize the values of items in these segments using a balancing operation. Formally, the values are equalized if for each i from l to r holds a_i = b_i.\n\nTo perform a balancing operation an even number of indices must be selected, such that l \u2264 pos_1 < pos_2 < ... < pos_k \u2264 r. Next the items of array a at positions pos_1, pos_3, pos_5, ... get incremented by one and the items of array b at positions pos_2, pos_4, pos_6, ... get incremented by one.\n\nWilliam wants to find out if it is possible to equalize the values of elements in two arrays for each segment using some number of balancing operations, and what is the minimal number of operations required for that. Note that for each segment the operations are performed independently.\n\nInput\n\nThe first line contains a two integers n and q (2 \u2264 n \u2264 10^5, 1 \u2264 q \u2264 10^5), the size of arrays a and b and the number of segments.\n\nThe second line contains n integers a_1, a_2, ..., a_n (0 \u2264 a_i \u2264 10^9).\n\nThe third line contains n integers b_1, b_2, ..., b_n (0 \u2264 b_i \u2264 10^9).\n\nEach of the next q lines contains two integers l_i and r_i (1 \u2264 l_i < r_i \u2264 n), the edges of segments.\n\nOutput\n\nFor each segment output a single number \u2014 the minimal number of balancing operations needed or \"-1\" if it is impossible to equalize segments of arrays.\n\nExample\n\nInput\n\n\n8 5\n0 1 2 9 3 2 7 5\n2 2 1 9 4 1 5 8\n2 6\n1 7\n2 4\n7 8\n5 8\n\n\nOutput\n\n\n1\n3\n1\n-1\n-1\n\nNote\n\nFor the first segment from 2 to 6 you can do one operation with pos = [2, 3, 5, 6], after this operation the arrays will be: a = [0, 2, 2, 9, 4, 2, 7, 5], b = [2, 2, 2, 9, 4, 2, 5, 8]. Arrays are equal on a segment from 2 to 6 after this operation.\n\nFor the second segment from 1 to 7 you can do three following operations: \n\n  1. pos = [1, 3, 5, 6] \n  2. pos = [1, 7] \n  3. pos = [2, 7] \n\n\n\nAfter these operations, the arrays will be: a = [2, 2, 2, 9, 4, 2, 7, 5], b = [2, 2, 2, 9, 4, 2, 7, 8]. Arrays are equal on a segment from 1 to 7 after these operations.\n\nFor the third segment from 2 to 4 you can do one operation with pos = [2, 3], after the operation arrays will be: a = [0, 2, 2, 9, 3, 2, 7, 5], b = [2, 2, 2, 9, 4, 1, 5, 8]. Arrays are equal on a segment from 2 to 4 after this operation.\n\nIt is impossible to equalize the fourth and the fifth segment.",
+  "reference": "\ndef naiveSolve():\n    \n    \n    \n    return\n\n\n\ndef solve():\n    \n    \n    \n    return\n\nimport math \n#MIN QUERIES\nclass RMQMIN(): #for MIN queries\n    def __init__(self,arr):\n        self.arr=arr\n        MAXN=len(arr)\n        K=int(math.log2(MAXN))+1\n        self.lookup=[[0 for _ in range(K+1)] for __ in range(MAXN)]\n        self.buildSparseTable()\n    def buildSparseTable(self): \n        n=len(self.arr)\n        for i in range(0,n):  \n            self.lookup[i][0] = self.arr[i]  \n        j=1\n        while (1<<j)<=n:\n            i=0\n            while (i+(1<<j)-1)<n:\n                self.lookup[i][j]=min(self.lookup[i][j-1],self.lookup[i+(1<<(j-1))][j-1])\n                i += 1\n            j += 1\n    def query(self,L,R): #returns min on interval [l,r] inclusive\n        j = int(math.log2(R-L+1))\n        return min(self.lookup[L][j],self.lookup[R-(1<<j)+1][j])\n\nclass RMQMAX(): #for MAX queries\n    def __init__(self,arr):\n        self.arr=arr\n        MAXN=len(arr)\n        K=int(math.log2(MAXN))+1\n        self.lookup=[[0 for _ in range(K+1)] for __ in range(MAXN)]\n        self.buildSparseTable()\n    def buildSparseTable(self): \n        n=len(self.arr)\n        for i in range(0,n):  \n            self.lookup[i][0] = self.arr[i]  \n        j=1\n        while (1<<j)<=n:\n            i=0\n            while (i+(1<<j)-1)<n:\n                self.lookup[i][j]=max(self.lookup[i][j-1],self.lookup[i+(1<<(j-1))][j-1])\n                i += 1\n            j += 1\n    def query(self,L,R): #returns min on interval [l,r] inclusive\n        j = int(math.log2(R-L+1))\n        return max(self.lookup[L][j],self.lookup[R-(1<<j)+1][j])\n\ndef main():\n    \n    n,q=readIntArr()\n    a=readIntArr()\n    b=readIntArr()\n    for i in range(n):\n        a[i]-=b[i]\n    p=a.copy()\n    for i in range(1,n):\n        p[i]+=p[i-1]\n    \n    rmqMin=RMQMIN(p)\n    rmqMax=RMQMAX(p)\n    \n    allans=[]\n    for _ in range(q):\n        l,r=readIntArr(); l-=1; r-=1\n        total=p[r]\n        if l-1>=0: total-=p[l-1]\n        if total!=0:\n            allans.append(-1)\n            continue\n        prefixMax=rmqMax.query(l,r)\n        if l-1>=0: prefixMax-=p[l-1]\n        if prefixMax>0:\n            allans.append(-1)\n            continue\n        \n        prefixMin=rmqMin.query(l,r)\n        if l-1>=0: prefixMin-=p[l-1]\n        allans.append(-prefixMin)\n    multiLineArrayPrint(allans)\n    \n    return\n\n\n\n\nimport sys\ninput=sys.stdin.buffer.readline #FOR READING PURE INTEGER INPUTS (space separation ok)\n# input=lambda: sys.stdin.readline().rstrip(\"\\r\\n\") #FOR READING STRING/TEXT INPUTS.\n\ndef oneLineArrayPrint(arr):\n    print(' '.join([str(x) for x in arr]))\ndef multiLineArrayPrint(arr):\n    print('\\n'.join([str(x) for x in arr]))\ndef multiLineArrayOfArraysPrint(arr):\n    print('\\n'.join([' '.join([str(x) for x in y]) for y in arr]))\n \ndef readIntArr():\n    return [int(x) for x in input().split()]\n# def readFloatArr():\n#     return [float(x) for x in input().split()]\n \ndef makeArr(defaultValFactory,dimensionArr): # eg. makeArr(lambda:0,[n,m])\n    dv=defaultValFactory;da=dimensionArr\n    if len(da)==1:return [dv() for _ in range(da[0])]\n    else:return [makeArr(dv,da[1:]) for _ in range(da[0])]\n \ndef queryInteractive(x):\n    print('{}'.format(x))\n    sys.stdout.flush()\n    return int(input())\n \ndef answerInteractive(ans):\n    print('! {}'.format(ans))\n    sys.stdout.flush()\n \ninf=float('inf')\n# MOD=10**9+7\n# MOD=998244353\n\nfrom math import gcd,floor,ceil\n# from math import floor,ceil # for Python2\n \nfor _abc in range(1):\n    main()",
+  "incorrect": "\ndef divisors(M):\n    d=[]\n    i=1\n    while M>=i**2:\n        if M%i==0:\n            d.append(i)\n            if i**2!=M:\n                d.append(M//i)\n        i=i+1\n    return d\n\ndef popcount(x):\n    x = x - ((x >> 1) & 0x55555555)\n    x = (x & 0x33333333) + ((x >> 2) & 0x33333333)\n    x = (x + (x >> 4)) & 0x0f0f0f0f\n    x = x + (x >> 8)\n    x = x + (x >> 16)\n    return x & 0x0000007f\n\ndef eratosthenes(n):\n    res=[0 for i in range(n+1)]\n    prime=set([])\n    for i in range(2,n+1):\n        if not res[i]:\n            prime.add(i)\n            for j in range(1,n//i+1):\n                res[i*j]=1\n    return prime\n\ndef factorization(n):\n    res=[]\n    for p in prime:\n        if n%p==0:\n            while n%p==0:\n                n//=p\n            res.append(p)\n    if n!=1:\n        res.append(n)\n    return res\n\ndef euler_phi(n):\n    res = n\n    for x in range(2,n+1):\n        if x ** 2 > n:\n            break\n        if n%x==0:\n            res = res//x * (x-1)\n            while n%x==0:\n                n //= x\n    if n!=1:\n        res = res//n * (n-1)\n    return res\n\ndef ind(b,n):\n    res=0\n    while n%b==0:\n        res+=1\n        n//=b\n    return res\n\ndef isPrimeMR(n):\n    d = n - 1\n    d = d // (d & -d)\n    L = [2, 3, 5, 7, 11, 13, 17]\n    for a in L:\n        t = d\n        y = pow(a, t, n)\n        if y == 1: continue\n        while y != n - 1:\n            y = (y * y) % n\n            if y == 1 or t == n - 1: return 0\n            t <<= 1\n    return 1\ndef findFactorRho(n):\n    from math import gcd\n    m = 1 << n.bit_length() // 8\n    for c in range(1, 99):\n        f = lambda x: (x * x + c) % n\n        y, r, q, g = 2, 1, 1, 1\n        while g == 1:\n            x = y\n            for i in range(r):\n                y = f(y)\n            k = 0\n            while k < r and g == 1:\n                ys = y\n                for i in range(min(m, r - k)):\n                    y = f(y)\n                    q = q * abs(x - y) % n\n                g = gcd(q, n)\n                k += m\n            r <<= 1\n        if g == n:\n            g = 1\n            while g == 1:\n                ys = f(ys)\n                g = gcd(abs(x - ys), n)\n        if g < n:\n            if isPrimeMR(g): return g\n            elif isPrimeMR(n // g): return n // g\n            return findFactorRho(g)\ndef primeFactor(n):\n    i = 2\n    ret = {}\n    rhoFlg = 0\n    while i*i <= n:\n        k = 0\n        while n % i == 0:\n            n //= i\n            k += 1\n        if k: ret[i] = k\n        i += 1 + i % 2\n        if i == 101 and n >= 2 ** 20:\n            while n > 1:\n                if isPrimeMR(n):\n                    ret[n], n = 1, 1\n                else:\n                    rhoFlg = 1\n                    j = findFactorRho(n)\n                    k = 0\n                    while n % j == 0:\n                        n //= j\n                        k += 1\n                    ret[j] = k\n\n    if n > 1: ret[n] = 1\n    if rhoFlg: ret = {x: ret[x] for x in sorted(ret)}\n    return ret\n\ndef divisors(n):\n    res = [1]\n    prime = primeFactor(n)\n    for p in prime:\n        newres = []\n        for d in res:\n            for j in range(prime[p]+1):\n                newres.append(d*p**j)\n        res = newres\n    res.sort()\n    return res\n\ndef xorfactorial(num):\n    if num==0:\n        return 0\n    elif num==1:\n        return 1\n    elif num==2:\n        return 3\n    elif num==3:\n        return 0\n    else:\n        x=baseorder(num)\n        return (2**x)*((num-2**x+1)%2)+function(num-2**x)\n\ndef xorconv(n,X,Y):\n    if n==0:\n        res=[(X[0]*Y[0])%mod]\n        return res\n    x=[X[i]+X[i+2**(n-1)] for i in range(2**(n-1))]\n    y=[Y[i]+Y[i+2**(n-1)] for i in range(2**(n-1))]\n    z=[X[i]-X[i+2**(n-1)] for i in range(2**(n-1))]\n    w=[Y[i]-Y[i+2**(n-1)] for i in range(2**(n-1))]\n    res1=xorconv(n-1,x,y)\n    res2=xorconv(n-1,z,w)\n    former=[(res1[i]+res2[i])*inv for i in range(2**(n-1))]\n    latter=[(res1[i]-res2[i])*inv for i in range(2**(n-1))]\n    former=list(map(lambda x:x%mod,former))\n    latter=list(map(lambda x:x%mod,latter))\n    return former+latter\n\ndef merge_sort(A,B):\n    pos_A,pos_B = 0,0\n    n,m = len(A),len(B)\n    res = []\n    while pos_A < n and pos_B < m:\n        a,b = A[pos_A],B[pos_B]\n        if a < b:\n            res.append(a)\n            pos_A += 1\n        else:\n            res.append(b)\n            pos_B += 1\n    res += A[pos_A:]\n    res += B[pos_B:]\n    return res\n\nclass UnionFindVerSize():\n    def __init__(self, N):\n        self._parent = [n for n in range(0, N)]\n        self._size = [1] * N\n        self.group = N\n\n    def find_root(self, x):\n        if self._parent[x] == x: return x\n        self._parent[x] = self.find_root(self._parent[x])\n        stack = [x]\n        while self._parent[stack[-1]]!=stack[-1]:\n            stack.append(self._parent[stack[-1]])\n        for v in stack:\n            self._parent[v] = stack[-1]\n        return self._parent[x]\n\n    def unite(self, x, y):\n        gx = self.find_root(x)\n        gy = self.find_root(y)\n        if gx == gy: return\n\n        self.group -= 1\n\n        if self._size[gx] < self._size[gy]:\n            self._parent[gx] = gy\n            self._size[gy] += self._size[gx]\n        else:\n            self._parent[gy] = gx\n            self._size[gx] += self._size[gy]\n\n    def get_size(self, x):\n        return self._size[self.find_root(x)]\n\n    def is_same_group(self, x, y):\n        return self.find_root(x) == self.find_root(y)\n\nclass WeightedUnionFind():\n    def __init__(self,N):\n        self.parent = [i for i in range(N)]\n        self.size = [1 for i in range(N)]\n        self.val = [0 for i in range(N)]\n        self.flag = True\n        self.edge = [[] for i in range(N)]\n\n    def dfs(self,v,pv):\n        stack = [(v,pv)]\n        new_parent = self.parent[pv]\n        while stack:\n            v,pv = stack.pop()\n            self.parent[v] = new_parent\n            for nv,w in self.edge[v]:\n                if nv!=pv:\n                    self.val[nv] = self.val[v] + w\n                    stack.append((nv,v))\n\n    def unite(self,x,y,w):\n        if not self.flag:\n            return\n        if self.parent[x]==self.parent[y]:\n            self.flag = (self.val[x] - self.val[y] == w)\n            return\n\n        if self.size[self.parent[x]]>self.size[self.parent[y]]:\n            self.edge[x].append((y,-w))\n            self.edge[y].append((x,w))\n            self.size[x] += self.size[y]\n            self.val[y] = self.val[x] - w\n            self.dfs(y,x)\n        else:\n            self.edge[x].append((y,-w))\n            self.edge[y].append((x,w))\n            self.size[y] += self.size[x]\n            self.val[x] = self.val[y] + w\n            self.dfs(x,y)\n\nclass Dijkstra():\n    class Edge():\n        def __init__(self, _to, _cost):\n            self.to = _to\n            self.cost = _cost\n\n    def __init__(self, V):\n        self.G = [[] for i in range(V)]\n        self._E = 0\n        self._V = V\n\n    @property\n    def E(self):\n        return self._E\n\n    @property\n    def V(self):\n        return self._V\n\n    def add_edge(self, _from, _to, _cost):\n        self.G[_from].append(self.Edge(_to, _cost))\n        self._E += 1\n\n    def shortest_path(self, s):\n        import heapq\n        que = []\n        d = [10**15] * self.V\n        d[s] = 0\n        heapq.heappush(que, (0, s))\n\n        while len(que) != 0:\n            cost, v = heapq.heappop(que)\n            if d[v] < cost: continue\n\n            for i in range(len(self.G[v])):\n                e = self.G[v][i]\n                if d[e.to] > d[v] + e.cost:\n                    d[e.to] = d[v] + e.cost\n                    heapq.heappush(que, (d[e.to], e.to))\n        return d\n\n#Z[i]:length of the longest list starting from S[i] which is also a prefix of S\n#O(|S|)\ndef Z_algorithm(s):\n    N = len(s)\n    Z_alg = [0]*N\n\n    Z_alg[0] = N\n    i = 1\n    j = 0\n    while i < N:\n        while i+j < N and s[j] == s[i+j]:\n            j += 1\n        Z_alg[i] = j\n        if j == 0:\n            i += 1\n            continue\n        k = 1\n        while i+k < N and k + Z_alg[k]<j:\n            Z_alg[i+k] = Z_alg[k]\n            k += 1\n        i += k\n        j -= k\n    return Z_alg\n\nclass BIT():\n    def __init__(self,n,mod=0):\n        self.BIT = [0]*(n+1)\n        self.num = n\n        self.mod = mod\n\n    def query(self,idx):\n        res_sum = 0\n        mod = self.mod\n        while idx > 0:\n            res_sum += self.BIT[idx]\n            if mod:\n                res_sum %= mod\n            idx -= idx&(-idx)\n        return res_sum\n\n    #Ai += x O(logN)\n    def update(self,idx,x):\n        mod = self.mod\n        while idx <= self.num:\n            self.BIT[idx] += x\n            if mod:\n                self.BIT[idx] %= mod\n            idx += idx&(-idx)\n        return\n\nclass dancinglink():\n    def __init__(self,n,debug=False):\n        self.n = n\n        self.debug = debug\n        self._left = [i-1 for i in range(n)]\n        self._right = [i+1 for i in range(n)]\n        self.exist = [True for i in range(n)]\n\n    def pop(self,k):\n        if self.debug:\n            assert self.exist[k]\n        L = self._left[k]\n        R = self._right[k]\n        if L!=-1:\n            if R!=self.n:\n                self._right[L],self._left[R] = R,L\n            else:\n                self._right[L] = self.n\n        elif R!=self.n:\n            self._left[R] = -1\n        self.exist[k] = False\n\n    def left(self,idx,k=1):\n        if self.debug:\n            assert self.exist[idx]\n        res = idx\n        while k:\n            res = self._left[res]\n            if res==-1:\n                break\n            k -= 1\n        return res\n\n    def right(self,idx,k=1):\n        if self.debug:\n            assert self.exist[idx]\n        res = idx\n        while k:\n            res = self._right[res]\n            if res==self.n:\n                break\n            k -= 1\n        return res\n\nclass SparseTable():\n    def __init__(self,A,merge_func,ide_ele):\n        N=len(A)\n        n=N.bit_length()\n        self.table=[[ide_ele for i in range(n)] for i in range(N)]\n        self.merge_func=merge_func\n\n        for i in range(N):\n            self.table[i][0]=A[i]\n\n        for j in range(1,n):\n            for i in range(0,N-2**j+1):\n                f=self.table[i][j-1]\n                s=self.table[i+2**(j-1)][j-1]\n                self.table[i][j]=self.merge_func(f,s)\n\n    def query(self,s,t):\n        b=t-s+1\n        m=b.bit_length()-1\n        return self.merge_func(self.table[s][m],self.table[t-2**m+1][m])\n\nclass BinaryTrie:\n    class node:\n        def __init__(self,val):\n            self.left = None\n            self.right = None\n            self.max = val\n\n    def __init__(self):\n        self.root = self.node(-10**15)\n\n    def append(self,key,val):\n        pos = self.root\n        for i in range(29,-1,-1):\n            pos.max = max(pos.max,val)\n            if key>>i & 1:\n                if pos.right is None:\n                    pos.right = self.node(val)\n                    pos = pos.right\n                else:\n                    pos = pos.right\n            else:\n                if pos.left is None:\n                    pos.left = self.node(val)\n                    pos = pos.left\n                else:\n                    pos = pos.left\n        pos.max = max(pos.max,val)\n\n    def search(self,M,xor):\n        res = -10**15\n        pos = self.root\n        for i in range(29,-1,-1):\n            if pos is None:\n                break\n\n            if M>>i & 1:\n                if xor>>i & 1:\n                    if pos.right:\n                        res = max(res,pos.right.max)\n                    pos = pos.left\n                else:\n                    if pos.left:\n                        res = max(res,pos.left.max)\n                    pos = pos.right\n            else:\n                if xor>>i & 1:\n                    pos = pos.right\n                else:\n                    pos = pos.left\n\n        if pos:\n            res = max(res,pos.max)\n        return res\n\ndef solveequation(edge,ans,n,m):\n    #edge=[[to,dire,id]...]\n    x=[0]*m\n    used=[False]*n\n    for v in range(n):\n        if used[v]:\n            continue\n        y = dfs(v)\n        if y!=0:\n            return False\n    return x\n\n    def dfs(v):\n        used[v]=True\n        r=ans[v]\n        for to,dire,id in edge[v]:\n            if used[to]:\n                continue\n            y=dfs(to)\n            if dire==-1:\n                x[id]=y\n            else:\n                x[id]=-y\n            r+=y\n        return r\n\nclass SegmentTree:\n    def __init__(self, init_val, segfunc, ide_ele):\n        n = len(init_val)\n        self.segfunc = segfunc\n        self.ide_ele = ide_ele\n        self.num = 1 << (n - 1).bit_length()\n        self.tree = [ide_ele] * 2 * self.num\n        self.size = n\n        for i in range(n):\n            self.tree[self.num + i] = init_val[i]\n        for i in range(self.num - 1, 0, -1):\n            self.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])\n\n    def update(self, k, x):\n        k += self.num\n        self.tree[k] = x\n        while k > 1:\n            k >>= 1\n            self.tree[k] = self.segfunc(self.tree[2*k], self.tree[2*k+1])\n\n    def query(self, l, r):\n        if r==self.size:\n            r = self.num\n\n        res = self.ide_ele\n\n        l += self.num\n        r += self.num\n        right = []\n        while l < r:\n            if l & 1:\n                res = self.segfunc(res, self.tree[l])\n                l += 1\n            if r & 1:\n                right.append(self.tree[r-1])\n            l >>= 1\n            r >>= 1\n\n        for e in right[::-1]:\n            res = self.segfunc(res,e)\n        return res\n\n#( ),(, mid_min,time)\ndef merge(x,y):\n    \n    if x[1] <= y[0]:\n        z0,z1 = y[0]-x[1] + x[0],y[1]\n    else:\n        z0,z1 = x[0],x[1]-y[0]+y[1]\n    \n    z2 = min(x[2],-x[0]+x[1]+y[2])\n\n    check = min(x[1],y[0])\n    z3 = max(min(x[3],y[3])+check,max(x[3],y[3]))\n\n    return (z0,z1,z2,z3)\n\nimport sys,random,bisect\nfrom collections import deque,defaultdict\nfrom heapq import heapify,heappop,heappush\nfrom itertools import permutations\nfrom math import gcd,log\n\ninput = lambda :sys.stdin.buffer.readline()\nmi = lambda :map(int,input().split())\nli = lambda :list(mi())\n\nn,q = mi()\nA = li()\nB = li()\nC = [A[i]-B[i] for i in range(n)]\nfor i in range(n):\n    if C[i] > 0:\n        C[i] = (0,C[i],0,0)\n    else:\n        C[i] = (-C[i],0,C[i],0)\n\nC = C[::-1]\nSeg = SegmentTree(C,merge,(0,0,0,0))\n#index_inverse!!!\nfor _ in range(q):\n    l,r = mi()\n    l,r = l-1,r-1\n    L,R = n-1-r,n-1-l\n    #print(C[L:R+1])\n\n    check = Seg.query(L,R+1)\n    #print(check)\n    if check[0]==0 and check[1]==0 and check[2]>=0:\n        print(check[3])\n    else:\n        print(-1)\n\n",
   "easy": [
    0,
    1,
    2,
    3,
    5,
-   6,
    7,
    8,
    9,
@@ -351,12 +80,283 @@
    14,
    15,
    16,
+   17,
    18,
    19
   ],
   "hard": [
    4,
+   6
+  ]
+ },
+ {
+  "name": "nearest_beautiful_number_hard_version",
+  "description": "It is a complicated version of problem F1. The difference between them is the constraints (F1: k \u2264 2, F2: k \u2264 10).\n\nYou are given an integer n. Find the minimum integer x such that x \u2265 n and the number x is k-beautiful.\n\nA number is called k-beautiful if its decimal representation having no leading zeroes contains no more than k different digits. E.g. if k = 2, the numbers 3434443, 55550, 777 and 21 are k-beautiful whereas the numbers 120, 445435 and 998244353 are not.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 10^4) \u2014 the number of test cases. Then t test cases follow.\n\nEach test case consists of one line containing two integers n and k (1 \u2264 n \u2264 10^9, 1 \u2264 k \u2264 10).\n\nOutput\n\nFor each test case output on a separate line x \u2014 the minimum k-beautiful integer such that x \u2265 n.\n\nExample\n\nInput\n\n\n6\n2021 3\n177890 2\n34512 3\n724533 4\n998244353 1\n12345678 10\n\n\nOutput\n\n\n2021\n181111\n34533\n724542\n999999999\n12345678",
+  "reference": "l=len\n_,*t=open(0)\nfor p in t:\n x,k=p.split();k=int(k);n=x\n while l(set(x))>k:x=str(int(x)+1).strip('0')\n print(x+(l(n)-l(x))*min(x+'0'*(l(set(x))<k)))",
+  "incorrect": "def solve(num, k):\n    count = 0\n    tab = [-1 for _ in range(int(k))]\n    idx = 0\n    rem = -1\n    rem_idx = -1\n    for x in num:\n        if int(x) not in tab:\n            if count < int(k):\n                tab[count] = int(x)\n                count += 1\n            else:\n                rem = int(x)\n                rem_idx = idx\n                break\n        idx += 1\n\n    if rem != -1:\n        check = False\n        counter = 0\n        sec_tab = []\n        new = min(tab)\n        if max(rem, max(tab)) == rem:\n            for x in num:\n                if int(x) not in sec_tab and not check:\n                    if counter == count-1:\n                        print(int(x)+1, end = \"\")\n                        check = True\n\n                        if int(x) == min(tab):\n                            if int(x)+1 not in tab:\n                                new = int(x)+1\n                                # for i in range(len(tab)):\n                                #     if tab[i] == int(x):\n                                #         tab[i] += 1\n                                #         break\n                            else:\n                                new = min([i for i in range(10) if i not in tab])\n\n                    else:\n                        sec_tab.append(int(x))\n                        counter += 1\n                        print(int(x), end = \"\")\n\n                elif not check:\n                    print(int(x), end=\"\")\n\n                else:\n                    print(new, end=\"\")\n\n            print()\n\n        else:\n            temp = min([i for i in tab if i > rem])\n            for x in num:\n                if int(x) not in sec_tab and not check:\n                    if counter == count:\n                        print(temp, end=\"\")\n                        check = True\n                    else:\n                        sec_tab.append(int(x))\n                        counter += 1\n                        print(int(x), end=\"\")\n\n                elif not check:\n                    print(int(x), end=\"\")\n\n                else:\n                    print(min(tab), end=\"\")\n\n            print()\n\n    else:\n        print(num)\n\nfor _ in range(int(input())):\n    num, k = map(str, input().split())\n    solve(num, k)\n\n\n",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   6,
+   8
+  ]
+ },
+ {
+  "name": "rescue_niwen",
+  "description": "Morning desert sun horizon\n\nRise above the sands of time...\n\nFates Warning, \"Exodus\"\n\nAfter crossing the Windswept Wastes, Ori has finally reached the Windtorn Ruins to find the Heart of the Forest! However, the ancient repository containing this priceless Willow light did not want to open!\n\nOri was taken aback, but the Voice of the Forest explained to him that the cunning Gorleks had decided to add protection to the repository.\n\nThe Gorleks were very fond of the \"string expansion\" operation. They were also very fond of increasing subsequences.\n\nSuppose a string s_1s_2s_3 \u2026 s_n is given. Then its \"expansion\" is defined as the sequence of strings s_1, s_1 s_2, ..., s_1 s_2 \u2026 s_n, s_2, s_2 s_3, ..., s_2 s_3 \u2026 s_n, s_3, s_3 s_4, ..., s_{n-1} s_n, s_n. For example, the \"expansion\" the string 'abcd' will be the following sequence of strings: 'a', 'ab', 'abc', 'abcd', 'b', 'bc', 'bcd', 'c', 'cd', 'd'. \n\nTo open the ancient repository, Ori must find the size of the largest increasing subsequence of the \"expansion\" of the string s. Here, strings are compared lexicographically.\n\nHelp Ori with this task!\n\nA string a is lexicographically smaller than a string b if and only if one of the following holds:\n\n  * a is a prefix of b, but a \u2260 b;\n  * in the first position where a and b differ, the string a has a letter that appears earlier in the alphabet than the corresponding letter in b.\n\nInput\n\nEach test contains multiple test cases.\n\nThe first line contains one positive integer t (1 \u2264 t \u2264 10^3), denoting the number of test cases. Description of the test cases follows.\n\nThe first line of each test case contains one positive integer n (1 \u2264 n \u2264 5000) \u2014 length of the string.\n\nThe second line of each test case contains a non-empty string of length n, which consists of lowercase latin letters.\n\nIt is guaranteed that the sum of n over all test cases does not exceed 10^4.\n\nOutput\n\nFor every test case print one non-negative integer \u2014 the answer to the problem.\n\nExample\n\nInput\n\n\n7\n5\nacbac\n8\nacabacba\n12\naaaaaaaaaaaa\n10\nabacabadac\n8\ndcbaabcd\n3\ncba\n6\nsparky\n\n\nOutput\n\n\n9\n17\n12\n29\n14\n3\n9\n\nNote\n\nIn first test case the \"expansion\" of the string is: 'a', 'ac', 'acb', 'acba', 'acbac', 'c', 'cb', 'cba', 'cbac', 'b', 'ba', 'bac', 'a', 'ac', 'c'. The answer can be, for example, 'a', 'ac', 'acb', 'acba', 'acbac', 'b', 'ba', 'bac', 'c'.",
+  "reference": "import sys\ninput = sys.stdin.readline\n\n\nfor _ in range(int(input())):\n    n = int(input())\n    s = input()[:-1]\n    lcp = [[0] * (n + 1) for _ in range(n + 1)]\n    for i in range(n - 1, -1, -1):\n        for j in range(n - 1, -1, -1):\n            if s[i] == s[j]: lcp[i][j] = lcp[i + 1][j + 1] + 1\n\n    def cal(x, y):\n        t = lcp[x][y]\n        if y + t >= n: return -1\n        xc, yc = s[x + t], s[y + t]\n        if xc > yc: return -1\n        return t\n\n    dp = [0] * n\n    for i in range(n):\n        dp[i] = n - i\n        for j in range(i):\n            x = cal(j, i)\n            if x != -1:\n                dp[i] = max(dp[i], dp[j] + n - i - x)\n    print(max(dp))",
+  "incorrect": "import sys\nfor _ in range(int(sys.stdin.readline())):\n    n = int(sys.stdin.readline())\n    s = sys.stdin.readline().strip()\n    d = [0] * 27\n    l = [0] * 26\n    for i in range(len(s)-1, -1, -1):\n        p = ord(s[i])-97\n        t = max(d[p+1:])\n        lp = l[p]\n        if lp != 0:\n            j = 1\n            while lp + j < len(s) and s[lp+j] == s[i+j]: j += 1\n            if lp + j < len(s) and s[lp+j] > s[i+j]: \n                t = max(t, d[p] - j)\n        d[p] = t + len(s) - i\n        l[p] = i\n    sys.stdout.write(\"%d\\n\" % max(d))\n",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   9
+  ]
+ },
+ {
+  "name": "points_movement",
+  "description": "There are n points and m segments on the coordinate line. The initial coordinate of the i-th point is a_i. The endpoints of the j-th segment are l_j and r_j \u2014 left and right endpoints, respectively.\n\nYou can move the points. In one move you can move any point from its current coordinate x to the coordinate x - 1 or the coordinate x + 1. The cost of this move is 1.\n\nYou should move the points in such a way that each segment is visited by at least one point. A point visits the segment [l, r] if there is a moment when its coordinate was on the segment [l, r] (including endpoints).\n\nYou should find the minimal possible total cost of all moves such that all segments are visited.\n\nInput\n\nThe input consists of multiple test cases. The first line contains a single integer t (1 \u2264 t \u2264 10^4) \u2014 the number of test cases. Description of the test cases follows.\n\nThe first line of each test case contains two integers n and m (1 \u2264 n, m \u2264 2 \u22c5 10^5) \u2014 the number of points and segments respectively.\n\nThe next line contains n distinct integers a_1, a_2, \u2026, a_n (-10^9 \u2264 a_i \u2264 10^9) \u2014 the initial coordinates of the points.\n\nEach of the next m lines contains two integers l_j, r_j (-10^9 \u2264 l_j \u2264 r_j \u2264 10^9) \u2014 the left and the right endpoints of the j-th segment.\n\nIt's guaranteed that the sum of n and the sum of m over all test cases does not exceed 2 \u22c5 10^5.\n\nOutput\n\nFor each test case print a single integer \u2014 the minimal total cost of all moves such that all segments are visited.\n\nExample\n\nInput\n\n\n2\n4 11\n2 6 14 18\n0 3\n4 5\n11 15\n3 5\n10 13\n16 16\n1 4\n8 12\n17 19\n7 13\n14 19\n4 12\n-9 -16 12 3\n-20 -18\n-14 -13\n-10 -7\n-3 -1\n0 4\n6 11\n7 9\n8 10\n13 15\n14 18\n16 17\n18 19\n\n\nOutput\n\n\n5\n22\n\nNote\n\nIn the first test case the points can be moved as follows:\n\n  * Move the second point from the coordinate 6 to the coordinate 5. \n  * Move the third point from the coordinate 14 to the coordinate 13. \n  * Move the fourth point from the coordinate 18 to the coordinate 17. \n  * Move the third point from the coordinate 13 to the coordinate 12. \n  * Move the fourth point from the coordinate 17 to the coordinate 16. \n\n\n\nThe total cost of moves is 5. It is easy to see, that all segments are visited by these movements. For example, the tenth segment ([7, 13]) is visited after the second move by the third point.\n\nHere is the image that describes the first test case:\n\n<image>",
+  "reference": "import itertools\n\nint_inputs = lambda: tuple(map(int, input().rstrip().split()))\ncontains = lambda t1, t2: t1[0] <= t2[0] and t1[1] >= t2[1]\n\n\ndef process(b1, b2, left, right, group):\n    if not group:\n        gen = iter([(0, 0)])\n    elif right is None:\n        gen = iter([(group[-1][0] - left, 0)])\n    elif left is None:\n        gen = iter([(0, right - group[0][1])])\n    else:\n        gen = zip(\n            itertools.chain([0], [current[0] - left for current in group]),\n            itertools.chain([right - current[1] for current in group], [0]),\n        )\n    dl, dr = next(gen)\n    v = min(b1 + 2 * dl, b2 + dl)\n    b1n, b2n = v + dr, v + dr * 2\n    for dl, dr in gen:\n        v = min(b1 + 2 * dl, b2 + dl)\n        b1n, b2n = min(b1n, v + dr), min(b2n, v + dr * 2)\n    return b1n, b2n\n\n\nfor t in range(int(input())):\n    n, m = int_inputs()\n    P = sorted(int_inputs())  # points\n    S0 = sorted([int_inputs() for i in range(m)])  # segements\n    S1 = []  # if A contains B, remove A won't change result\n    for current in S0:\n        if S1 and contains(current, S1[-1]):\n            continue\n        while S1 and contains(S1[-1], current):\n            S1.pop()\n        S1.append(current)\n    # at this moment, all left value and right value of S1 are sorted and unique respectively\n    areas = zip([None] + P, P + [None])\n    S = [list(next(areas)) + [[]]]\n    for current in S1:\n        # at any moment, left is None or current[0] > left holds\n        left, right, group = S[-1]\n        while right is not None and current[0] > right:\n            S.append(list(next(areas)) + [[]])\n            left, right, group = S[-1]\n        if right is not None and current[1] >= right:\n            continue\n        group.append(current)\n    for area in areas:  # remaining\n        S.append(list(area) + [[]])\n    b1 = b2 = 0\n    for left, right, group in S:\n        b1, b2 = process(b1, b2, left, right, group)\n    print(min(b1, b2))\n\n",
+  "incorrect": "import sys\ninput = sys.stdin.readline\nfrom bisect import bisect_left, bisect_right\n\n\ndef main():\n    n, m = map(int, input().split())\n    alst = list(map(int, input().split()))\n    alst.sort()\n    lr = []\n    for _ in range(m):\n        l, r = map(int, input().split())\n        if bisect_left(alst, l) == bisect_right(alst, r):\n            lr.append((l, r))\n    alst = [-10 ** 10] + alst + [10 ** 10]\n    inf = 10 ** 20\n    dp = [[inf, inf] for _ in range(n + 2)]\n    dp[0] = [0, 0]\n    p = 0\n    lr.sort()\n    l = len(lr)\n    for i, a in enumerate(alst[1:], 1):\n        lst = []\n        while p < l and lr[p][0] < a:\n            lst.append(lr[p])\n            p += 1\n        if not lst:\n            dp[i] = dp[i - 1]\n            continue\n        min_ = [alst[i]]\n        for _, r in lst[::-1]:\n            min_.append(min(min_[-1], r))\n        min_ = min_[::-1]\n        l_s = [alst[i - 1]] + [ll for ll, _ in lst]\n        a0 = alst[i - 1]\n        a1 = alst[i]\n        for ll, m in zip(l_s, min_):\n            dp[i][0] = min(dp[i][0], dp[i - 1][0] + ll - a0 + (a1 - m) * 2, dp[i - 1][1] + (ll - a0) * 2 + (a1 - m) * 2)\n            dp[i][1] = min(dp[i][1], dp[i - 1][0] + ll - a0 + a1 - m, dp[i - 1][1] + (ll - a0) * 2 + a1 - m)\n    print(min(dp[-1]))\n        \n        \n    \n    \nfor _ in range(int(input())):\n    main()",
+  "easy": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6,
+   7,
+   9,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18
+  ],
+  "hard": [
+   3,
+   8,
+   10,
+   19
+  ]
+ },
+ {
+  "name": "expression_evaluation_error",
+  "description": "On the board, Bob wrote n positive integers in [base](https://en.wikipedia.org/wiki/Positional_notation#Base_of_the_numeral_system) 10 with sum s (i. e. in decimal numeral system). Alice sees the board, but accidentally interprets the numbers on the board as base-11 integers and adds them up (in base 11).\n\nWhat numbers should Bob write on the board, so Alice's sum is as large as possible?\n\nInput\n\nThe input consists of multiple test cases. The first line contains an integer t (1 \u2264 t \u2264 100) \u2014 the number of test cases. The description of the test cases follows.\n\nThe only line of each test case contains two integers s and n (1 \u2264 s \u2264 10^9; 1 \u2264 n \u2264 min(100, s)) \u2014 the sum and amount of numbers on the board, respectively. Numbers s and n are given in decimal notation (base 10).\n\nOutput\n\nFor each test case, output n positive integers \u2014 the numbers Bob should write on the board, so Alice's sum is as large as possible. If there are multiple answers, print any of them.\n\nExample\n\nInput\n\n\n6\n97 2\n17 1\n111 4\n100 2\n10 9\n999999 3\n\n\nOutput\n\n\n70 27 \n17 \n3 4 100 4\n10 90\n1 1 2 1 1 1 1 1 1 \n999900 90 9\n\nNote\n\nIn the first test case, 70_{10} + 27_{10} = 97_{10}, and Alice's sum is $$$70_{11} + 27_{11} = 97_{11} = 9 \u22c5 11 + 7 = 106_{10}. (Here x_b represents the number x in base b.) It can be shown that it is impossible for Alice to get a larger sum than 106_{10}$$$.\n\nIn the second test case, Bob can only write a single number on the board, so he must write 17.\n\nIn the third test case, 3_{10} + 4_{10} + 100_{10} + 4_{10} = 111_{10}, and Alice's sum is $$$3_{11} + 4_{11} + 100_{11} + 4_{11} = 110_{11} = 1 \u22c5 11^2 + 1 \u22c5 11 = 132_{10}. It can be shown that it is impossible for Alice to get a larger sum than 132_{10}$$$.",
+  "reference": "\ndef solver(s, n):\n    num = 10 ** (len(str(s))-1)\n    for i in range(n-1):\n        while s - num < n - (i + 1):\n            num //= 10\n        print(num, end=' ')\n        s -= num\n    print(s)\n\nT = int(input())\nfor t in range(T):\n    S, N = map(int, input().split())\n    solver(S, N)\n\n'''\n6\n97 2\n17 1\n111 4\n100 2\n10 9\n999999 3\n1\n14 7\n'''\n",
+  "incorrect": "t = int(input())\nfor _ in range(t):\n    s, n = map(int, input().split())\n    p = 1\n    while s >= p:\n        p *= 10\n    p //= 10\n    answer = []\n    for i in range(n-1):\n        while s - p < n - i:\n            p //= 10\n        s -= p\n        answer.append(p)\n    answer.append(s)\n    print(' '.join(map(str, answer)))\n",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   12,
+   13,
+   14,
+   15,
+   16,
+   18
+  ],
+  "hard": [
+   11,
+   17,
+   19
+  ]
+ },
+ {
+  "name": "non_decreasing_dilemma",
+  "description": "Alice has recently received an array a_1, a_2, ..., a_n for her birthday! She is very proud of her array, and when she showed her friend Bob the array, he was very happy with her present too!\n\nHowever, soon Bob became curious, and as any sane friend would do, asked Alice to perform q operations of two types on her array:\n\n  * 1 x y: update the element a_x to y (set a_x = y). \n  * 2 l r: calculate how many non-decreasing subarrays exist within the subarray [a_l, a_{l+1}, ..., a_r]. More formally, count the number of pairs of integers (p,q) such that l \u2264 p \u2264 q \u2264 r and a_p \u2264 a_{p+1} \u2264 ... \u2264 a_{q-1} \u2264 a_q. \n\n\n\nHelp Alice answer Bob's queries!\n\nInput\n\nThe first line contains two integers n and q (1 \u2264 n, q \u2264 2 \u22c5 10^5) \u2014 the size of the array, and the number of queries, respectively.\n\nThe second line contains n integers a_1, a_2, ..., a_n (1 \u2264 a_i \u2264 10^9) \u2014 the elements of Alice's array.\n\nThe next q lines consist of three integers each. The first integer of the i-th line is t_i, the operation being performed on the i-th step (t_i = 1 or t_i = 2).\n\nIf t_i = 1, the next two integers are x_i and y_i (1 \u2264 x_i \u2264 n; 1 \u2264 y_i \u2264 10^9), updating the element at position x_i to y_i (setting a_{x_i} = y_i).\n\nIf t_i = 2, the next two integers are l_i and r_i (1 \u2264 l_i \u2264 r_i \u2264 n), the two indices Bob asks Alice about for the i-th query.\n\nIt's guaranteed that there is at least one operation of the second type.\n\nOutput\n\nFor each query of type 2, print a single integer, the answer to the query.\n\nExample\n\nInput\n\n\n5 6\n3 1 4 1 5\n2 2 5\n2 1 3\n1 4 4\n2 2 5\n1 2 6\n2 2 5\n\n\nOutput\n\n\n6\n4\n10\n7\n\nNote\n\nFor the first query, l = 2 and r = 5, and the non-decreasing subarrays [p,q] are [2,2], [3,3], [4,4], [5,5], [2,3] and [4,5].",
+  "reference": "\ndef naiveSolve():\n    \n    \n    \n    return\n\n\n\ndef solve():\n    \n    \n    \n    return\n\nclass SegmentTree():\n    def __init__(self,arr,combinerFunction,isCommutative=True): # isCommutative means f(a,b)==f(b,a)\n        self.n=len(arr)\n        def cmb(a,b):\n            if a==None: return b\n            if b==None: return a\n            return combinerFunction(a,b)\n        self.cmb=cmb\n        self.sz=self.n if isCommutative else pow(2,((self.n-1).bit_length())) # commutative needs power of 2 size\n        self.t=[None]*(2*self.sz) # use None as initial value\n        for i in range(self.n): self.t[i+self.sz]=arr[i]\n        for i in range(self.sz-1,0,-1): self.pull(i)\n    def pull(self,p):\n        self.t[p]=self.cmb(self.t[2*p],self.t[2*p+1])\n    def update(self,idx,val): # set val at idx\n        idx+=self.sz\n        self.t[idx]=val\n        idx//=2\n        while idx>0:\n            self.pull(idx)\n            idx//=2\n    def query(self,l,r): # aggregated value in [l,r] inclusive\n        l+=self.sz; r+=self.sz+1\n        a=b=None\n        while l<r:\n            if l%2==1: a=self.cmb(a,self.t[l]); l+=1\n            if r%2==1: r-=1; b=self.cmb(self.t[r],b)\n            l//=2; r//=2\n        return self.cmb(a,b)\n        \n\ndef add(length):\n    return (length*(length+1))//2\n# (leftVal,rightVal,leftLen,rightLen,cntsWithin,False)\ndef combiner(a,b):\n    alv,arv,all,arl,ac,ab=a\n    blv,brv,bll,brl,bc,bb=b\n    clv,crv,cll,crl,cc,cb=alv,brv,all,brl,ac+bc,ab or bb\n    if ab and bb:\n        if arv<=blv: cc+=add(arl+bll)\n        else: cc+=add(arl)+add(bll)\n    elif ab and not bb:\n        if arv<=blv: crl+=arl\n        else: cc+=add(arl)\n    elif not ab and bb:\n        if arv<=blv: cll+=bll\n        else: cc+=add(bll)\n    else:\n        if arv<=blv: cll=crl=all+bll\n        else: cb=True\n    return (clv,crv,cll,crl,cc,cb)\n\ndef main():\n    \n    n,q=readIntArr()\n    arr2=readIntArr()\n    # (leftVal,rightVal,leftLen,rightLen,cntsWithin,broken)\n    arr=[(x,x,1,1,0,False) for x in arr2]\n    st=SegmentTree(arr,combiner,False)\n    \n    allans=[]\n    for _ in range(q):\n        t,u,v=readIntArr()\n        if t==1: # update\n            u-=1\n            st.update(u,(v,v,1,1,0,False))\n        else: # query\n            lv,rv,ll,rl,c,b=st.query(u-1,v-1)\n            if b: ans=c+add(ll)+add(rl)\n            else: ans=add(ll)\n            allans.append(ans)\n    multiLineArrayPrint(allans)\n    \n    # TEST REGION\n    \n    # from random import randint as ri\n    # n=7\n    # # arr2=[ri(1,2) for _ in range(n)]\n    # arr2=[1, 2, 1, 1, 2, 1, 2]\n    # arr=[(x,x,1,1,0,False) for x in arr2]\n    # st=SegmentTree(arr,combiner,False)\n    \n    # left,right=0,n-1\n    \n    # lv,rv,ll,rl,c,b=st.query(0,n-1)\n    # if b: ans=c+add(ll)+add(rl)\n    # else: ans=add(ll)\n    \n    # ans2=0\n    # for l in range(left,right+1):\n    #     prev=-inf\n    #     for r in range(l,right+1):\n    #         if arr2[r]>=prev:\n    #             ans2+=1\n    #             prev=arr2[r]\n    #         else:\n    #             break\n    # if ans!=ans2:\n    #     print('arr2:{} ans:{} ans2:{}'.format(arr2,ans,ans2))\n    #     print('lv:{} rv:{} ll:{} rl:{} c:{} b:{}'.format(lv,rv,ll,rl,c,b))\n    #     print(st.t[2])\n    #     print(st.t[3])\n    #     print(st.t[1])\n    \n    return\n\n\n\n\nimport sys\ninput=sys.stdin.buffer.readline #FOR READING PURE INTEGER INPUTS (space separation ok)\n# input=lambda: sys.stdin.readline().rstrip(\"\\r\\n\") #FOR READING STRING/TEXT INPUTS.\n\ndef oneLineArrayPrint(arr):\n    print(' '.join([str(x) for x in arr]))\ndef multiLineArrayPrint(arr):\n    print('\\n'.join([str(x) for x in arr]))\ndef multiLineArrayOfArraysPrint(arr):\n    print('\\n'.join([' '.join([str(x) for x in y]) for y in arr]))\n \ndef readIntArr():\n    return [int(x) for x in input().split()]\n# def readFloatArr():\n#     return [float(x) for x in input().split()]\n \ndef makeArr(defaultValFactory,dimensionArr): # eg. makeArr(lambda:0,[n,m])\n    dv=defaultValFactory;da=dimensionArr\n    if len(da)==1:return [dv() for _ in range(da[0])]\n    else:return [makeArr(dv,da[1:]) for _ in range(da[0])]\n \ndef queryInteractive(x):\n    print('{}'.format(x))\n    sys.stdout.flush()\n    return int(input())\n \ndef answerInteractive(ans):\n    print('! {}'.format(ans))\n    sys.stdout.flush()\n \ninf=float('inf')\n# MOD=10**9+7\n# MOD=998244353\n\nfrom math import gcd,floor,ceil\n# from math import floor,ceil # for Python2\n \nfor _abc in range(1):\n    main()",
+  "incorrect": "\ndef naiveSolve():\n    \n    \n    \n    return\n\n\n\ndef solve():\n    \n    \n    \n    return\n\nclass SegmentTree():\n    def __init__(self,arr,combinerFunction,isCommutative=True): # isCommutative means f(a,b)==f(b,a)\n        self.n=len(arr)\n        def cmb(a,b):\n            if a==None: return b\n            if b==None: return a\n            return combinerFunction(a,b)\n        self.cmb=cmb\n        self.sz=self.n if isCommutative else pow(2,((self.n-1).bit_length())) # commutative needs power of 2 size\n        self.t=[None]*(2*self.sz) # use None as initial value\n        for i in range(self.n): self.t[i+self.sz]=arr[i]\n        for i in range(self.sz-1,0,-1): self.pull(i)\n    def pull(self,p): self.t[p]=self.cmb(self.t[2*p],self.t[2*p+1])\n    def update(self,idx,val): # set val at idx\n        idx+=self.sz\n        self.t[idx]=val\n        idx//=2\n        while idx>0:\n            self.pull(idx)\n            idx//=2\n    def query(self,l,r): # aggregated value in [l,r] inclusive\n        l+=self.sz; r+=self.sz+1\n        a=b=None\n        while l<r:\n            if l%2==1: a=self.cmb(a,self.t[l]); l+=1\n            if r%2==1: r-=1; b=self.cmb(self.t[r],b)\n            l//=2; r//=2\n        return self.cmb(a,b)\n        \n\ndef add(length):\n    return (length*(length+1))//2\n# (leftVal,rightVal,leftLen,rightLen,cntsWithin,False)\ndef combiner(a,b):\n    alv,arv,all,arl,ac,ab=a\n    blv,brv,bll,brl,bc,bb=b\n    clv,crv,cll,crl,cc,cb=alv,brv,all,brl,ac+bc,ab or bb\n    if ab and bb:\n        if arv<=blv: cb+=add(arl+brl)\n        else: cc+=add(arl)+add(bll)\n    elif ab and not bb:\n        if arv<=blv: crl+=arl\n        else: cc+=add(arl)\n    elif not ab and bb:\n        if arv<=blv: cll+=bll\n        else: cc+=add(bll)\n    else:\n        if arv<=blv: cll=crl=all+bll\n        else: cb=True\n    return (clv,crv,cll,crl,cc,cb)\n\ndef main():\n    \n    n,q=readIntArr()\n    arr2=readIntArr()\n    # (leftVal,rightVal,leftLen,rightLen,cntsWithin,broken)\n    arr=[(x,x,1,1,0,False) for x in arr2]\n    st=SegmentTree(arr,combiner,False)\n    \n    allans=[]\n    for _ in range(q):\n        t,u,v=readIntArr()\n        if t==1: # update\n            u-=1\n            st.update(u,(v,v,1,1,0,False))\n        else: # query\n            lv,rv,ll,rl,c,b=st.query(u-1,v-1)\n            if b: ans=c+add(ll)+add(rl)\n            else: ans=add(ll)\n            allans.append(ans)\n    multiLineArrayPrint(allans)\n    \n    return\n\n\n\n\nimport sys\ninput=sys.stdin.buffer.readline #FOR READING PURE INTEGER INPUTS (space separation ok)\n# input=lambda: sys.stdin.readline().rstrip(\"\\r\\n\") #FOR READING STRING/TEXT INPUTS.\n\ndef oneLineArrayPrint(arr):\n    print(' '.join([str(x) for x in arr]))\ndef multiLineArrayPrint(arr):\n    print('\\n'.join([str(x) for x in arr]))\ndef multiLineArrayOfArraysPrint(arr):\n    print('\\n'.join([' '.join([str(x) for x in y]) for y in arr]))\n \ndef readIntArr():\n    return [int(x) for x in input().split()]\n# def readFloatArr():\n#     return [float(x) for x in input().split()]\n \ndef makeArr(defaultValFactory,dimensionArr): # eg. makeArr(lambda:0,[n,m])\n    dv=defaultValFactory;da=dimensionArr\n    if len(da)==1:return [dv() for _ in range(da[0])]\n    else:return [makeArr(dv,da[1:]) for _ in range(da[0])]\n \ndef queryInteractive(x):\n    print('{}'.format(x))\n    sys.stdout.flush()\n    return int(input())\n \ndef answerInteractive(ans):\n    print('! {}'.format(ans))\n    sys.stdout.flush()\n \ninf=float('inf')\n# MOD=10**9+7\n# MOD=998244353\n\nfrom math import gcd,floor,ceil\n# from math import floor,ceil # for Python2\n \nfor _abc in range(1):\n    main()",
+  "easy": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   12,
+   13,
+   14,
+   15,
+   16,
+   18,
+   19
+  ],
+  "hard": [
+   3,
+   7,
+   11,
    17
+  ]
+ },
+ {
+  "name": "the_strongest_build",
+  "description": "Ivan is playing yet another roguelike computer game. He controls a single hero in the game. The hero has n equipment slots. There is a list of c_i items for the i-th slot, the j-th of them increases the hero strength by a_{i,j}. The items for each slot are pairwise distinct and are listed in the increasing order of their strength increase. So, a_{i,1} < a_{i,2} < ... < a_{i,c_i}.\n\nFor each slot Ivan chooses exactly one item. Let the chosen item for the i-th slot be the b_i-th item in the corresponding list. The sequence of choices [b_1, b_2, ..., b_n] is called a build.\n\nThe strength of a build is the sum of the strength increases of the items in it. Some builds are banned from the game. There is a list of m pairwise distinct banned builds. It's guaranteed that there's at least one build that's not banned.\n\nWhat is the build with the maximum strength that is not banned from the game? If there are multiple builds with maximum strength, print any of them.\n\nInput\n\nThe first line contains a single integer n (1 \u2264 n \u2264 10) \u2014 the number of equipment slots.\n\nThe i-th of the next n lines contains the description of the items for the i-th slot. First, one integer c_i (1 \u2264 c_i \u2264 2 \u22c5 10^5) \u2014 the number of items for the i-th slot. Then c_i integers a_{i,1}, a_{i,2}, ..., a_{i,c_i} (1 \u2264 a_{i,1} < a_{i,2} < ... < a_{i,c_i} \u2264 10^8).\n\nThe sum of c_i doesn't exceed 2 \u22c5 10^5.\n\nThe next line contains a single integer m (0 \u2264 m \u2264 10^5) \u2014 the number of banned builds.\n\nEach of the next m lines contains a description of a banned build \u2014 a sequence of n integers b_1, b_2, ..., b_n (1 \u2264 b_i \u2264 c_i).\n\nThe builds are pairwise distinct, and there's at least one build that's not banned.\n\nOutput\n\nPrint the build with the maximum strength that is not banned from the game. If there are multiple builds with maximum strength, print any of them.\n\nExamples\n\nInput\n\n\n3\n3 1 2 3\n2 1 5\n3 2 4 6\n2\n3 2 3\n3 2 2\n\n\nOutput\n\n\n2 2 3 \n\n\nInput\n\n\n3\n3 1 2 3\n2 1 5\n3 2 4 6\n2\n3 2 3\n2 2 3\n\n\nOutput\n\n\n1 2 3\n\n\nInput\n\n\n3\n3 1 2 3\n2 1 5\n3 2 4 6\n2\n3 2 3\n2 2 3\n\n\nOutput\n\n\n3 2 2\n\n\nInput\n\n\n4\n1 10\n1 4\n1 7\n1 3\n0\n\n\nOutput\n\n\n1 1 1 1 ",
+  "reference": "import sys\ninput = sys.stdin.readline\nfrom collections import defaultdict,deque\nfrom bisect import bisect_left\n\ndef il(): #Input list\n    return tuple(map(int,input().split()))\ndef ii(): #Input int\n    return int(input())\ndef imi(): #Input multiple int\n    return map(int,input().split())\n\ndef totstr(li,temp):\n    s=0\n    n=len(temp)\n    for i in range(1,n+1):\n        s+=li[i][temp[i-1]]\n    return s\n\nn=ii()\nli=[()]\ntemp=[]\ndd=defaultdict(lambda:0)\n\n\nfor i in range(n):\n    li.append(il())\n    temp.append(li[-1][0])\n\nm=ii()\nfor i in range(m): dd[il()]=-1\n\nmx=0\nq=deque()\nlq=0\n\n\nif dd[tuple(temp)]!=-1:\n    ans=tuple(temp)\nelse:\n    q.append(tuple(temp))\n    dd[tuple(temp)]=-2\n    lq=1\n\n\nwhile(lq>0):\n    curr=(q.popleft())\n    lq-=1\n\n    if dd[curr]<0:\n        curr=list(curr)\n        for i in range(n):\n            if curr[i]>1:\n                curr[i]-=1\n                cr=tuple(curr)\n                if dd[cr]==0:\n                    q.append(cr)\n                    dd[cr]=1\n                    lq+=1\n                elif dd[cr]==-1:\n                    q.append(cr)\n                    dd[cr]=-2\n                    lq+=1\n                curr[i]+=1\n    else:\n        x=totstr(li,curr)\n        if x>mx:\n            mx=x\n            ans=curr\n\nprint(*ans)\n\n\n",
+  "incorrect": "import sys\ninput = sys.stdin.readline\n\n############ ---- Input Functions ---- ############\ndef inp(): \n    # one integer\n    return int(input())\ndef input_list():\n    # list of integers\n    return list(map(int,input().split()))\ndef input_string():\n    # list of characters\n    s = input()\n    return list(s[:len(s) - 1])\ndef input_int_gen():\n    # integer generator \n    return map(int,input().split())\n\n# Codeforce Educational 114\nfrom heapq import heapify, heappop, heappush, heapreplace\n# tests = inp()\ntests = 1\nfor _ in range(tests):\n    n = inp()\n    avail = []\n    items_count = []\n    banned = set()\n    for _ in range(n):\n        c = input_list()\n        m = c[0]\n        del c[0]\n        avail.append(c)\n        items_count.append(m)\n    m = inp()\n    for _ in range(m):\n        banned.add(tuple(input_list()))\n    def strength(idyes):\n        return sum(avail[x][idyes[x] - 1] for x in range(n))\n    first = tuple(items_count)\n    nexts = [(-strength(first), first)]\n    while nexts:\n        strn, idyes = heappop(nexts)\n        strn = - strn\n        if idyes not in banned:\n            print(\" \".join(str(y) for y in idyes))\n            break\n        else:\n            idyes = list(idyes)\n            for i in range(n):\n                if idyes[i] != 0:\n                    idyes[i] -= 1\n                    kk = tuple(idyes)\n                    heappush(nexts, (-strn + avail[i][idyes[i]] - avail[i][idyes[i] - 1], kk))\n                    idyes[i] += 1\n        # print(nexts)\n                \n        \n\n",
+  "easy": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   0
+  ]
+ },
+ {
+  "name": "minimal_coverage",
+  "description": "You are given n lengths of segments that need to be placed on an infinite axis with coordinates.\n\nThe first segment is placed on the axis so that one of its endpoints lies at the point with coordinate 0. Let's call this endpoint the \"start\" of the first segment and let's call its \"end\" as that endpoint that is not the start. \n\nThe \"start\" of each following segment must coincide with the \"end\" of the previous one. Thus, if the length of the next segment is d and the \"end\" of the previous one has the coordinate x, the segment can be placed either on the coordinates [x-d, x], and then the coordinate of its \"end\" is x - d, or on the coordinates [x, x+d], in which case its \"end\" coordinate is x + d.\n\nThe total coverage of the axis by these segments is defined as their overall union which is basically the set of points covered by at least one of the segments. It's easy to show that the coverage will also be a segment on the axis. Determine the minimal possible length of the coverage that can be obtained by placing all the segments on the axis without changing their order.\n\nInput\n\nThe first line contains an integer t (1 \u2264 t \u2264 1000) \u2014 the number of test cases.\n\nThe next 2t lines contain descriptions of the test cases. \n\nThe first line of each test case description contains an integer n (1 \u2264 n \u2264 10^4) \u2014 the number of segments. The second line of the description contains n space-separated integers a_i (1 \u2264 a_i \u2264 1000) \u2014 lengths of the segments in the same order they should be placed on the axis.\n\nIt is guaranteed that the sum of n over all test cases does not exceed 10^4.\n\nOutput\n\nPrint t lines, each line containing the answer to the corresponding test case. The answer to a test case should be a single integer \u2014 the minimal possible length of the axis coverage.\n\nExample\n\nInput\n\n\n6\n2\n1 3\n3\n1 2 3\n4\n6 2 3 9\n4\n6 8 4 5\n7\n1 2 4 6 7 7 3\n8\n8 6 5 1 2 2 3 6\n\n\nOutput\n\n\n3\n3\n9\n9\n7\n8\n\nNote\n\nIn the third sample test case the segments should be arranged as follows: [0, 6] \u2192 [4, 6] \u2192 [4, 7] \u2192 [-2, 7]. As you can see, the last segment [-2, 7] covers all the previous ones, and the total length of coverage is 9.\n\nIn the fourth sample test case the segments should be arranged as [0, 6] \u2192 [-2, 6] \u2192 [-2, 2] \u2192 [2, 7]. The union of these segments also occupies the area [-2, 7] and has the length of 9.",
+  "reference": "import sys\ninput = sys.stdin.readline\n\nfor _ in range(int(input())):\n    n = int(input())\n    a = list(map(int, input().split()))\n    dp = [[2100]*2100 for _ in range(n)]\n    dp[0][a[0]] = a[0]\n    \n    for i in range(1, n):\n        for j in range(2100):\n            nj = max(j-a[i], 0)\n            dp[i][nj] = min(dp[i][nj], dp[i-1][j]+max(a[i]-j, 0))\n            \n            if j+a[i]<2100:\n                dp[i][j+a[i]] = min(dp[i][j+a[i]], dp[i-1][j]+max(a[i]-(dp[i-1][j]-j), 0))\n    \n    print(min(dp[-1]))",
+  "incorrect": "import io,os\nimport sys\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\nsys.setrecursionlimit(10010)\n\ndef getnext(index,curr,minimum,maximum,arr,dic):\n\n    if index==len(arr):  return minimum\n    if (index,curr) in dic:  return dic[(index,curr)]\n    \n    if curr + arr[index] <= maximum:\n        num1 = getnext(index+1,curr+arr[index],minimum,maximum,arr,dic)\n    else:\n        num1 = -2147483648\n\n\n    num2 = getnext(index+1,curr-arr[index],min(minimum,curr-arr[index]),maximum,arr,dic)\n\n    dic[(index,curr)] = max(num1,num2)\n    return max(num1,num2)\n\n\n    \n\n\n\n\ndef main(t):\n\n\n    n = int(input())\n    arr = list(map(int,input().split()))\n\n    ans = 2147483647\n\n    rmax = max(arr)\n    for maximum in range(rmax,0,-1):\n        dic = {}\n        minimum = getnext(0,0,0,maximum,arr,dic)\n#        print(maximum,minimum)\n\n\n        ans = min(ans, maximum-minimum)\n\n\n    print(ans)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nT = int(input())\nt = 1\nwhile t<=T:\n    main(t)\n    t += 1\n",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   15
+  ]
+ },
+ {
+  "name": "omkar_and_mosaic",
+  "description": "Omkar is creating a mosaic using colored square tiles, which he places in an n \u00d7 n grid. When the mosaic is complete, each cell in the grid will have either a glaucous or sinoper tile. However, currently he has only placed tiles in some cells. \n\nA completed mosaic will be a mastapeece if and only if each tile is adjacent to exactly 2 tiles of the same color (2 tiles are adjacent if they share a side.) Omkar wants to fill the rest of the tiles so that the mosaic becomes a mastapeece. Now he is wondering, is the way to do this unique, and if it is, what is it?\n\nInput\n\nThe first line contains a single integer n (1 \u2264 n \u2264 2000).\n\nThen follow n lines with n characters in each line. The i-th character in the j-th line corresponds to the cell in row i and column j of the grid, and will be S if Omkar has placed a sinoper tile in this cell, G if Omkar has placed a glaucous tile, . if it's empty. \n\nOutput\n\nOn the first line, print UNIQUE if there is a unique way to get a mastapeece, NONE if Omkar cannot create any, and MULTIPLE if there is more than one way to do so. All letters must be uppercase.\n\nIf you print UNIQUE, then print n additional lines with n characters in each line, such that the i-th character in the j^{th} line is S if the tile in row i and column j of the mastapeece is sinoper, and G if it is glaucous. \n\nExamples\n\nInput\n\n\n4\nS...\n..G.\n....\n...S\n\n\nOutput\n\n\nMULTIPLE\n\n\nInput\n\n\n6\nS.....\n....G.\n..S...\n.....S\n....G.\nG.....\n\n\nOutput\n\n\nNONE\n\n\nInput\n\n\n10\n.S....S...\n..........\n...SSS....\n..........\n..........\n...GS.....\n....G...G.\n..........\n......G...\n..........\n\n\nOutput\n\n\nUNIQUE\nSSSSSSSSSS\nSGGGGGGGGS\nSGSSSSSSGS\nSGSGGGGSGS\nSGSGSSGSGS\nSGSGSSGSGS\nSGSGGGGSGS\nSGSSSSSSGS\nSGGGGGGGGS\nSSSSSSSSSS\n\n\nInput\n\n\n1\n.\n\n\nOutput\n\n\nNONE\n\nNote\n\nFor the first test case, Omkar can make the mastapeeces\n\nSSSS\n\nSGGS\n\nSGGS\n\nSSSS\n\nand \n\nSSGG\n\nSSGG\n\nGGSS\n\nGGSS.\n\nFor the second test case, it can be proven that it is impossible for Omkar to add tiles to create a mastapeece.\n\nFor the third case, it can be proven that the given mastapeece is the only mastapeece Omkar can create by adding tiles.\n\nFor the fourth test case, it's clearly impossible for the only tile in any mosaic Omkar creates to be adjacent to two tiles of the same color, as it will be adjacent to 0 tiles total. ",
+  "reference": "import sys\no = {'G':'S', 'S':'G'};n = int(input());d = [list(input()[:n]) for _ in range(n)];f = [1] * (n * n);finished = 1\nif n % 2: print('NONE'); sys.exit()\nx = [''] * (n // 2)\ndef findt(i, j): return abs(j - i) // 2 if (j - i) % 2 else min(i + j, 2 * (n - 1) - j - i) // 2\ndef findr(i, j, t):\n    if (j - i) % 2: return o[t] if min(i, j) % 2 else t\n    else:\n        if i + j < n: return o[t] if i % 2 else t\n        else: return t if i % 2 else o[t]\nfor i in range(n):\n    for j in range(n):\n        if d[i][j] != '.':\n            t = findt(i, j);r = findr(i, j, d[i][j])\n            if x[t] == o[r]: print('NONE'); sys.exit()\n            else: x[t] = r\nfor i in range(n // 2):\n    if not x[i]: print('MULTIPLE'); sys.exit()\nfor i in range(n):\n    for j in range(n):d[i][j] = findr(i, j, x[findt(i, j)])\nprint('UNIQUE')\nprint('\\n'.join(''.join(d[i]) for i in range(n)))",
+  "incorrect": "import sys\no = {'G':'S', 'S':'G'}\nn = int(sys.stdin.readline())\nd = [list(sys.stdin.readline()[:n]) for _ in range(n)]\nf = [1]*(n*n)\nfinished = 1\ndef none(): sys.stdout.write('NONE\\n'); sys.exit()\ndef printd(): print('\\n'.join(''.join(d[i]) for i in range(n)))\nif n % 2: none()\ndef fill(a,b):\n    c = d[a][b]\n    if (a+b) % 2 == 0: \n        s = min(a,n-1-b)\n        y, x = a - s, b + s\n        while y < n and x >= 0:\n            g1 = o[c] if (y - a) % 2 else c\n            if d[y][x] == o[g1]: none()\n            else:\n                d[y][x] = g1\n                f[y*n+x] = 0\n            x-=1; y+=1;\n    else:\n        s = min(a,b)\n        y, x = a - s, b - s\n        while y < n and x < n:\n            g1 = o[c] if (y - a) % 2 else c\n            if d[y][x] == o[g1]: none()\n            else:\n                d[y][x] = g1\n                f[y*n+x] = 0\n            x+=1; y+=1;\n        \ndef get(a,b): return d[a][b] if 0<=a<n and 0<=b<n else ''\ndef checkfill(a,b):\n    global finished\n    x = get(a+1,b)+get(a,b+1)+get(a-1,b)+get(a,b-1)\n    g,s,z = x.count('G'), x.count('S'), x.count('.')\n    if d[a][b] == '.': \n        if g>2 or s>2: none()\n        elif g==2: d[a][b] = 'G'; fill(a,b); return 1\n        elif s==2: d[a][b] = 'S'; fill(a,b); return 1\n        finished = 0\n    else:\n        if z == 1:\n            g += d[a][b] == 'G'; s += d[a][b] == 'S'\n            x = 'G' if g == 2 or g == 0 else 'S'\n            if get(a+1,b) == '.': d[a+1][b] = x; fill(a+1,b)\n            elif get(a,b+1) == '.': d[a][b+1] = x; fill(a, b+1)\n            elif get(a-1,b) == '.': d[a-1][b] = x; fill(a-1, b)\n            else: d[a][b-1] = x; fill(a, b-1)\n            return 1\n    return 0\n\nfor i in range(n):\n    for j in range(n):\n        if d[i][j] != '.' and f[i*n+j]:\n            fill(i, j)\nr = 1\nwhile r:\n    r = 0\n    for i in range(n):\n        r |= checkfill(i, 0)\n        r |= checkfill(i, n-1)\n        r |= checkfill(0, i)\n        r |= checkfill(n-1, i)\nif finished: print('UNIQUE'); printd()\nelse: print('MULTIPLE')\n",
+  "easy": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   0
+  ]
+ },
+ {
+  "name": "ideal_farm",
+  "description": "Theofanis decided to visit his uncle's farm. There are s animals and n animal pens on the farm. For utility purpose, animal pens are constructed in one row.\n\nUncle told Theofanis that a farm is lucky if you can distribute all animals in all pens in such a way that there are no empty pens and there is at least one continuous segment of pens that has exactly k animals in total.\n\nMoreover, a farm is ideal if it's lucky for any distribution without empty pens.\n\nNeither Theofanis nor his uncle knows if their farm is ideal or not. Can you help them to figure it out?\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 10^5) \u2014 the number of test cases.\n\nThe first and only line of each test case contains three integers s, n, and k (1 \u2264 s, n, k \u2264 10^{18}; n \u2264 s).\n\nOutput\n\nFor each test case, print YES (case-insensitive), if the farm is ideal, or NO (case-insensitive) otherwise.\n\nExample\n\nInput\n\n\n4\n1 1 1\n1 1 2\n100 50 200\n56220 47258 14497\n\n\nOutput\n\n\nYES\nNO\nNO\nYES\n\nNote\n\nFor the first and the second test case, the only possible combination is [1] so there always will be a subsegment with 1 animal but not with 2 animals.",
+  "reference": "test = int(input())\nfor _ in range(test):\n\ts, n, k =map(int, input().split())\n\tif(s < k):\n\t\tprint(\"NO\")\n\telif(s == k):\n\t\tprint(\"YES\")\n\telse:\n\t\ts -= n\n\t\ts -= (n // k) * k\n\t\tif(s >= 0):\n\t\t\tprint(\"NO\")\n\t\telse:\n\t\t\tprint(\"YES\")\n",
+  "incorrect": "import sys\ninput = sys.stdin.readline\nfor _ in range(int(input())):\n  s, n, k = map(int, input().split())\n  if s < k:\n    print(\"NO\")\n    continue\n  if s == k:\n    print(\"YES\")\n    continue\n\n  # s > k, s >= k + 1\n\n  # n >= 2\n\n  if n >= k:\n    if s - n >= n // k * k:\n      print(\"NO\")\n      continue\n  print(\"YES\")\n",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   8
   ]
  }
 ]

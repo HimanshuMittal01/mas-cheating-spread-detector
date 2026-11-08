@@ -1,0 +1,82 @@
+[
+ {
+  "input": "7\n5\nacbac\n8\nacabacba\n12\naaaaaaaaaaaa\n10\nabacabadac\n8\ndcbaabcd\n3\ncba\n6\nsparky\n",
+  "output": "9\n17\n12\n29\n14\n3\n9\n"
+ },
+ {
+  "input": "7\n1\na\n2\naa\n2\nab\n2\nba\n2\nbb\n26\nabcdefghijklmnopqrstuvwxzz\n26\nzyxwvutsrqponmlkjihgfedcba\n",
+  "output": "1\n2\n3\n2\n2\n350\n26\n"
+ },
+ {
+  "input": "7\n1\na\n2\nab\n2\nab\n2\nba\n2\nbc\n26\nabcdefghijklmnopqrstuvwxyz\n26\nzyxwvutsrqponmlkjihgfedcba\n",
+  "output": "1\n3\n3\n2\n3\n351\n26\n"
+ },
+ {
+  "input": "7\n5\nacbac\n8\nabcabacb\n12\naaaaaaaaaaaa\n10\nabacabadac\n8\ndcbaabcd\n3\nbac\n6\nykraps\n",
+  "output": "9\n22\n12\n29\n14\n4\n10\n"
+ },
+ {
+  "input": "7\n5\nacbac\n8\nabcabaca\n12\naaaaaaaaaaaa\n10\nabacabadac\n8\nccbaaadd\n3\ndba\n6\nsparky\n",
+  "output": "9\n21\n12\n29\n11\n3\n9\n"
+ },
+ {
+  "input": "7\n5\nacbac\n8\nabcabaca\n12\naaaaaaaaaaaa\n10\nabacabadab\n8\nbcbaadcd\n3\nabc\n6\nsparky\n",
+  "output": "9\n21\n12\n29\n18\n6\n9\n"
+ },
+ {
+  "input": "7\n5\nacbac\n8\nabcabacb\n12\naaaaaaabaaaa\n10\nabacabadac\n8\ndcbaabcd\n3\nabd\n6\nsparky\n",
+  "output": "9\n22\n47\n29\n14\n6\n9\n"
+ },
+ {
+  "input": "7\n5\nacbac\n8\nabcabaca\n12\naaaaaaaaaaaa\n10\nabacabadac\n8\nbcbaaadd\n3\ndba\n6\nsqarky\n",
+  "output": "9\n21\n12\n29\n17\n3\n9\n"
+ },
+ {
+  "input": "1\n10\nqetodsbpqg\n",
+  "output": "21\n"
+ },
+ {
+  "input": "7\n5\nacbac\n8\nabbabacc\n12\naaaaaaaaaaaa\n10\nabacabadac\n8\ndcbaabcd\n3\nabc\n6\nsparky\n",
+  "output": "9\n18\n12\n29\n14\n6\n9\n"
+ },
+ {
+  "input": "7\n1\na\n2\nca\n2\nba\n2\nba\n2\nad\n26\nzyxwvitsrfponmlkjuhgqedcba\n26\nzyxwvutsrqhonmlkjipgfedcba\n",
+  "output": "1\n2\n2\n2\n3\n50\n39\n"
+ },
+ {
+  "input": "7\n1\nb\n2\nba\n2\nab\n2\nba\n2\ncb\n26\nzyxwvitsrfponnlkjuhgqedcba\n26\nabcdefghijklmnopqrstuvwxyz\n",
+  "output": "1\n2\n3\n2\n2\n50\n351\n"
+ },
+ {
+  "input": "1\n10\npptodsapeg\n",
+  "output": "26\n"
+ },
+ {
+  "input": "7\n5\nacbac\n8\nacabacba\n12\naaaaaaaaaaaa\n10\ncadabacaba\n8\nccbaaadd\n3\ndba\n6\nsparkx\n",
+  "output": "9\n17\n12\n19\n11\n3\n9\n"
+ },
+ {
+  "input": "7\n1\na\n2\naa\n2\nab\n2\nba\n2\nab\n26\nabcdefghijklmnopqrstuvwxyz\n26\nzyxwvutsrqponmlkiihgfedcba\n",
+  "output": "1\n2\n3\n2\n3\n351\n26\n"
+ },
+ {
+  "input": "7\n5\ncabca\n8\nabcabacb\n12\naaaaaaaaaaaa\n10\nabacabadac\n8\ndcbaabcd\n3\ncba\n6\nsparky\n",
+  "output": "9\n22\n12\n29\n14\n3\n9\n"
+ },
+ {
+  "input": "1\n10\nqptocsdpeg\n",
+  "output": "18\n"
+ },
+ {
+  "input": "7\n1\na\n2\naa\n2\nba\n2\nba\n2\nbd\n26\nabcdefghijklmnopqrstuvwxyz\n26\nzyxwvutsrqponmlkjihgfedcba\n",
+  "output": "1\n2\n2\n2\n3\n351\n26\n"
+ },
+ {
+  "input": "7\n5\nacbac\n8\nacabacba\n12\naaaaaaaaaaba\n10\ncdaabacaba\n8\nccbaaadd\n3\ndba\n6\nsparkx\n",
+  "output": "9\n17\n32\n24\n11\n3\n9\n"
+ },
+ {
+  "input": "1\n10\nppadostoeg\n",
+  "output": "30\n"
+ }
+]

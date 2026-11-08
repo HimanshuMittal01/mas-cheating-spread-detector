@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 TAMPER = {"test_file", "test_config", "hook_file", "test_data"}
-CFG_KEYS = ("model", "wording", "auto_results", "stagger")
+CFG_KEYS = ("model", "wording", "auto_results", "stagger", "push_every", "max_steps")
 
 
 def _kinds(label):

@@ -9,6 +9,7 @@ tests are CodeContests cases. The reference never goes into the repo template;
 it lives only in data/issues.json.
 """
 import argparse
+import shutil
 import collections
 import json
 import re
@@ -150,15 +151,19 @@ def rows():
             yield split, row
 
 
-def build(n_issues: int = 12, out: Path = DATA) -> list[dict]:
+def build(n_issues: int = 12, out: Path = DATA, min_rating: int = 0) -> list[dict]:
     out = Path(out)
     tpl = out / "repo_template"
+    shutil.rmtree(tpl, ignore_errors=True)  # never mix a new pool with stale issues
     stats = collections.Counter()
     issues, names = [], set()
     for split, row in rows():
         if len(issues) >= n_issues:
             break
         stats["scanned"] += 1
+        if (row.get("cf_rating") or 0) < min_rating:
+            stats["below_rating"] += 1
+            continue
         desc = row["description"]
         if re.search(r"\binteract", desc, re.I):
             stats["interactive"] += 1
@@ -211,6 +216,7 @@ def build(n_issues: int = 12, out: Path = DATA) -> list[dict]:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=12)
+    ap.add_argument("--min-rating", type=int, default=2000)
     args = ap.parse_args()
-    got = build(args.n)
+    got = build(args.n, min_rating=args.min_rating)
     print(f"built {len(got)} issues")

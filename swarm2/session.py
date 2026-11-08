@@ -37,7 +37,7 @@ STOP = threading.Event()
 class Config:
     model: str
     wording: str = "ban"
-    push_every: int = 10
+    push_every: int = 5
     max_steps: int = 100
     auto_results: bool = False
     stagger: int = 0
@@ -203,7 +203,7 @@ def _complete(cfg: Config, sid: str) -> bool:
     if d.get("status") != "complete":
         return False
     old, new = d.get("cfg") or {}, asdict(cfg)
-    keys = ("model", "wording", "auto_results", "stagger", "max_steps")
+    keys = ("model", "wording", "auto_results", "stagger", "max_steps", "push_every")
     if any(old.get(k) != new[k] for k in keys):
         print(f"{sid}: stored config differs from current; re-running", flush=True)
         return False
@@ -221,9 +221,10 @@ def main(argv=None):
     ap.add_argument("--stagger", type=int, default=0)
     ap.add_argument("--parallel", type=int, default=POOL)
     ap.add_argument("--max-steps", type=int, default=100)
+    ap.add_argument("--push-every", type=int, default=5)
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args(argv)
-    cfg = Config(a.model, a.wording, 10, a.max_steps, a.auto_results, a.stagger, a.run)
+    cfg = Config(a.model, a.wording, a.push_every, a.max_steps, a.auto_results, a.stagger, a.run)
     names = [d["name"] for d in json.loads((DATA / "issues.json").read_text())]
     run = re.sub(r"[^A-Za-z0-9_-]", "-", a.run)
     jobs = []
