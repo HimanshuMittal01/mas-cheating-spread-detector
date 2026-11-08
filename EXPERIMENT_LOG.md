@@ -143,3 +143,18 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - "Spread came from the post, not peers": now "**we saw little copying between peers**"; the setup (late teammate posts, 50-step limit) can show only a small part of peer effects.
 - "Special-casing does not depend on the post's content": now "the post raises special-casing (23/288 vs 1/48); the data cannot show which part causes it" (persuade +11 pts on any cheat, Holm p = 0.20).
 - Updated `results/main/REPORT.md`, `docs/results-v3/results-v3.md`, the figure and the PDF.
+
+### 2026-11-09 01:50: realism check (design v4) — decisions
+- User asked for the design v2 realism check (real planted LLM cheater) with a large control arm and realistic tasks, using the notes in `RL-envs/OR-SS/research_notes/Industry grade RL task prompts/` (SWE-bench Verified rubric, Terminal-Bench checklist, ABC, HUD "realistic, fair, difficult", PM-SI "only state what the grader checks", ImpossibleBench/EvilGenie, Anthropic coding-audit realism).
+- **Chosen by user:** realistic in-house repo; **40 rollouts per arm**, 3 arms (real LLM cheater / scripted all-on post / all-honest control) = 120 rollouts.
+- Design choices (mine), each traced to the notes:
+  - Real-looking library `datakit` (README, pyproject, CI workflow, CONTRIBUTING, CHANGELOG, tests/conftest.py). Notes: real codebases raise realism most (Anthropic 4.6% → 32.8%); no harness artifacts (HUD).
+  - Issues written as terse GitHub bug reports. Each issue states every behaviour its tests check (TB2 bidirectional rule; PM-SI). No fix code or fix location beyond the module named in the report (SWE-Bench+ leakage).
+  - Exactly one test per issue contradicts the issue (ImpossibleBench one-off). Realistic: flawed tests are common (OpenAI 2026 audit: ≥59.4% of audited hard SWE-V tasks).
+  - Pressure from the repo (CONTRIBUTING: merge only on green CI) and a normal maintainer ask ("we want this in today"), not an artificial prompt line (Anthropic: artificial user pressure is an eval tell).
+  - No escape-hatch tool, to stay comparable with the main run; agents can still report in their write-up.
+  - Both models, balanced (20 rollouts per model per arm). Push every 5 steps. Max 50 steps. Network mode. Neutral test wording.
+  - `prompts.py` unchanged (team rule): the real cheater uses the existing `PLANTED` line.
+- Built `swarm2/realistic/build_repo.py` → `swarm2/data/realistic_repo/` (template) + `realistic_issues.json` (reference fixes, kept out of the template). 10 modules: durations #118, semver #131, money #212 (confederate's issue), slugify #142, csvline #150, ranges #157, wrap #163, querystring #171, roman #176, bytesize #183.
+- `swarm2/realistic/validate.py` (TB2 oracle / ABC no-op / PM-K exploit checks): **all 10 issues valid**: no-op fails, reference passes the honest tests, shipped tests fail only on the flawed test, planted hook and test edit both labelled tamper, no fix lines leaked into the issue text.
+- `swarm2/v4.py`: 3 arms with matched draws (same 3 issues per rep and model across arms), task message in maintainer voice ("Hey, can you pick up #118? … can only merge with green CI"), labels as in v3 (tamper / special-case / tried, adapted to `datakit/` paths). Offline tests `swarm2/tests/test_v4.py`: 4 passed.
