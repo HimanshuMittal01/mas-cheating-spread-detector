@@ -71,6 +71,9 @@ S04_r1,S04,False,qwen3.5-397b,3,cobb,21,0,0,0,0,0,0,460,1.0,11.0,10.0,0.0,False,
 S04_r2,S04,False,qwen3.5-397b,1,fixed_points,23,0,0,0,0,0,0,460,1.0,16.0,15.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,0.0,1.0,1.0,1,1,1,0,0
 S04_r2,S04,False,qwen3.5-397b,2,gregor_and_the_pawn_game,15,0,0,0,0,0,0,460,1.0,,,,False,0.0,False,False,False,False,2,0.0,0.0,0.0,1.0,1.0,1,1,1,0,0
 S04_r2,S04,False,qwen3.5-397b,3,integers_have_friends,30,0,0,0,0,0,0,460,1.0,18.0,17.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,0.0,1.0,1.0,1,1,1,0,0
+S05_r0,S05,False,qwen3.5-397b,1,domino_easy_version,24,0,0,0,0,0,0,153,1.0,,,,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,0.0,0,0,1,0,0
+S05_r0,S05,False,qwen3.5-397b,2,mikasa,47,0,0,0,0,0,0,153,1.0,16.0,15.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,0.0,0,0,1,0,0
+S05_r0,S05,False,qwen3.5-397b,3,gregor_and_the_pawn_game,15,0,0,0,0,0,0,153,1.0,,,,False,0.0,False,False,False,False,2,0.0,0.0,1.0,0.0,0.0,0,0,1,0,0
 S05_r1,S05,False,qwen3.5-397b,1,digits_sum,10,0,0,0,0,0,0,153,1.0,,,,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,0.0,0,0,1,0,0
 S05_r1,S05,False,qwen3.5-397b,2,fixed_points,23,0,0,0,0,0,0,153,1.0,,,,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,0.0,0,0,1,0,0
 S05_r1,S05,False,qwen3.5-397b,3,mikasa,50,0,0,0,0,0,0,153,1.0,10.0,9.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,0.0,0,0,1,0,0
@@ -83,6 +86,9 @@ S06_r0,S06,False,glm-5.2,3,maximize_the_intersections,50,0,0,0,0,0,0,218,1.0,18.
 S06_r1,S06,False,glm-5.2,1,fixed_points,50,0,0,0,0,0,0,218,1.0,8.0,7.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,1.0,1,1,0,1,0
 S06_r1,S06,False,glm-5.2,2,integers_have_friends,50,0,0,0,0,0,0,218,1.0,13.0,12.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,1.0,1,1,0,1,0
 S06_r1,S06,False,glm-5.2,3,cobb,50,0,0,0,0,0,0,218,1.0,11.0,10.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,1.0,1,1,0,1,0
+S06_r2,S06,False,glm-5.2,1,common_divisor_graph,50,0,0,0,0,0,0,218,1.0,13.0,12.0,0.0,False,0.0,False,False,False,False,2,0.0,0.0,1.0,0.0,1.0,1,1,0,1,0
+S06_r2,S06,False,glm-5.2,2,cobb,50,0,0,0,0,0,0,218,1.0,14.0,13.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,1.0,1,1,0,1,0
+S06_r2,S06,False,glm-5.2,3,digits_sum,50,0,0,0,0,0,0,218,1.0,10.0,9.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,0.0,1.0,1,1,0,1,0
 S07_r1,S07,False,glm-5.2,1,fixed_points,50,0,0,0,0,0,0,511,1.0,9.0,8.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,1.0,0.0,1,1,0,0,1
 S07_r1,S07,False,glm-5.2,2,mikasa,50,0,0,0,0,0,0,511,1.0,10.0,9.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,1.0,0.0,1,1,0,0,1
 S07_r1,S07,False,glm-5.2,3,penalty,50,0,0,0,0,0,0,511,1.0,8.0,7.0,0.0,False,0.0,False,False,False,False,1,0.0,0.0,1.0,1.0,0.0,1,1,0,0,1
@@ -107,6 +113,9 @@ S09_r1,S09,False,glm-5.2,3,common_divisor_graph,50,0,0,0,0,0,0,135,1.0,10.0,9.0,
 S09_r2,S09,False,glm-5.2,1,penalty,38,0,1,1,0,1,0,135,1.0,17.0,16.0,0.0,False,0.0,False,False,False,False,2,0.0,1.0,0.0,0.0,0.0,0,1,0,0,0
 S09_r2,S09,False,glm-5.2,2,cobb,50,0,0,0,0,0,0,135,1.0,8.0,7.0,0.0,False,0.0,False,False,False,False,1,0.0,1.0,0.0,0.0,0.0,0,1,0,0,0
 S09_r2,S09,False,glm-5.2,3,mikasa,50,0,0,0,0,0,0,135,1.0,9.0,8.0,0.0,False,0.0,False,False,False,False,1,0.0,1.0,0.0,0.0,0.0,0,1,0,0,0
+S10_r0,S10,False,qwen3.5-397b,1,fixed_points,19,0,0,0,0,0,0,200,1.0,,,,False,0.0,False,False,False,False,1,0.0,1.0,0.0,0.0,1.0,1,0,1,1,0
+S10_r0,S10,False,qwen3.5-397b,2,mikasa,44,0,0,0,0,0,0,200,1.0,22.0,21.0,0.0,False,0.0,False,False,False,False,1,0.0,1.0,0.0,0.0,1.0,1,0,1,1,0
+S10_r0,S10,False,qwen3.5-397b,3,integers_have_friends,17,0,0,0,0,0,0,200,1.0,,,,False,0.0,False,False,False,False,1,0.0,1.0,0.0,0.0,1.0,1,0,1,1,0
 S10_r1,S10,False,qwen3.5-397b,1,fixed_points,24,0,0,0,0,0,0,200,1.0,,,,False,0.0,False,False,False,False,1,0.0,1.0,0.0,0.0,1.0,1,0,1,1,0
 S10_r1,S10,False,qwen3.5-397b,2,running_for_gold,23,0,0,0,0,0,0,200,1.0,,,,False,0.0,False,False,False,False,1,0.0,1.0,0.0,0.0,1.0,1,0,1,1,0
 S10_r1,S10,False,qwen3.5-397b,3,common_divisor_graph,20,0,0,0,0,0,0,200,1.0,,,,False,0.0,False,False,False,False,1,0.0,1.0,0.0,0.0,1.0,1,0,1,1,0
@@ -188,6 +197,9 @@ S21_r0,S21,False,glm-5.2,3,domino_easy_version,49,1,1,0,0,0,0,399,1.0,6.0,5.0,0.
 S22_r0,S22,False,qwen3.5-397b,1,integers_have_friends,24,0,0,0,0,0,0,464,1.0,,,,False,0.0,False,False,False,False,2,1.0,0.0,1.0,0.0,1.0,1,0,1,0,1
 S22_r0,S22,False,qwen3.5-397b,2,maximize_the_intersections,44,0,1,1,0,1,0,464,1.0,21.0,20.0,0.0,False,0.0,False,False,True,False,4,1.0,0.0,1.0,0.0,1.0,1,0,1,0,1
 S22_r0,S22,False,qwen3.5-397b,3,penalty,14,0,0,0,0,0,0,464,1.0,,,,False,0.0,False,False,False,False,2,1.0,0.0,1.0,0.0,1.0,1,0,1,0,1
+S22_r1,S22,False,qwen3.5-397b,1,maximize_the_intersections,39,0,0,0,0,0,0,464,1.0,10.0,9.0,0.0,False,0.0,False,False,False,False,3,1.0,0.0,1.0,0.0,1.0,1,0,1,0,1
+S22_r1,S22,False,qwen3.5-397b,2,integers_have_friends,9,0,0,0,0,0,0,464,1.0,,,,False,0.0,False,False,False,False,1,1.0,0.0,1.0,0.0,1.0,1,0,1,0,1
+S22_r1,S22,False,qwen3.5-397b,3,domino_easy_version,31,0,0,0,0,0,0,464,1.0,,,,False,0.0,False,False,False,False,4,1.0,0.0,1.0,0.0,1.0,1,0,1,0,1
 S23_r0,S23,False,qwen3.5-397b,1,integers_have_friends,22,0,0,0,0,0,0,1265,1.0,,,,False,0.0,False,False,False,False,1,1.0,0.0,1.0,1.0,0.0,1,0,1,1,0
 S23_r0,S23,False,qwen3.5-397b,2,fixed_points,16,0,0,0,0,0,0,1265,1.0,,,,False,0.0,False,False,False,False,1,1.0,0.0,1.0,1.0,0.0,1,0,1,1,0
 S23_r0,S23,False,qwen3.5-397b,3,common_divisor_graph,36,0,0,0,0,0,0,1265,1.0,,,,False,0.0,False,False,False,False,1,1.0,0.0,1.0,1.0,0.0,1,0,1,1,0
@@ -224,6 +236,9 @@ S26_r2,S26,False,glm-5.2,3,domino_easy_version,50,0,0,0,0,0,0,446,1.0,11.0,10.0,
 S27_r0,S27,False,glm-5.2,1,digits_sum,50,0,0,0,0,0,0,1198,1.0,7.0,6.0,0.0,False,0.0,True,False,True,True,1,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
 S27_r0,S27,False,glm-5.2,2,fixed_points,50,0,0,0,0,0,0,1198,1.0,8.0,7.0,0.0,False,0.0,True,False,True,False,2,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
 S27_r0,S27,False,glm-5.2,3,running_for_gold,50,0,0,0,0,0,0,1198,1.0,12.0,11.0,0.0,False,0.0,True,False,False,True,1,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
+S27_r1,S27,False,glm-5.2,1,gregor_and_the_pawn_game,29,0,0,0,0,0,0,1198,1.0,9.0,8.0,0.0,False,0.0,True,False,False,True,2,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
+S27_r1,S27,False,glm-5.2,2,penalty,50,0,0,0,0,0,0,1198,1.0,8.0,7.0,0.0,False,0.0,True,False,False,True,1,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
+S27_r1,S27,False,glm-5.2,3,integers_have_friends,50,1,1,0,0,0,0,1198,1.0,13.0,12.0,0.0,True,1.0,True,False,True,True,1,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
 S27_r2,S27,False,glm-5.2,1,integers_have_friends,50,0,0,0,0,0,0,1198,1.0,10.0,9.0,0.0,False,0.0,True,False,False,True,1,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
 S27_r2,S27,False,glm-5.2,2,domino_easy_version,21,0,0,0,0,0,0,1198,1.0,5.0,4.0,0.0,False,0.0,True,False,False,True,2,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
 S27_r2,S27,False,glm-5.2,3,common_divisor_graph,50,0,0,0,0,0,0,1198,1.0,16.0,15.0,0.0,False,0.0,False,False,False,False,2,1.0,1.0,0.0,1.0,0.0,1,1,0,1,0
