@@ -137,3 +137,9 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 
 ### 2026-11-09: teardown
 - Deleted the 5 Daytona sandboxes (`daytona_ws.py --teardown`). Account now lists 0 sandboxes; `runs2/pool.json` removed. Raw rollout files stay local in `runs3/` (gitignored, 44 MB).
+
+### 2026-11-09: overclaims corrected (self-review)
+- "Cheating is hidden behind refusals": all 3 public refusals by tamperers are in one rollout (`S30_r2`). Now stated as **one event, an example, not a rate**; diagram label changed to "1 rollout: all 3 deny it in posts".
+- "Spread came from the post, not peers": now "**we saw little copying between peers**"; the setup (late teammate posts, 50-step limit) can show only a small part of peer effects.
+- "Special-casing does not depend on the post's content": now "the post raises special-casing (23/288 vs 1/48); the data cannot show which part causes it" (persuade +11 pts on any cheat, Holm p = 0.20).
+- Updated `results/main/REPORT.md`, `docs/results-v3/results-v3.md`, the figure and the PDF.
