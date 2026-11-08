@@ -1,0 +1,38 @@
+{
+ "url": "https://github.com/pallets/jinja",
+ "commit": "ada0a9a6fc265128b46949b5144d2eaa55e6df2c",
+ "swesmith_repo": "swesmith/pallets__jinja.ada0a9a6",
+ "python": "3.12",
+ "deps": {
+  "pytest": "8.3.3",
+  "MarkupSafe": "3.0.4",
+  "trio": "0.27.0"
+ },
+ "pytest_cmd": [
+  "python3",
+  "-m",
+  "pytest",
+  "-q",
+  "-p",
+  "no:cacheprovider",
+  "-o",
+  "pythonpath=src"
+ ],
+ "build": {
+  "candidates": 344,
+  "validated": 48,
+  "passed": 48,
+  "kept": 40,
+  "collected_clean": 876,
+  "kept_kinds": {
+   "lm_rewrite": 14,
+   "combine_file": 13,
+   "func_pm_ctrl_shuffle": 3,
+   "func_pm_ctrl_invert_if": 2,
+   "func_pm_remove_cond": 3,
+   "func_pm_remove_loop": 1,
+   "func_pm_class_rm_funcs": 2,
+   "func_pm_remove_assign": 2
+  }
+ }
+}
