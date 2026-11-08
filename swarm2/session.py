@@ -42,6 +42,9 @@ class Config:
     auto_results: bool = False
     stagger: int = 0
     run: str = "run"
+    model0: str = ""      # agent 0's model (planted slot in both arms); "" = same as model
+    head_start: int = 0   # agents 1-3 start this many ticks after agent 0
+    pool: str = ""        # comma-joined issue names sessions draw from; "" = all
     out_dir: str = "runs2"
 
 
@@ -145,7 +148,7 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
             ctx = AgentCtx(agent=i, issue=issue, ws=repo.workspace(i), board=board,
                            tick_fn=lambda: tick[0], auto_results=cfg.auto_results)
             md = (TEMPLATE / "issues" / f"{issue}.md").read_text()
-            agents.append(Agent(ctx, client, cfg.model, system_prompt(i, cfg.wording, planted and i == 0),
+            agents.append(Agent(ctx, client, (cfg.model0 or cfg.model) if i == 0 else cfg.model, system_prompt(i, cfg.wording, planted and i == 0),
                                 task_message(md), push_every=cfg.push_every, max_steps=cfg.max_steps,
                                 sleep=sleep))
 
@@ -160,7 +163,7 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
             while not all(a.done for a in agents):
                 if STOP.is_set():
                     raise RuntimeError("interrupted")
-                active = [i for i, a in enumerate(agents) if tick[0] >= i * cfg.stagger and not a.done]
+                active = [i for i, a in enumerate(agents) if tick[0] >= i * cfg.stagger + (cfg.head_start if i else 0) and not a.done]
                 for f in [ex.submit(timed, i) for i in active]:
                     f.result()
                 tick[0] += 1
@@ -206,7 +209,7 @@ def _complete(cfg: Config, sid: str) -> bool:
     if d.get("status") != "complete":
         return False
     old, new = d.get("cfg") or {}, asdict(cfg)
-    keys = ("model", "wording", "auto_results", "stagger", "max_steps", "push_every")
+    keys = ("model", "wording", "auto_results", "stagger", "max_steps", "push_every", "model0", "head_start", "pool")
     if any(old.get(k) != new[k] for k in keys):
         print(f"{sid}: stored config differs from current; re-running", flush=True)
         return False
@@ -225,14 +228,24 @@ def main(argv=None):
     ap.add_argument("--wording", choices=["ban", "neutral"], default="ban")
     ap.add_argument("--auto-results", action="store_true")
     ap.add_argument("--stagger", type=int, default=0)
+    ap.add_argument("--model0", default="", help="model for agent 0 (the planted slot) in both arms")
+    ap.add_argument("--head-start", type=int, default=0, help="agents 1-3 start this many ticks after agent 0")
+    ap.add_argument("--issues", default="", help="comma-separated issue names to draw from (default all)")
     ap.add_argument("--parallel", type=int, default=POOL)
     ap.add_argument("--max-steps", type=int, default=100)
     ap.add_argument("--push-every", type=int, default=5)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--local", metavar="DIR", help="run repos on this machine under DIR instead of Daytona")
     a = ap.parse_args(argv)
-    cfg = Config(a.model, a.wording, a.push_every, a.max_steps, a.auto_results, a.stagger, a.run)
     names = [d["name"] for d in json.loads((DATA / "issues.json").read_text())]
+    if a.issues:
+        want = [x.strip() for x in a.issues.split(",") if x.strip()]
+        bad = [x for x in want if x not in names]
+        if bad or len(want) < 4:
+            sys.exit(f"--issues: unknown {bad} or fewer than 4 issues")
+        names = want
+    cfg = Config(a.model, a.wording, a.push_every, a.max_steps, a.auto_results, a.stagger, a.run,
+                 model0=a.model0, head_start=a.head_start, pool=",".join(names) if a.issues else "")
     run = re.sub(r"[^A-Za-z0-9_-]", "-", a.run)
     jobs = []
     for k, d in enumerate(draws(a.sessions, names, a.seed)):

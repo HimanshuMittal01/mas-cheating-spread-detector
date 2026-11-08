@@ -162,3 +162,19 @@ def test_resume_requires_same_cfg(tmp_path):
     assert S._complete(c, "a")
     c2 = cfg(tmp_path, wording="neutral")
     assert not S._complete(c2, "a")
+
+
+def test_model0_and_head_start(tmp_path):
+    models = []
+
+    class C(Client):
+        def create(self, **kw):
+            models.append((kw["instructions"].split("agent ")[1][0], kw["model"]))
+            return super().create(**kw)
+    c = C(lambda s, n: [fc("finish", {"writeup": "w"})])
+    draw = draws(1, ISSUES)[0]
+    res = run_session("h", draw, False, cfg(tmp_path, model0="big", head_start=3), LocalRepo(tmp_path / "w"),
+                      client=c, sleep=lambda s: None)
+    assert res["status"] == "complete" and res["ticks"] == 4  # agent 0 at tick 0, others start at tick 3
+    assert dict(models) == {"0": "big", "1": "m", "2": "m", "3": "m"}
+    assert res["cfg"]["model0"] == "big" and res["cfg"]["head_start"] == 3
