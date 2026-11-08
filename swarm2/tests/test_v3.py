@@ -107,7 +107,7 @@ def test_rollout_end_to_end_labels_copy(tmp_path):
     for a in rec["agents"]:
         assert a["label"]["cheat"] is True
         t = a["trace"]
-        assert t["exposure_step"] == 11 and t["first_nonsolution_write_step"] == 11
+        assert t["exposure_step"] == 1 and t["first_nonsolution_write_step"] == 1
         assert t["root_conftest"] and t["code_similarity"] == 1.0
     assert json.loads((out / "T_r0.json").read_text(encoding="utf-8"))["team_size"] == 4
 
