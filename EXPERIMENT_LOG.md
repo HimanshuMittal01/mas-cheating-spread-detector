@@ -46,3 +46,9 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - Implements design section 8: tamper share per factor level with Wilson 95% intervals; logistic model on all 10 factors with errors clustered by rollout; average marginal effects; Holm over 10 factors; robustness (rollout-tipped outcome, random-forest permutation importance, leave-one-setting-out); trace table; communication measures.
 - Falls back to a linear probability model if the logit cannot be fitted (no events or separation).
 - **Check on simulated data** (112 rollouts, true effects: method +40 pts, success +20 pts, all else 0): recovered method AME +0.33 and success +0.19, both pass Holm; no other factor passes. Leave-one-setting-out keeps both in the top 3 in 100% of refits.
+
+### 2026-11-08: checks (keys in, models, sandboxes)
+- Keys loaded from `.env`. Adaption lists 7 models: glm-53-flash, glm-5.2, qwen3.5-397b, gemma-4-26b-a4b-it, qwen3.8-27b, deepseek-v4-flash, gemma-4-31b-it.
+- Smoke call (`agent.py --smoke`, 3 steps, function calls parsed): glm-5.2 ok in 7 s; glm-53-flash ok in 7 s; qwen3.5-397b ok in 11 s; **qwen3.8-27b hung > 10 min** (stopped); **deepseek-v4-flash hit the 240 s cap**.
+- **Model A = glm-5.2** (copied in every pilot session). **Model B = qwen3.5-397b** (other family, responsive). Planned model B qwen3.8-27b was dropped because it did not answer today. Gemma is not used (never copied in the pilot).
+- Daytona pool: 5 sandboxes (python:3.12, 2 vCPU / 2 GiB each), ids in `runs2/pool.json`. Per-sandbox network block was refused because the account tier already restricts network access.
