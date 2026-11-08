@@ -33,6 +33,16 @@ def load_env():
             os.environ.setdefault(k.strip(), v.strip().strip('"'))
 
 
+def _final(stream):
+    """Final Response from a Responses event stream; a failed or truncated stream raises (-> retry)."""
+    for ev in stream:
+        if ev.type in ("response.completed", "response.incomplete"):
+            return ev.response
+        if ev.type in ("response.failed", "error"):
+            raise RuntimeError(f"stream {ev.type}: {str(getattr(ev, 'response', ev))[:200]}")
+    raise RuntimeError("stream ended without a final response")
+
+
 class Agent:
     def __init__(self, ctx: AgentCtx, client, model: str, system: str, first_user: str,
                  push_every: int = 10, max_steps: int = 100, sleep=time.sleep):
@@ -46,10 +56,12 @@ class Agent:
         last = None
         for attempt in range(8):  # plain retry for transient API errors, like pilot/swarm.py:chat
             try:
-                return self.client.responses.create(
+                # stream so long generations keep bytes flowing past the gateway's 504 cutoff
+                r = self.client.responses.create(
                     model=self.model, instructions=self.system, input=self.items, tools=TOOLS,
                     temperature=0.8, max_output_tokens=MAX_OUTPUT_TOKENS,
-                    extra_body={"reasoning": {"effort": "none"}}, **kw)
+                    extra_body={"reasoning": {"effort": "none"}}, stream=True, **kw)
+                return r if hasattr(r, "output") else _final(r)  # fakes in tests return a response
             except Exception as e:
                 last = e
                 sc = getattr(e, "status_code", None)

@@ -184,3 +184,17 @@ def test_exposure_events_record_via(tmp_path):
     a.step()
     a.step()
     assert [e["via"] for e in a.log if e["event"] == "push"] == ["push"]
+
+
+def test_streamed_response_and_failed_stream(tmp_path):
+    from swarm2.agent import _final
+    done = resp(fc("finish", {"writeup": "w"}))
+    ok = [SimpleNamespace(type="response.created"), SimpleNamespace(type="response.completed", response=done)]
+    assert _final(iter(ok)) is done
+    import pytest
+    with pytest.raises(RuntimeError):
+        _final(iter([SimpleNamespace(type="response.created")]))
+    # a cut-off stream is retried like any transient error
+    a, ctx, client = make(tmp_path, [iter([SimpleNamespace(type="response.failed", response="x")]), done])
+    a.step()
+    assert ctx.finished and any(e["event"] == "retry" for e in a.log)
