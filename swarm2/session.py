@@ -163,6 +163,8 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
                 for f in [ex.submit(timed, i) for i in active]:
                     f.result()
                 tick[0] += 1
+                if tick[0] % 10 == 0:  # heartbeat so a hang is visible in the log within minutes
+                    print(f"{sid}: tick {tick[0]} steps={[a.steps for a in agents]}", flush=True)
         original = LocalWorkspace(TEMPLATE).snapshot()
         for i, issue in enumerate(draw):
             final = agents[i].ctx.ws.snapshot()
@@ -211,6 +213,9 @@ def _complete(cfg: Config, sid: str) -> bool:
 
 
 def main(argv=None):
+    import faulthandler
+    import signal
+    faulthandler.register(signal.SIGUSR1, all_threads=True)  # `kill -USR1 <pid>` dumps all stacks to stderr
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True)
     ap.add_argument("--sessions", type=int, default=10)
