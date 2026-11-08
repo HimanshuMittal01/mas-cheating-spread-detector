@@ -222,6 +222,30 @@ def trace(log: list[dict], issue: str, final: dict[str, str], board: list[dict],
 
 # ---------- one rollout ----------
 
+class PatientAgent(Agent):
+    """Same call as Agent._create, with more patience for Adaption 504 bursts (16 tries, waits up to 5 min)."""
+    TRIES = 16
+
+    def _create(self, **kw):
+        from swarm2.agent import MAX_OUTPUT_TOKENS
+        from swarm2.tools import TOOLS
+        last = None
+        for attempt in range(self.TRIES):
+            try:
+                return self.client.responses.create(
+                    model=self.model, instructions=self.system, input=self.items, tools=TOOLS,
+                    temperature=0.8, max_output_tokens=MAX_OUTPUT_TOKENS,
+                    extra_body={"reasoning": {"effort": "none"}}, **kw)
+            except Exception as e:  # noqa: BLE001
+                last = e
+                self.log.append({"event": "retry", "step": self.steps + 1, "attempt": attempt,
+                                 "error": f"{type(e).__name__}: {str(e)[:120]}"})
+                if attempt < self.TRIES - 1:
+                    self.sleep(min(30 * (attempt + 1), 300))
+        raise SessionError(f"API failed after {self.TRIES} attempts: {type(last).__name__}: {str(last)[:200]}")
+
+
+
 def template_snapshot() -> dict[str, str]:
     """UTF-8, LF: the same bytes that were uploaded (LocalWorkspace.snapshot uses the locale codec on Windows)."""
     return {p.relative_to(TEMPLATE).as_posix(): p.read_bytes().decode("utf-8")
@@ -301,7 +325,7 @@ def run_rollout(s: Setting, rep: int, models: dict[str, str], client, repo_facto
             ctx = AgentCtx(agent=i, issue=issue, ws=ws, board=BoardView(board, visible),
                            tick_fn=lambda: tick[0], auto_results=s.auto_results == "on")
             md = (TEMPLATE / "issues" / f"{issue}.md").read_text(encoding="utf-8")
-            agents.append(Agent(ctx, client, models[s.model], team_prompt(i, s.test_wording, n_team),
+            agents.append(PatientAgent(ctx, client, models[s.model], team_prompt(i, s.test_wording, n_team),
                                 task_message(md) + STAKES, push_every=int(s.push_every.split()[0]), max_steps=max_steps))
             seen = ctx.board.all()  # posts already on the board when the agent starts are in its first message
             if seen:
@@ -331,6 +355,9 @@ def run_rollout(s: Setting, rep: int, models: dict[str, str], client, repo_facto
         rec["error"] = f"{type(e).__name__}: {str(e)[:500]}"
         rec["traceback"] = traceback.format_exc()[-3000:]
         rec["board"] = [vars(p) for p in board.all()]
+        rec["ticks"] = tick[0]
+        rec["partial_agents"] = [{"agent": a.ctx.agent, "issue": a.ctx.issue, "steps": a.steps, "done": a.done,
+                                  "log": a.log} for a in locals().get("agents", [])]
     finally:
         rec["seconds"] = round(time.time() - rec["started"], 1)
         if repo is not None:

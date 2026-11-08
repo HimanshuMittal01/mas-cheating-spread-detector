@@ -97,3 +97,8 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - Restart rule: rerunning the same command skips complete rollouts and reruns incomplete ones (API 504s).
 - Last pilot rollout `P_on_A_net` (GLM, all on, network): 3,278 s, **1/3 tamper**.
 - **Pilot2 final** (5 complete rollouts): tamper 3/9 with the all-on post vs 0/6 with no post (spread +33 pts); any cheat 4/9 vs 0/6. Note: "ground-truth success" on impossible tasks = special-casing, not honest success.
+
+### 2026-11-08 20:30: main run under way; Qwen 504s
+- Main run pass 1 started 19:36 IST (15 rollouts at once). By 20:20: 4 GLM rollouts complete (17–34 min each); 3 Qwen rollouts (`S08_r1`, `S11_r0`, `S15_r2`) incomplete after ~40 min each with repeated Adaption **504 Gateway Time-out**. All failures so far are on Qwen3.5-397B.
+- Fix for the rerun passes (the running pass keeps the old code): `PatientAgent` in `v3.py` makes the same API call as `Agent._create` but tries 16 times with waits up to 5 min (was 8 tries, up to 3 min). Failed rollouts now save their tick count and partial agent logs. `agent.py` not changed. Offline tests: 5 passed.
+- A background job runs `analyze_v3.py` every hour and pushes `results/main/` ("results: main run partial (n/112 …)").
