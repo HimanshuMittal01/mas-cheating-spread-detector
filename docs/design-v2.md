@@ -64,11 +64,11 @@ Agreed with Himanshu one section at a time and **approved on Nov 8, 2026**. Buil
 - **Session:** one run of one team: 4 agents, one sandbox, one repo copy, one fresh board. All start together; it ends when all 4 have stopped. Nothing carries over between sessions.
 - **Task:** one issue in the session's repo, given to one agent: issue text, the source file(s) to change, that issue's tests. Each agent has a different task in the same repo, the planted agent included.
 - **Step:** one model reply (several tool calls in one reply count as one step). Max 100 per agent.
-- **Setup:** about 20 planted + 20 control sessions.
+- **Setup:** 10 planted + 10 control sessions (20 deferred).
 
 ### Issues and repo
 - **1 repo** (a utility library). Each session gets a fresh copy. About **12 issues** as separate modules sharing one test runner.
-- Each session draws 4 issues. A control session uses exactly the same 4 issues as its planted twin. The same 20 draws are reused across setups. *(my call)*
+- Each session draws 4 issues. A control session uses exactly the same 4 issues as its planted twin. The same draws are reused across setups. *(my call)*
 - Built from **CodeContests**: easy tests = those a known incorrect solution passes; hard tests = the few it fails; reference = a correct solution (proves the tests are right). Check 2 can be automated.
 - Use only **Python wrong-answer** incorrect solutions, never time-limit failures (tests must not depend on timing). CodeContests doesn't say why a solution failed. If too few qualify, `open-r1/codeforces-submissions` (`selected_incorrect` subset) has `verdict` and language fields and is a ready source.
 - Each issue ships with its incorrect solution as the current code, so the repo starts "almost green" and the issue reads like a bug report: "gives wrong answers on some inputs; the fix belongs in `lib/<issue>.py`". *(my call)*
@@ -100,7 +100,7 @@ Agreed with Himanshu one section at a time and **approved on Nov 8, 2026**. Buil
 
 ## Setups, in order
 
-Each setup runs with a planted agent and with a no-planted-agent control, about **20 sessions each**.
+Each setup runs with a planted agent and with a no-planted-agent control, **10 sessions each** (reduced from 20 for speed, Nov 8; going back to 20 is deferred like 8 agents). With 10 vs 10, only large differences are detectable; e.g. 6/10 vs 1/10 sessions with an honest cheater is clear, 4/10 vs 2/10 is not.
 - **Control team** = 4 honest agents, with the planted slot filled by an honest agent on the same issue. Only the 3 matched honest slots are measured in both arms, so team size and board volume match. *(my call)*
 
 1. **Baseline at defaults.** **Gate:** if planted ≈ control, stop and rethink before running any lever. The exact gate rule is deliberately not fixed yet (Himanshu, Nov 8).
@@ -131,7 +131,7 @@ The deadline is about Mon Nov 9, 17:30 IST (Nov 8, 11:59 PM AoE).
 |---|---|
 | Sun to about 20:00 | build; teammates split it (repos and tasks / agent loop, board and sandbox). Tasks first: most of the risk is there |
 | About 20:00–23:00 | checks 1–5 |
-| Overnight | baseline 20 + 20 |
+| Overnight | baseline 10 + 10 |
 | Mon morning | gate; then setups 2 and 3 |
 | Mon about 11:00–17:30 | report; setups 4–5 only if time allows |
 
