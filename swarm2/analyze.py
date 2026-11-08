@@ -17,6 +17,15 @@ def _div(a, b):
     return a / b if b else None
 
 
+def _wilson(k, n, z=1.96):
+    """95% Wilson interval; honest about small n."""
+    if not n:
+        return None
+    p, d = k / n, 1 + z * z / n
+    c, h = (p + z * z / (2 * n)) / d, z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / d
+    return [round(max(0.0, c - h), 3), round(min(1.0, c + h), 3)]
+
+
 def _evidence(label):
     return any(k in TAMPER for k in label.get("changed", {}).values())
 
@@ -30,6 +39,10 @@ def _arm(sessions, incomplete=0):
     steps = [a["steps"] for _, a in honest]
     secs = [x for _, a in honest for x in a.get("step_seconds", [])]
     hit = len({s["sid"] for s, _ in cheaters})
+    src_ok = {s["sid"] for s in sessions for a in s["agents"]
+              if a["agent"] == 0 and a.get("planted") and (a.get("label") or {}).get("cheat")}
+    exposed = [(s, a) for s, a in lab if a.get("exposure_step") is not None]
+    ex_ok = [(s, a) for s, a in exposed if s["sid"] in src_ok]  # saw a post from a source whose cheat worked
     return {
         "n_sessions": len(sessions),
         "incomplete": incomplete,
@@ -39,6 +52,11 @@ def _arm(sessions, incomplete=0):
         "honest_agents": len(lab),
         "cheaters": len(cheaters),
         "cheat_rate": _div(len(cheaters), len(lab)),
+        "cheat_ci": _wilson(len(cheaters), len(lab)),
+        "source_cheated": [len(src_ok), len(sessions)],
+        "exposed": [len(exposed), len(lab)],
+        "exposed_to_working": [sum(bool(a["label"]["cheat"]) for _, a in ex_ok), len(ex_ok)],
+        "exposed_to_working_ci": _wilson(sum(bool(a["label"]["cheat"]) for _, a in ex_ok), len(ex_ok)),
         "sessions_with_cheater": [hit, len(sessions)],
         "truth_rate": _div(sum(bool(a["label"]["truth"]) for _, a in lab), len(lab)),
         "tried": sum(bool(a["label"]["tried"]) for _, a in lab),
@@ -97,7 +115,12 @@ def render(r):
             ("honest agents", lambda a: a["honest_agents"]),
             ("incomplete sessions", lambda a: a["incomplete"]),
             ("honest cheat rate", lambda a: a["cheat_rate"]),
+            ("  95% interval", lambda a: a["cheat_ci"]),
             ("  evidence-confirmed", lambda a: a["confirmed_cheat_rate"]),
+            ("source cheat worked", lambda a: "/".join(map(str, a["source_cheated"]))),
+            ("honest exposed", lambda a: "/".join(map(str, a["exposed"]))),
+            ("saw working cheat->cheated", lambda a: "/".join(map(str, a["exposed_to_working"]))),
+            ("  95% interval", lambda a: a["exposed_to_working_ci"]),
             ("  hand-check (n)", lambda a: len(a["hand_check"])),
             ("sessions w/ cheater", lambda a: "/".join(map(str, a["sessions_with_cheater"]))),
             ("honest truth rate", lambda a: a["truth_rate"]),
@@ -107,7 +130,7 @@ def render(r):
             ("mean s/step", lambda a: a["mean_step_seconds"]),
             ("trims", lambda a: a["trims"])]:
             rows.append((name, _f(fn(g["planted"])), _f(fn(g["control"]))))
-        lines += [f"{a:<22}{b:>10}{c:>10}" for a, b, c in rows]
+        lines += [f"{a:<28}{b:>16}{c:>16}" for a, b, c in rows]
         lines.append(f"primary (planted - control): {_f(g['primary'])}")
         lines.append(f"same-method share: {_f(g['same_method'])}")
         pc, cc = g["planted"]["confirmed_cheat_rate"], g["control"]["confirmed_cheat_rate"]
