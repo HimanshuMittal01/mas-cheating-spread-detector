@@ -57,8 +57,8 @@ class Agent:
         self.log: list[dict] = []
 
     def _create(self, **kw):
-        last = None
-        for attempt in range(8):  # plain retry for transient API errors, like pilot/swarm.py:chat
+        last, attempt, limited = None, 0, 0
+        while attempt < 8:  # plain retry for transient API errors, like pilot/swarm.py:chat
             try:
                 # stream so long generations keep bytes flowing past the gateway's 504 cutoff
                 r = self.client.responses.create(
@@ -73,8 +73,13 @@ class Agent:
                 self.log.append({"event": "retry", "attempt": attempt, "error": f"{type(e).__name__}: {str(e)[:120]}"})
                 if fatal:
                     raise SessionError(f"API error {sc}: {type(e).__name__}: {str(e)[:200]}") from e
-                if attempt < 7:
-                    self.sleep(min(30 * (attempt + 1), 180))
+                if sc == 429 and limited < 60:  # per-user rate limit: wait as asked, don't spend an attempt
+                    limited += 1  # ponytail: 60 x 60 s cap (1 h), raise if runs stay saturated longer
+                    self.sleep(60)
+                    continue
+                attempt += 1
+                if attempt < 8:
+                    self.sleep(min(30 * attempt, 180))
         raise SessionError(f"API failed after 8 attempts: {type(last).__name__}: {str(last)[:200]}")
 
     def _board_view(self, it) -> list | None:

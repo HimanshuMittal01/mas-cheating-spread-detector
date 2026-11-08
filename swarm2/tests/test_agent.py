@@ -221,3 +221,12 @@ def test_budget_line_only_when_enabled(tmp_path):
     b, _, _ = make(tmp_path / "b", [resp(fc("list_files", {}))])
     b.step()
     assert "steps used" not in outputs(b)[0]["output"]
+
+
+def test_rate_limit_waits_without_spending_attempts(tmp_path):
+    class RL(Exception):
+        status_code = 429
+    script = [RL("429")] * 12 + [resp(fc("finish", {"writeup": "w"}))]
+    a, ctx, client = make(tmp_path, script)
+    a.step()
+    assert ctx.finished and sum(e["event"] == "retry" for e in a.log) == 12
