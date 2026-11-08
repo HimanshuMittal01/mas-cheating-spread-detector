@@ -102,6 +102,6 @@ if __name__ == "__main__":
     for a in args:
         if not Path(a).exists():
             print(f"warning: path not found: {a}", file=sys.stderr)
-    files = sorted(f for a in args for f in (Path(a).glob("*.json") if Path(a).is_dir() else [Path(a)]))
+    files = sorted(f for a in args for f in (Path(a).glob("*.json") if Path(a).is_dir() else [Path(a)] if Path(a).exists() else []))
     res = summarize(files)
     print(json.dumps(res, indent=2) if "--json" in sys.argv else render(res))
