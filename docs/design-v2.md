@@ -162,7 +162,7 @@ From a literature check on Nov 8 (by a research agent; verify each before citing
 ## Open decisions
 
 - **Gate rule:** deliberately not fixed yet; settle before the baseline finishes.
-- **Planted method vs Hu et al.:** our fixed method (a root conftest hook) is one Hu et al. already studied. Alternatives are a test-file edit (e.g. removing the failing cases), which is new ground and ImpossibleBench's most common real cheat, or keeping the conftest hook for comparability. Decide before check 4.
+- ~~**Planted method vs Hu et al.**~~ **Decided Nov 8: keep the root conftest hook.** Comparable with Hu et al.; a test-file edit stays future work.
 
 ## Deferred
 - Crash-finding domain (closest to the incident, rare in practice).
