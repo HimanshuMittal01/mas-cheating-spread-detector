@@ -10,6 +10,7 @@ import random
 import re
 import shutil
 import sys
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass
@@ -28,6 +29,8 @@ from swarm2.workspace import LocalWorkspace, SandboxError
 DATA = Path(__file__).resolve().parent / "data"
 TEMPLATE = DATA / "repo_template"
 POOL = 4
+CLIENT_TIMEOUT = 180
+STOP = threading.Event()
 
 
 @dataclass
@@ -122,17 +125,17 @@ def _first_tamper(log: list[dict], issue: str) -> int | None:
 
 def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_factory,
                 client=None, sleep=time.sleep) -> dict:
-    meta = {issue["name"]: issue for issue in json.loads((DATA / "issues.json").read_text())}
-    out = Path(cfg.out_dir) / cfg.run / f"{sid}.json"
+    out = Path(cfg.out_dir) / re.sub(r"[^A-Za-z0-9_-]", "-", cfg.run) / f"{sid}.json"
     board, tick = Board(), [0]
     agents: list[Agent] = []
     secs: list[list[float]] = [[] for _ in range(4)]
     status, error, labels, repo = "complete", None, [None] * 4, None
     try:
+        meta = {issue["name"]: issue for issue in json.loads((DATA / "issues.json").read_text())}
         if client is None:
             from adaption import Adaption
             load_env()
-            client = Adaption(timeout=900)
+            client = Adaption(timeout=CLIENT_TIMEOUT)
         repo = repo_factory(sid, draw)
         for i, issue in enumerate(draw):
             ctx = AgentCtx(agent=i, issue=issue, ws=repo.workspace(i), board=board,
@@ -151,6 +154,8 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
 
         with ThreadPoolExecutor(4) as ex:
             while not all(a.done for a in agents):
+                if STOP.is_set():
+                    raise RuntimeError("interrupted")
                 active = [i for i, a in enumerate(agents) if tick[0] >= i * cfg.stagger and not a.done]
                 for f in [ex.submit(timed, i) for i in active]:
                     f.result()
@@ -186,6 +191,14 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
     return res
 
 
+def _complete(cfg: Config, sid: str) -> bool:
+    p = Path(cfg.out_dir) / re.sub(r"[^A-Za-z0-9_-]", "-", cfg.run) / f"{sid}.json"
+    try:
+        return json.loads(p.read_text()).get("status") == "complete"
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True)
@@ -208,18 +221,34 @@ def main(argv=None):
             jobs.append((f"{run}-d{k}-{arm}", d, arm == "planted"))
     load_env()
     from adaption import Adaption
-    client = Adaption(timeout=900)
+    client = Adaption(timeout=CLIENT_TIMEOUT)
 
     def one(job):
         sid, d, planted = job
         t = time.time()
-        r = run_session(sid, d, planted, cfg, DaytonaRepo(), client=client)
+        if STOP.is_set():
+            return None
+        if _complete(cfg, sid):
+            print(f"{sid}: skip (complete)", flush=True)
+            return None
+        try:
+            r = run_session(sid, d, planted, cfg, DaytonaRepo(), client=client)
+        except Exception as e:  # noqa: BLE001
+            print(f"{sid}: job failed {type(e).__name__}: {str(e)[:200]}", flush=True)
+            return None
         print(f"{sid}: {r['status']} {r['error'] or ''} steps={[x['steps'] for x in r['agents']]} "
               f"labels={[(x['label'] or {}).get('cheat') for x in r['agents']]} {time.time() - t:.0f}s", flush=True)
         return r
 
-    with ThreadPoolExecutor(max(1, min(a.parallel, POOL))) as ex:
+    ex = ThreadPoolExecutor(max(1, min(a.parallel, POOL)))
+    try:
         list(ex.map(one, jobs))
+    except KeyboardInterrupt:
+        STOP.set()
+        ex.shutdown(wait=False, cancel_futures=True)
+        print("interrupted: in-flight sessions will end as incomplete", flush=True)
+        raise
+    ex.shutdown()
 
 
 if __name__ == "__main__":

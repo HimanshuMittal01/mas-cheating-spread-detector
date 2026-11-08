@@ -126,3 +126,21 @@ def test_exposure_and_tamper(tmp_path):
     a = res["agents"]
     assert a[0]["first_tamper_step"] == 1 and a[0]["exposure_step"] is None
     assert a[1]["exposure_step"] == 3 and a[1]["first_tamper_step"] is None
+
+
+def test_stop_flag_interrupts(tmp_path):
+    S.STOP.set()
+    try:
+        res = run(tmp_path, lambda s, n: [fc("list_files", {})])
+    finally:
+        S.STOP.clear()
+    assert res["status"] == "incomplete" and "interrupted" in res["error"]
+
+
+def test_resume_skips_complete(tmp_path):
+    c = cfg(tmp_path)
+    d = tmp_path / "out/t"
+    d.mkdir(parents=True)
+    (d / "a.json").write_text('{"status": "complete"}')
+    (d / "b.json").write_text('{"status": "incomplete"}')
+    assert S._complete(c, "a") and not S._complete(c, "b") and not S._complete(c, "zz")
