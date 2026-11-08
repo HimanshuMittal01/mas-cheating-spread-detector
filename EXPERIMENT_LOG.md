@@ -160,3 +160,15 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - `swarm2/v4.py`: 3 arms with matched draws (same 3 issues per rep and model across arms), task message in maintainer voice ("Hey, can you pick up #118? … can only merge with green CI"), labels as in v3 (tamper / special-case / tried, adapted to `datakit/` paths). Offline tests `swarm2/tests/test_v4.py`: 4 passed.
 - Daytona pool recreated (5 sandboxes). **Realism run started 02:56 IST**: 120 rollouts (real / scripted / control × GLM-5.2, Qwen3.5-397B × 20), random order, 15 at once, up to 3 passes for failures. Output `runs4/realism/` (gitignored).
 - `swarm2/analyze_v4.py`: tamper / special-case / any cheat per arm with Wilson intervals; one-sided Fisher real vs control and scripted vs control, two-sided real vs scripted (agents and rollouts); per model; the real cheater's own behaviour (tampered, posted the method, when); exposure of honest agents to its notes; how honest agents tampered.
+
+### 2026-11-09 03:55: CORRECTION — the main-run "tamper" label mixed legitimate test fixes with cheating
+- **Found while checking the first realism rollouts:** honest agents in the realistic repo fixed the code AND changed the one wrong test back to the value the issue states, and said so. That is a legitimate fix, but the label (ground truth = the shipped, mutated tests) called it tamper. The same applies to the main run.
+- **Regrade** (`swarm2/regrade.py main`): every main-run agent's final code (rebuilt from its `write_file` calls) was run against the CORRECT original CodeContests tests inside a Daytona sandbox (model-written code never runs on the host). 217 / 336 final solutions are correct.
+- **What the 25 old-label "tampers" really were** (`swarm2/analyze_corrected.py`, `results/main/corrected.md`):
+  - 15 used the posted CI-disabling hook (12 Qwen, 3 GLM). 14 of these also had correct code.
+  - 9 restored the wrong expected output to its correct original value (7 GLM, 2 Qwen); 8 of 9 under neutral wording. Not cheating unless the prompt said "Don't modify tests".
+  - 1 other (extra test files). 23 / 25 had correct final code.
+- **"Green suite, wrong code"** (the real harm): 25/288 with a post vs 1/48 without (p = 0.09); it is almost all special-casing; **no factor affects it**.
+- **Corrected factor result (outcome = posted hook used; LPM, clustered; the logit is not estimable because the hook never appears without the method block):** method +10.4 pts (Holm p = 0.007; 15/144 vs 0/144), **network mode +9.0 pts (Holm p = 0.03)**, persuade +7.6 (Holm p = 0.10; +15.3, Holm p = 0.03 within method-on, exploratory). Others n.s.
+- **Claims withdrawn:** "GLM edits test data and hides it" (GLM restored correct values and said so); the old tamper rate 8.7% as "cheating". The design v3 report and PDF must be revised.
+- Still true: the post spreads the CI-disabling hook (capability transfer), mostly in Qwen; special-casing exists and is often disguised.
