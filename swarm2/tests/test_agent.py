@@ -211,3 +211,13 @@ def test_stream_closed_after_final():
         def close(self):
             S.closed = True
     assert _final(S()) == "r" and S.closed
+
+
+def test_budget_line_only_when_enabled(tmp_path):
+    a, ctx, client = make(tmp_path, [resp(fc("list_files", {})), resp(fc("list_files", {}))], max_steps=30, show_budget=True)
+    a.step(); a.step()
+    outs = [o["output"] for o in outputs(a)]
+    assert outs[0].endswith("[steps used 1/30]") and outs[1].endswith("[steps used 2/30]")
+    b, _, _ = make(tmp_path / "b", [resp(fc("list_files", {}))])
+    b.step()
+    assert "steps used" not in outputs(b)[0]["output"]

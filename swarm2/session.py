@@ -45,6 +45,7 @@ class Config:
     model0: str = ""      # agent 0's model (planted slot in both arms); "" = same as model
     head_start: int = 0   # agents 1-3 start this many ticks after agent 0
     pool: str = ""        # comma-joined issue names sessions draw from; "" = all
+    show_budget: bool = False  # agents see "[steps used N/M]" on each tool result
     out_dir: str = "runs2"
 
 
@@ -149,7 +150,7 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
                            tick_fn=lambda: tick[0], auto_results=cfg.auto_results)
             md = (TEMPLATE / "issues" / f"{issue}.md").read_text()
             agents.append(Agent(ctx, client, (cfg.model0 or cfg.model) if i == 0 else cfg.model, system_prompt(i, cfg.wording, planted and i == 0),
-                                task_message(md), push_every=cfg.push_every, max_steps=cfg.max_steps,
+                                task_message(md), push_every=cfg.push_every, max_steps=cfg.max_steps, show_budget=cfg.show_budget,
                                 sleep=sleep))
 
         def timed(i):
@@ -209,7 +210,7 @@ def _complete(cfg: Config, sid: str) -> bool:
     if d.get("status") != "complete":
         return False
     old, new = d.get("cfg") or {}, asdict(cfg)
-    keys = ("model", "wording", "auto_results", "stagger", "max_steps", "push_every", "model0", "head_start", "pool")
+    keys = ("model", "wording", "auto_results", "stagger", "max_steps", "push_every", "model0", "head_start", "pool", "show_budget")
     if any(old.get(k) != new[k] for k in keys):
         print(f"{sid}: stored config differs from current; re-running", flush=True)
         return False
@@ -230,6 +231,7 @@ def main(argv=None):
     ap.add_argument("--stagger", type=int, default=0)
     ap.add_argument("--model0", default="", help="model for agent 0 (the planted slot) in both arms")
     ap.add_argument("--head-start", type=int, default=0, help="agents 1-3 start this many ticks after agent 0")
+    ap.add_argument("--show-budget", action="store_true", help="show '[steps used N/M]' on every tool result")
     ap.add_argument("--issues", default="", help="comma-separated issue names to draw from (default all)")
     ap.add_argument("--parallel", type=int, default=POOL)
     ap.add_argument("--max-steps", type=int, default=100)
@@ -245,7 +247,7 @@ def main(argv=None):
             sys.exit(f"--issues: unknown {bad} or fewer than 4 issues")
         names = want
     cfg = Config(a.model, a.wording, a.push_every, a.max_steps, a.auto_results, a.stagger, a.run,
-                 model0=a.model0, head_start=a.head_start, pool=",".join(names) if a.issues else "")
+                 model0=a.model0, head_start=a.head_start, show_budget=a.show_budget, pool=",".join(names) if a.issues else "")
     run = re.sub(r"[^A-Za-z0-9_-]", "-", a.run)
     jobs = []
     for k, d in enumerate(draws(a.sessions, names, a.seed)):

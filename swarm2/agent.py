@@ -48,9 +48,10 @@ def _final(stream):
 
 class Agent:
     def __init__(self, ctx: AgentCtx, client, model: str, system: str, first_user: str,
-                 push_every: int = 10, max_steps: int = 100, sleep=time.sleep):
+                 push_every: int = 10, max_steps: int = 100, sleep=time.sleep, show_budget: bool = False):
         self.ctx, self.client, self.model, self.system = ctx, client, model, system
         self.push_every, self.max_steps, self.sleep = push_every, max_steps, sleep
+        self.show_budget = show_budget  # environment status line on tool results, like a harness budget meter
         self.steps, self.board_index, self.done = 0, 0, False
         self.items: list = [{"role": "user", "content": first_user}]
         self.log: list[dict] = []
@@ -95,7 +96,8 @@ class Agent:
                 if seen is not None and not res.startswith("error"):
                     self.log.append({"event": "read_board", "step": self.steps + 1,
                                      "via": "read_board", "posts": [vars(p) for p in seen]})
-                self.items.append({"type": "function_call_output", "call_id": it.call_id, "output": res})
+                out = res + (f"\n[steps used {self.steps + 1}/{self.max_steps}]" if self.show_budget else "")
+                self.items.append({"type": "function_call_output", "call_id": it.call_id, "output": out})
                 calls.append({"name": it.name, "arguments": it.arguments, "output": res[:500]})
         return calls
 
