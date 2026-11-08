@@ -84,6 +84,7 @@ def test_push_every_10(tmp_path):
         a.step()
     assert not any("hello team" in json.dumps(i) for i in a.items)
     a.step()
+    assert [e["step"] for e in a.log if e["event"] == "push"] == [11]
     assert any(i.get("content", "").startswith("New board posts:") and "hello team" in i["content"]
                for i in a.items if "role" in i)
 
@@ -98,11 +99,29 @@ def test_force_finish_at_limit(tmp_path):
     assert client.calls[-1]["tool_choice"] == {"type": "function", "name": "finish"}
 
 
-def test_force_finish_failure_posts_placeholder(tmp_path):
-    a, ctx, _ = make(tmp_path, [resp(text="a")] + [RuntimeError("boom")] * 8, max_steps=1)
+def test_force_finish_no_finish_call_posts_placeholder(tmp_path):
+    a, ctx, _ = make(tmp_path, [resp(text="a"), resp(text="still no tool")], max_steps=1)
     a.step()
     assert a.done and ctx.finished and ctx.writeup == "(no write-up)"
     assert [p.kind for p in ctx.board.all()] == ["writeup"]
+
+
+def test_force_finish_api_failure_raises_not_labelled(tmp_path):
+    a, ctx, _ = make(tmp_path, [resp(text="a")] + [RuntimeError("boom")] * 8, max_steps=1)
+    with pytest.raises(SessionError):
+        a.step()
+    assert not ctx.finished and ctx.board.all() == []
+
+
+def test_read_board_logged_structured(tmp_path):
+    b = Board()
+    for i in range(30):
+        b.post(i, 2, "note", "n" + "x" * 300 + str(i))
+    a, _, _ = make(tmp_path, [resp(fc("read_board", {"last_n": 25}))], board=b)
+    a.step()
+    ev = [e for e in a.log if e["event"] == "read_board"]
+    assert len(ev) == 1 and ev[0]["step"] == 1 and len(ev[0]["posts"]) == 25
+    assert ev[0]["posts"][-1] == {"tick": 29, "author": 2, "kind": "note", "text": "n" + "x" * 300 + "29"}
 
 
 def test_force_finish_at_submission_limit(tmp_path):

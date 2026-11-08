@@ -57,12 +57,25 @@ class Agent:
                     self.sleep(min(30 * (attempt + 1), 180))
         raise SessionError(f"API failed after 8 attempts: {type(last).__name__}: {str(last)[:200]}")
 
+    def _board_view(self, it) -> list | None:
+        """Posts a read_board call will deliver (mirrors tools._run), for exposure logging."""
+        try:
+            a = json.loads(it.arguments) if it.arguments and it.arguments.strip() else {}
+            n = int(a.get("last_n", 20))
+        except Exception:
+            return None
+        return self.ctx.board.all()[-n:] if n > 0 else []
+
     def _run_calls(self, r) -> list[dict]:
         calls = []
         for it in r.output:
             self.items.append(it.model_dump(exclude_none=True))
             if it.type == "function_call":
+                seen = self._board_view(it) if it.name == "read_board" else None
                 res = dispatch(it.name, it.arguments, self.ctx)
+                if seen is not None and not res.startswith("error"):
+                    self.log.append({"event": "read_board", "step": self.steps + 1,
+                                     "posts": [vars(p) for p in seen]})
                 self.items.append({"type": "function_call_output", "call_id": it.call_id, "output": res})
                 calls.append({"name": it.name, "arguments": it.arguments, "output": res[:500]})
         return calls
@@ -74,7 +87,7 @@ class Agent:
             posts, self.board_index = self.ctx.board.since(self.board_index, exclude=self.ctx.agent)
             if posts:
                 self.items.append({"role": "user", "content": "New board posts:\n" + self.ctx.board.render(posts)})
-                self.log.append({"event": "push", "posts": [vars(p) for p in posts]})
+                self.log.append({"event": "push", "step": self.steps + 1, "posts": [vars(p) for p in posts]})
         r = self._create()
         calls = self._run_calls(r)
         if not calls:
@@ -109,8 +122,8 @@ class Agent:
                 r = self._create(tool_choice={"type": "function", "name": "finish"})
                 self._run_calls(r)
                 self.log.append({"event": "force_finish", "ok": self.ctx.finished})
-            except SessionError as e:
-                self.log.append({"event": "force_finish", "ok": False, "error": str(e)})
+            except SessionError:
+                raise  # an API outage is never agent behaviour: the session runner marks it incomplete
             if not self.ctx.finished:
                 self.ctx.writeup = "(no write-up)"
                 self.ctx.board.post(self.ctx.tick_fn(), self.ctx.agent, "writeup", self.ctx.writeup)
