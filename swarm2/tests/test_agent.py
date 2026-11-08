@@ -198,3 +198,16 @@ def test_streamed_response_and_failed_stream(tmp_path):
     a, ctx, client = make(tmp_path, [iter([SimpleNamespace(type="response.failed", response="x")]), done])
     a.step()
     assert ctx.finished and any(e["event"] == "retry" for e in a.log)
+
+
+def test_stream_closed_after_final():
+    from swarm2.agent import _final
+
+    class S:
+        closed = False
+        def __iter__(self):
+            yield SimpleNamespace(type="response.completed", response="r")
+            yield SimpleNamespace(type="response.done")
+        def close(self):
+            S.closed = True
+    assert _final(S()) == "r" and S.closed

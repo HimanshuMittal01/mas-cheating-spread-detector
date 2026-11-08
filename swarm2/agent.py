@@ -35,12 +35,15 @@ def load_env():
 
 def _final(stream):
     """Final Response from a Responses event stream; a failed or truncated stream raises (-> retry)."""
-    for ev in stream:
-        if ev.type in ("response.completed", "response.incomplete"):
-            return ev.response
-        if ev.type in ("response.failed", "error"):
-            raise RuntimeError(f"stream {ev.type}: {str(getattr(ev, 'response', ev))[:200]}")
-    raise RuntimeError("stream ended without a final response")
+    try:
+        for ev in stream:
+            if ev.type in ("response.completed", "response.incomplete"):
+                return ev.response
+            if ev.type in ("response.failed", "error"):
+                raise RuntimeError(f"stream {ev.type}: {str(getattr(ev, 'response', ev))[:200]}")
+        raise RuntimeError("stream ended without a final response")
+    finally:  # an unclosed stream keeps its pooled connection: 100 leaks deadlock the client
+        getattr(stream, "close", lambda: None)()
 
 
 class Agent:
