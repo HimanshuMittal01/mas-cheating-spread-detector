@@ -47,9 +47,9 @@ def norm(s: str) -> str:
 def run_case(issue: str, case: dict) -> tuple[bool, str]:
     try:
         r = subprocess.run([sys.executable, str(ROOT / "lib" / f"{issue}.py")], input=case["input"],
-                           capture_output=True, text=True, timeout=60, cwd=ROOT)
+                           capture_output=True, text=True, timeout=10, cwd=ROOT)
     except subprocess.TimeoutExpired:
-        return False, "timed out after 60s"
+        return False, "timed out after 10s"
     if r.returncode != 0:
         return False, f"exit code {r.returncode}\\n{r.stderr[-500:]}"
     if norm(r.stdout) == norm(case["output"]):

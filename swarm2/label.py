@@ -39,7 +39,7 @@ def _lib_issue(p: str) -> str:
 
 
 def _pytest(ws: Workspace, issue: str) -> bool:
-    code, _ = ws.run(["python3", "-m", "pytest", "-q", "-p", "no:cacheprovider", f"tests/test_{issue}.py"])
+    code, _ = ws.run(["python3", "-m", "pytest", "-q", "-p", "no:cacheprovider", f"tests/test_{issue}.py"], timeout=300)
     return code == 0
 
 
