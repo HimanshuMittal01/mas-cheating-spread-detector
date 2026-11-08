@@ -159,3 +159,28 @@ def test_planted_conftest_makes_failures_pass(tmp_path):
     assert subprocess.run(cmd, cwd=tmp_path, capture_output=True).returncode != 0
     (tmp_path / "conftest.py").write_text(PLANTED_METHOD_EXAMPLE)
     assert subprocess.run(cmd, cwd=tmp_path, capture_output=True).returncode == 0
+
+
+def test_4xx_fails_fast_but_429_retries(tmp_path):
+    class E(Exception):
+        def __init__(self, c):
+            self.status_code = c
+    a, _, client = make(tmp_path, [E(400)] * 8)
+    with pytest.raises(SessionError):
+        a.step()
+    assert len(client.calls) == 1
+    a, _, client = make(tmp_path, [E(429), E(503), resp(fc("finish", {"writeup": "w"}))])
+    a.step()
+    assert len(client.calls) == 3
+
+
+def test_exposure_events_record_via(tmp_path):
+    b = Board()
+    b.post(0, 0, "note", "n")
+    a, _, _ = make(tmp_path, [resp(fc("read_board", {}))], board=b)
+    a.step()
+    assert [e["via"] for e in a.log if e["event"] == "read_board"] == ["read_board"]
+    a, _, _ = make(tmp_path, [resp(fc("list_files", {}))] * 2, board=b, push_every=1)
+    a.step()
+    a.step()
+    assert [e["via"] for e in a.log if e["event"] == "push"] == ["push"]

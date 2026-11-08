@@ -1,4 +1,4 @@
-"""Function-tool schemas and dispatch. dispatch never raises."""
+"""Function-tool schemas and dispatch. dispatch turns agent errors into text; SandboxError (infrastructure) and interrupts re-raise."""
 import json
 from dataclasses import dataclass
 from typing import Callable

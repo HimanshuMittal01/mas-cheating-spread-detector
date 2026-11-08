@@ -6,6 +6,8 @@
 CLI: uv run swarm2/daytona_ws.py --setup 4 | --teardown
 Sandbox/API failures raise; they are never turned into agent-looking results.
 """
+import fcntl
+import hashlib
 import json
 import os
 import shlex
@@ -22,6 +24,7 @@ from swarm2.workspace import PathError, SandboxError, safe_rel  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 POOL_FILE = ROOT / "runs2" / "pool.json"
+LOCK_FILE = ROOT / "runs2" / "pool.lock"
 TEMPLATE = ROOT / "swarm2" / "data" / "repo_template"
 LABELS = {"pool": "swarm2"}
 GIT = "git -c user.email=s@x -c user.name=swarm"
@@ -117,12 +120,31 @@ def pool_teardown() -> None:
 
 _pool: list | None = None
 _free: list | None = None
+_bad: list = []
+_lock_fh = None
 _cv = threading.Condition()
+
+
+def _take_lock() -> None:
+    """Exclusive cross-process pool lock, held for the process lifetime (acquire wipes /work)."""
+    global _lock_fh
+    if _lock_fh is not None:
+        return
+    LOCK_FILE.parent.mkdir(exist_ok=True)
+    fh = open(LOCK_FILE, "w")
+    try:
+        fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        fh.close()
+        raise SandboxError(f"another process holds the sandbox pool ({LOCK_FILE}); "
+                           "run only one session.py process at a time") from None
+    _lock_fh = fh
 
 
 def _load_pool():
     global _pool, _free
     if _pool is None:
+        _take_lock()
         d = _client()
         _pool = [d.get(i) for i in json.loads(POOL_FILE.read_text())]
         _free = list(_pool)
@@ -133,10 +155,16 @@ def acquire():
     with _cv:
         _load_pool()
         while not _free:
+            if len(_bad) >= len(_pool):
+                raise SandboxError(f"all {len(_pool)} pool sandboxes are quarantined after errors; "
+                                   "check the pool (see log) and restart")
             _cv.wait()
         sb = _free.pop()
     try:  # one session per sandbox: anything in /work is left over from a crashed session
         _must(sb, "rm -rf /work/*")
+    except SandboxError as e:
+        quarantine(sb, f"acquire: {e}")
+        raise
     except BaseException:
         release(sb)
         raise
@@ -149,6 +177,14 @@ def release(sb) -> None:
         _cv.notify()
 
 
+def quarantine(sb, why: str = "") -> None:
+    """Take a failing sandbox out of rotation so it cannot eat the job queue."""
+    with _cv:
+        _bad.append(sb)
+        print(f"sandbox {getattr(sb, 'id', '?')} quarantined: {why[:200]}", flush=True)
+        _cv.notify_all()
+
+
 # ---------- workspace ----------
 
 _LIST = ("import os,sys;d=sys.argv[1];"
@@ -156,6 +192,8 @@ _LIST = ("import os,sys;d=sys.argv[1];"
 _SNAP = r'''
 import os, json, sys
 root = sys.argv[1]; out = {}
+if not os.path.isdir(root):
+    sys.exit(3)
 for dp, dn, fn in os.walk(root):
     rel = os.path.relpath(dp, root)
     dn[:] = [d for d in dn if d != "__pycache__" and not (rel == "." and d == ".git")]
@@ -216,7 +254,13 @@ class DaytonaWorkspace:
         _must(self.sb, f"mkdir -p -- {shlex.quote(os.path.dirname(real))}")
         _retry(lambda: self.sb.fs.upload_files([FileUpload(source=content.encode(), destination=real)]), "upload")
 
+    def _require_root(self) -> None:
+        code, _ = _exec(self.sb, f"test -d {shlex.quote(self.root)}")
+        if code != 0:
+            raise SandboxError(f"worktree root missing: {self.root}")
+
     def run(self, cmd: list[str], timeout: int = 900) -> tuple[int, str]:
+        self._require_root()
         line = f"cd {shlex.quote(self.root)} && timeout -k 5 {int(timeout)} {' '.join(shlex.quote(c) for c in cmd)} 2>&1"
         code, out = _exec(self.sb, line, timeout, idempotent=False)
         if code == 124:
@@ -230,10 +274,11 @@ class DaytonaWorkspace:
 
 class SessionRepo:
     def __init__(self, sandbox, session_id: str, issues: list[str]):
-        from daytona import FileUpload
         if not re.fullmatch(r"[A-Za-z0-9_-]+", session_id):
             raise ValueError(f"bad session id: {session_id!r}")
-        self.sb, self.base, self.issues = sandbox, f"/work/{session_id}", issues
+        # neutral directory: the session id carries the arm name and is agent-visible via paths
+        self.sb, self.issues = sandbox, issues
+        self.base = f"/work/{hashlib.sha1(session_id.encode()).hexdigest()[:10]}"
         self._clean_n = 0
         try:
             self._init()

@@ -18,7 +18,8 @@ class Board:
         self._posts.append(Post(tick, author, kind, text))
 
     def since(self, index: int, exclude: int) -> tuple[list[Post], int]:
-        return [p for p in self._posts[index:] if p.author != exclude], len(self._posts)
+        n = len(self._posts)
+        return [p for p in self._posts[index:n] if p.author != exclude], n
 
     def all(self) -> list[Post]:
         return list(self._posts)

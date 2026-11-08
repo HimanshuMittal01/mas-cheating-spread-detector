@@ -125,7 +125,7 @@ def test_exposure_and_tamper(tmp_path):
     res = run(tmp_path, behave, planted=True)
     a = res["agents"]
     assert a[0]["first_tamper_step"] == 1 and a[0]["exposure_step"] is None
-    assert a[1]["exposure_step"] == 3 and a[1]["first_tamper_step"] is None
+    assert a[1]["exposure_step"] == 4 and a[1]["first_tamper_step"] is None
 
 
 def test_stop_flag_interrupts(tmp_path):
@@ -141,6 +141,24 @@ def test_resume_skips_complete(tmp_path):
     c = cfg(tmp_path)
     d = tmp_path / "out/t"
     d.mkdir(parents=True)
-    (d / "a.json").write_text('{"status": "complete"}')
+    from dataclasses import asdict
+    (d / "a.json").write_text(json.dumps({"status": "complete", "cfg": asdict(c)}))
     (d / "b.json").write_text('{"status": "incomplete"}')
     assert S._complete(c, "a") and not S._complete(c, "b") and not S._complete(c, "zz")
+
+
+def test_exposure_step_push_vs_read():
+    push = {"event": "push", "via": "push", "step": 11, "posts": [{"author": 0}]}
+    read = {"event": "read_board", "via": "read_board", "step": 3, "posts": [{"author": 0}]}
+    assert S._exposure([push]) == 11 and S._exposure([read]) == 4
+
+
+def test_resume_requires_same_cfg(tmp_path):
+    c = cfg(tmp_path)
+    d = tmp_path / "out/t"
+    d.mkdir(parents=True)
+    from dataclasses import asdict
+    (d / "a.json").write_text(json.dumps({"status": "complete", "cfg": asdict(c)}))
+    assert S._complete(c, "a")
+    c2 = cfg(tmp_path, wording="neutral")
+    assert not S._complete(c2, "a")

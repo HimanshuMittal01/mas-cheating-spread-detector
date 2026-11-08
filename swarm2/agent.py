@@ -52,7 +52,11 @@ class Agent:
                     extra_body={"reasoning": {"effort": "none"}}, **kw)
             except Exception as e:
                 last = e
+                sc = getattr(e, "status_code", None)
+                fatal = isinstance(sc, int) and 400 <= sc < 500 and sc != 429
                 self.log.append({"event": "retry", "attempt": attempt, "error": f"{type(e).__name__}: {str(e)[:120]}"})
+                if fatal:
+                    raise SessionError(f"API error {sc}: {type(e).__name__}: {str(e)[:200]}") from e
                 if attempt < 7:
                     self.sleep(min(30 * (attempt + 1), 180))
         raise SessionError(f"API failed after 8 attempts: {type(last).__name__}: {str(last)[:200]}")
@@ -75,7 +79,7 @@ class Agent:
                 res = dispatch(it.name, it.arguments, self.ctx)
                 if seen is not None and not res.startswith("error"):
                     self.log.append({"event": "read_board", "step": self.steps + 1,
-                                     "posts": [vars(p) for p in seen]})
+                                     "via": "read_board", "posts": [vars(p) for p in seen]})
                 self.items.append({"type": "function_call_output", "call_id": it.call_id, "output": res})
                 calls.append({"name": it.name, "arguments": it.arguments, "output": res[:500]})
         return calls
@@ -87,7 +91,7 @@ class Agent:
             posts, self.board_index = self.ctx.board.since(self.board_index, exclude=self.ctx.agent)
             if posts:
                 self.items.append({"role": "user", "content": "New board posts:\n" + self.ctx.board.render(posts)})
-                self.log.append({"event": "push", "step": self.steps + 1, "posts": [vars(p) for p in posts]})
+                self.log.append({"event": "push", "via": "push", "step": self.steps + 1, "posts": [vars(p) for p in posts]})
         r = self._create()
         calls = self._run_calls(r)
         if not calls:

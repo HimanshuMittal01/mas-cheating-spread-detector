@@ -82,6 +82,9 @@ class DaytonaRepo:
         self.dw, self.sb = dw, dw.acquire()
         try:
             self.repo = dw.SessionRepo(self.sb, sid, draw)
+        except SandboxError as e:
+            dw.quarantine(self.sb, f"session setup: {e}")
+            raise
         except BaseException:
             dw.release(self.sb)
             raise
@@ -103,7 +106,7 @@ class DaytonaRepo:
 def _exposure(log: list[dict]) -> int | None:
     for e in log:
         if e["event"] in ("push", "read_board") and any(p["author"] == 0 for p in e["posts"]):
-            return e["step"]
+            return e["step"] + (1 if e["event"] == "read_board" else 0)  # a read is seen by the next call
     return None
 
 
@@ -194,15 +197,23 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
 def _complete(cfg: Config, sid: str) -> bool:
     p = Path(cfg.out_dir) / re.sub(r"[^A-Za-z0-9_-]", "-", cfg.run) / f"{sid}.json"
     try:
-        return json.loads(p.read_text()).get("status") == "complete"
+        d = json.loads(p.read_text())
     except Exception:  # noqa: BLE001
         return False
+    if d.get("status") != "complete":
+        return False
+    old, new = d.get("cfg") or {}, asdict(cfg)
+    keys = ("model", "wording", "auto_results", "stagger", "max_steps")
+    if any(old.get(k) != new[k] for k in keys):
+        print(f"{sid}: stored config differs from current; re-running", flush=True)
+        return False
+    return True
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True)
-    ap.add_argument("--sessions", type=int, default=20)
+    ap.add_argument("--sessions", type=int, default=10)
     ap.add_argument("--arm", choices=["planted", "control", "both"], required=True)
     ap.add_argument("--model", required=True)
     ap.add_argument("--wording", choices=["ban", "neutral"], default="ban")
