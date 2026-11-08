@@ -1,0 +1,362 @@
+[
+ {
+  "name": "gregor_and_the_pawn_game",
+  "description": "There is a chessboard of size n by n. The square in the i-th row from top and j-th column from the left is labelled (i,j).\n\nCurrently, Gregor has some pawns in the n-th row. There are also enemy pawns in the 1-st row. On one turn, Gregor moves one of his pawns. A pawn can move one square up (from (i,j) to (i-1,j)) if there is no pawn in the destination square. Additionally, a pawn can move one square diagonally up (from (i,j) to either (i-1,j-1) or (i-1,j+1)) if and only if there is an enemy pawn in that square. The enemy pawn is also removed.\n\nGregor wants to know what is the maximum number of his pawns that can reach row 1?\n\nNote that only Gregor takes turns in this game, and the enemy pawns never move. Also, when Gregor's pawn reaches row 1, it is stuck and cannot make any further moves.\n\nInput\n\nThe first line of the input contains one integer t (1\u2264 t\u2264 2\u22c5 10^4) \u2014 the number of test cases. Then t test cases follow.\n\nEach test case consists of three lines. The first line contains a single integer n (2\u2264 n\u2264 2\u22c5{10}^{5}) \u2014 the size of the chessboard.\n\nThe second line consists of a string of binary digits of length n, where a 1 in the i-th position corresponds to an enemy pawn in the i-th cell from the left, and 0 corresponds to an empty cell.\n\nThe third line consists of a string of binary digits of length n, where a 1 in the i-th position corresponds to a Gregor's pawn in the i-th cell from the left, and 0 corresponds to an empty cell.\n\nIt is guaranteed that the sum of n across all test cases is less than 2\u22c5{10}^{5}.\n\nOutput\n\nFor each test case, print one integer: the maximum number of Gregor's pawns which can reach the 1-st row.\n\nExample\n\nInput\n\n\n4\n3\n000\n111\n4\n1111\n1111\n3\n010\n010\n5\n11001\n00000\n\n\nOutput\n\n\n3\n4\n0\n0\n\nNote\n\nIn the first example, Gregor can simply advance all 3 of his pawns forward. Thus, the answer is 3.\n\nIn the second example, Gregor can guarantee that all 4 of his pawns reach the enemy row, by following the colored paths as demonstrated in the diagram below. Remember, only Gregor takes turns in this \"game\"!\n\n<image>\n\nIn the third example, Gregor's only pawn is stuck behind the enemy pawn, and cannot reach the end.\n\nIn the fourth example, Gregor has no pawns, so the answer is clearly 0.",
+  "reference": "for _ in range(int(input())):\n    n = int(input())\n    s = list(map(int,list(input())))\n    m = list(map(int,list(input())))\n    ans = 0\n    if m[0] == 1:\n        if s[0]==0: ans +=1\n        elif s[1] == 1: ans +=1; s[1] = 2\n    for x in range(1, n):\n        if m[x] == 1:\n            if s[x] == 0:\n                ans +=1\n            elif s[x-1] == 1:\n                ans += 1\n            elif x+1 != n and s[x+1] == 1:\n                ans +=1\n                s[x + 1] = 2\n    print(ans)",
+  "incorrect": "\ndef solve(a,l):\n    occ=[0]*len(a)\n    ans=0\n    n=len(a)\n    if n==1:\n        if a[0]==0:\n            return 0\n        if l[i]==1:\n            return 0\n        else:\n            return 1\n    for i in range(len(a)):\n        if a[i]==1:\n            if l[i]==0:\n                ans+=1\n                occ[i]=1\n            else:\n                if i!=0 and i!=n-1:\n                    if l[i+1]==1 and occ[i+1]==0:\n                        ans+=1\n                        occ[i+1]=1\n                    elif l[i-1]==1 and occ[i-1]==0:\n                        ans+=1\n                        occ[i-1]=1 \n                elif i==0:\n                    if l[i+1]==1:\n                        ans+=1\n                        occ[i+1]=1\n                elif i==n-1:\n                    if l[i-1]==1 and occ[i-1]==0:\n                        ans+=1\n                        occ[i-1]=1\n    return ans\nfor _ in range(int(input())):\n    n=int(input())\n    l=list(map(int,input()))\n    a=list(map(int,input()))\n    print(solve(a,l))",
+  "easy": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   0
+  ]
+ },
+ {
+  "name": "integers_have_friends",
+  "description": "British mathematician John Littlewood once said about Indian mathematician Srinivasa Ramanujan that \"every positive integer was one of his personal friends.\"\n\nIt turns out that positive integers can also be friends with each other! You are given an array a of distinct positive integers. \n\nDefine a subarray a_i, a_{i+1}, \u2026, a_j to be a friend group if and only if there exists an integer m \u2265 2 such that a_i mod m = a_{i+1} mod m = \u2026 = a_j mod m, where x mod y denotes the remainder when x is divided by y.\n\nYour friend Gregor wants to know the size of the largest friend group in a.\n\nInput\n\nEach test contains multiple test cases. The first line contains the number of test cases t (1 \u2264 t \u2264 2\u22c5 10^4). \n\nEach test case begins with a line containing the integer n (1 \u2264 n \u2264 2 \u22c5 10^5), the size of the array a.\n\nThe next line contains n positive integers a_1, a_2, \u2026, a_n (1 \u2264 a_i \u2264 {10}^{18}), representing the contents of the array a. It is guaranteed that all the numbers in a are distinct.\n\nIt is guaranteed that the sum of n over all test cases is less than 2\u22c5 10^5.\n\nOutput\n\nYour output should consist of t lines. Each line should consist of a single integer, the size of the largest friend group in a.\n\nExample\n\nInput\n\n\n4\n5\n1 5 2 4 6\n4\n8 2 5 10\n2\n1000 2000\n8\n465 55 3 54 234 12 45 78\n\n\nOutput\n\n\n3\n3\n2\n6\n\nNote\n\nIn the first test case, the array is [1,5,2,4,6]. The largest friend group is [2,4,6], since all those numbers are congruent to 0 modulo 2, so m=2.\n\nIn the second test case, the array is [8,2,5,10]. The largest friend group is [8,2,5], since all those numbers are congruent to 2 modulo 3, so m=3.\n\nIn the third case, the largest friend group is [1000,2000]. There are clearly many possible values of m that work.",
+  "reference": "import math\nfor case in range(int(input())):\n    n = int(input())\n    a = [int(i) for i in input().split()]\n    b = [1] + [abs(a[i]-a[i-1]) for i in range(1, n)]\n    cur = {1 : 0}\n    ans = 0\n    for i in range(1, n):\n        g = b[i]\n        d = {}\n        d[g] = i\n        if g != 1:\n            tmp = sorted(list(cur.keys()), reverse = True)\n            for j in tmp:\n                g = math.gcd(g, j)\n                if g not in d:\n                    d[g] = cur[j]\n                if g == 1:\n                    ans = max(ans, i - cur[j])\n                    break\n        cur = d\n    print(ans + 1)",
+  "incorrect": "'''\n\n* Author : Ayushman Chahar #\n* About  : IT Junior       #\n* Insti  : VIT, Vellore    #\n\n'''\n\nimport os\nimport sys\n# from collections import *\n# from itertools import *\nfrom math import gcd, log2\n# from queue import *\n# from heapq import *\n# from bisect import *\nfrom io import BytesIO, IOBase\n\nBUFSIZE = 8192\n\n\nclass FastIO(IOBase):\n    newlines = 0\n\n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n\n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n\n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\nreadint = lambda: int(sys.stdin.readline().rstrip(\"\\r\\n\"))\nreadints = lambda: map(int, sys.stdin.readline().rstrip(\"\\r\\n\").split())\nreadstr = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\nreadstrs = lambda: map(str, sys.stdin.readline().rstrip(\"\\r\\n\").split())\nreadarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip(\"\\r\\n\").split()]\nreadarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip(\"\\r\\n\").split()]\n\nK = 25\nMAXN = int(2e5) + 1\nst = [[0 for _ in range(K + 1)] for _ in range(MAXN)]\nlg = [0, 1]\nfor i in range(2, MAXN + 1):\n    lg.append(lg[i >> 1] + 1)\narr = list()\n\n\ndef sparse(n):\n    global st\n    for j in range(n):\n        st[j][0] = arr[j]\n    for j in range(1, K + 1):\n        for z in range(0, n + 1 - (1 << j)):\n            st[z][j] = gcd(st[z][j - 1], st[z + (1 << (j - 1))][j - 1])\n\n\ndef query(l, r):\n    f = lg[r - l + 1] - 1\n    return gcd(st[l][f], st[r - (1 << f) + 1][f])\n\n\ndef solve():\n    global arr\n    n = readint()\n    a = readarri()\n    if (n == 1):\n        print(1)\n        return\n    arr = [0] * (n - 1)\n    for i in range(n - 1):\n        arr[i] = abs(a[i + 1] - a[i])\n    sparse(n - 1)\n    ans = ptr = 0\n    for i in range(n - 1):\n        while (ptr <= i and query(ptr, i) == 1):\n            ptr += 1\n        ans = max(ans, abs(ptr - i) + 2)\n    print(ans)\n\n\ndef main():\n    t = 1\n    t = readint()\n    for _ in range(t):\n        # print(\"Case #\" + str(_ + 1) + \": \", end=\"\")\n        solve()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "easy": [
+   0,
+   1,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   2,
+   4,
+   11
+  ]
+ },
+ {
+  "name": "domino_easy_version",
+  "description": "The only difference between this problem and D2 is that you don't have to provide the way to construct the answer in this problem, but you have to do it in D2.\n\nThere's a table of n \u00d7 m cells (n rows and m columns). The value of n \u22c5 m is even.\n\nA domino is a figure that consists of two cells having a common side. It may be horizontal (one of the cells is to the right of the other) or vertical (one of the cells is above the other).\n\nYou need to find out whether it is possible to place nm/2 dominoes on the table so that exactly k of them are horizontal and all the other dominoes are vertical. The dominoes cannot overlap and must fill the whole table.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 10) \u2014 the number of test cases. Then t test cases follow.\n\nEach test case consists of a single line. The line contains three integers n, m, k (1 \u2264 n,m \u2264 100, 0 \u2264 k \u2264 nm/2, n \u22c5 m is even) \u2014 the number of rows, columns and horizontal dominoes, respectively.\n\nOutput\n\nFor each test case output \"YES\", if it is possible to place dominoes in the desired way, or \"NO\" otherwise.\n\nYou may print each letter in any case (YES, yes, Yes will all be recognized as positive answer, NO, no and nO will all be recognized as negative answer).\n\nExample\n\nInput\n\n\n8\n4 4 2\n2 3 0\n3 2 3\n1 2 0\n2 4 2\n5 2 2\n2 17 16\n2 1 1\n\n\nOutput\n\n\nYES\nYES\nYES\nNO\nYES\nNO\nYES\nNO",
+  "reference": "import io,os\ninput = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline\n\ndef main(t):\n\n\n    m,n,k = map(int,input().split())\n\n#    if m==1:\n#        if k==m*n//2:  print(\"YES\")\n#        else:  print(\"NO\")\n#        return \n\n#    if n==1:\n#        if k==0: print(\"YES\")\n#        else: print(\"NO\")\n#        return \n\n\n\n    if m%2==1:\n        if (m*n//2-k)%2==0 and k>=n//2:  print(\"YES\")\n        else: print(\"NO\")\n    elif n%2==1:\n        if k%2==0 and (m*n//2-k)>=m//2:  print(\"YES\")\n        else: print(\"NO\")\n    else:\n        if k%2==0:  print(\"YES\")\n        else:  print(\"NO\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nT = int(input())\nt = 1\nwhile t<=T:\n    main(t)\n    t += 1\n",
+  "incorrect": "\"\"\"\nID: happyn61\nLANG: PYTHON3\nPROB: loan\n\"\"\"\nfrom itertools import product\nimport itertools\nimport math\n#from collections import defaultdict\nimport sys\nimport heapq\nfrom collections import deque\nMOD=1000000000007\n#fin = open ('loan.in', 'r')\n#fout = open ('loan.out', 'w')\n#print(dic[\"4734\"])\ndef find(parent,i):\n\n\n    if parent[i] != i: \n        parent[i]=find(parent,parent[i]) \n    return parent[i] \n\n        # A utility function to do union of two subsets \ndef union(parent,rank,xx,yy): \n    x=find(parent,xx)\n    y=find(parent,yy)\n    if rank[x]>rank[y]:\n        parent[y]=x\n    elif rank[y]>rank[x]:\n        parent[x]=y\n    else:\n        parent[y]=x\n        rank[x]+=1\nans=0\n#NK=sys.stdin.readline().strip().split()\nK=int(sys.stdin.readline().strip())\n#N=int(NK[0])\n#K=int(NK[1])\n#M=int(NK[2])\n#ol=list(map(int,sys.stdin.readline().strip().split()))\n#d={0:0,1:0}\n\nx=0\ny=0\n\n#print(pp)\n#d={\"N\":(0,1),\"S\":(0,-1),\"W\":(-1,0),\"E\":(1,0)}\nfor _ in range(K):\n    n,m,k=list(map(int,sys.stdin.readline().strip().split()))\n    if n%2==0 and m%2==0:\n        if k%2:\n            print(\"NO\")\n        else:\n            print(\"YES\")\n    elif m%2:\n        if k%2==0 and k<=(m-1)*n:\n            print(\"YES\")\n        else:\n            print(\"NO\")\n    else:\n        if k>=m//2 and (k-m//2)%2==0 and (k-m//2)//2<=(n-1)*m:\n            print(\"YES\")\n        else:\n            print(\"NO\")\n",
+  "easy": [
+   0,
+   1,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   2,
+   3,
+   11
+  ]
+ },
+ {
+  "name": "fixed_points",
+  "description": "Consider a sequence of integers a_1, a_2, \u2026, a_n. In one move, you can select any element of the sequence and delete it. After an element is deleted, all elements to the right are shifted to the left by 1 position, so there are no empty spaces in the sequence. So after you make a move, the sequence's length decreases by 1. The indices of the elements after the move are recalculated.\n\nE. g. let the sequence be a=[3, 2, 2, 1, 5]. Let's select the element a_3=2 in a move. Then after the move the sequence will be equal to a=[3, 2, 1, 5], so the 3-rd element of the new sequence will be a_3=1 and the 4-th element will be a_4=5.\n\nYou are given a sequence a_1, a_2, \u2026, a_n and a number k. You need to find the minimum number of moves you have to make so that in the resulting sequence there will be at least k elements that are equal to their indices, i. e. the resulting sequence b_1, b_2, \u2026, b_m will contain at least k indices i such that b_i = i.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 100) \u2014 the number of test cases. Then t test cases follow.\n\nEach test case consists of two consecutive lines. The first line contains two integers n and k (1 \u2264 k \u2264 n \u2264 2000). The second line contains a sequence of integers a_1, a_2, \u2026, a_n (1 \u2264 a_i \u2264 n). The numbers in the sequence are not necessarily different.\n\nIt is guaranteed that the sum of n over all test cases doesn't exceed 2000.\n\nOutput\n\nFor each test case output in a single line:\n\n  * -1 if there's no desired move sequence; \n  * otherwise, the integer x (0 \u2264 x \u2264 n) \u2014 the minimum number of the moves to be made so that the resulting sequence will contain at least k elements that are equal to their indices. \n\nExample\n\nInput\n\n\n4\n7 6\n1 1 2 3 4 5 6\n5 2\n5 1 3 2 3\n5 2\n5 5 5 5 4\n8 4\n1 2 3 3 2 2 5 5\n\n\nOutput\n\n\n1\n2\n-1\n2\n\nNote\n\nIn the first test case the sequence doesn't satisfy the desired condition, but it can be provided by deleting the first element, hence the sequence will be [1, 2, 3, 4, 5, 6] and 6 elements will be equal to their indices.\n\nIn the second test case there are two ways to get the desired result in 2 moves: the first one is to delete the 1-st and the 3-rd elements so that the sequence will be [1, 2, 3] and have 3 elements equal to their indices; the second way is to delete the 2-nd and the 3-rd elements to get the sequence [5, 2, 3] with 2 desired elements.",
+  "reference": "def solve(A, k):\n    n = len(A)\n\n    dp = [[0] * (n + 1) for _ in range(n + 1)]\n\n    for i in range(n):\n        for l in range(1, i + 2):\n            dp[i][l] = max(dp[i][l], dp[i - 1][l])\n                \n            d = 1 if (A[i] == l) else 0\n            dp[i][l] = max(dp[i][l], dp[i - 1][l - 1] + d)\n\n    for i in reversed(range(n + 1)):\n        if dp[n - 1][i] >= k:\n            return n - i\n\n    return -1\n\n\nT = int(input())\nfor _ in range(T):\n    n, k = map(int, input().split(' '))\n    A = list(map(int, input().split(' ')))\n\n    print(solve(A, k))\n",
+  "incorrect": "# ------------------- fast io --------------------\nimport os\nimport sys\nfrom io import BytesIO, IOBase\n\nBUFSIZE = 8192\n\n\nclass FastIO(IOBase):\n    newlines = 0\n    \n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n    \n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n    \n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n    \n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n\n# ------------------- fast io --------------------\nfrom math import ceil\n\n\ndef prod(a, mod=10 ** 9 + 7):\n    ans = 1\n    for each in a:\n        ans = (ans * each) % mod\n    return ans\n\n\ndef gcd(x, y):\n    while y:\n        x, y = y, x % y\n    return x\n\n\ndef lcm(a, b): return a * b // gcd(a, b)\n\n\ndef binary(x, length=16):\n    y = bin(x)[2:]\n    return y if len(y) >= length else \"0\" * (length - len(y)) + y\n\n\nfor _ in range(int(input()) if True else 1):\n    #n = int(input())\n    n, k = map(int, input().split())\n    # a, b = map(int, input().split())\n    # c, d = map(int, input().split())\n    a = list(map(int, input().split()))\n    # b = list(map(int, input().split()))\n    # s = input()\n    dp = [[0] * (n + 1) for __ in range(n + 1)]\n    for i in range(1, n+1):\n        for j in range(1, n + 1):\n            # dp[i][j] = a[1..i] with j elements -> maximum matches\n            dp[i][j] = max(dp[i-1][j], (dp[i-1][j-1] + (a[i-1] == j)))\n    ans = -1\n    for j in range(n-1, 0, -1):\n        if dp[-1][j] >= k:\n            ans = n - j\n            break\n    count = len([i for i in range(n) if a[i] == i + 1])\n    if count >= k: ans = 0\n    print(ans)",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   4
+  ]
+ },
+ {
+  "name": "running_for_gold",
+  "description": "The Olympic Games have just started and Federico is eager to watch the marathon race.\n\nThere will be n athletes, numbered from 1 to n, competing in the marathon, and all of them have taken part in 5 important marathons, numbered from 1 to 5, in the past. For each 1\u2264 i\u2264 n and 1\u2264 j\u2264 5, Federico remembers that athlete i ranked r_{i,j}-th in marathon j (e.g., r_{2,4}=3 means that athlete 2 was third in marathon 4).\n\nFederico considers athlete x superior to athlete y if athlete x ranked better than athlete y in at least 3 past marathons, i.e., r_{x,j}<r_{y,j} for at least 3 distinct values of j.\n\nFederico believes that an athlete is likely to get the gold medal at the Olympics if he is superior to all other athletes.\n\nFind any athlete who is likely to get the gold medal (that is, an athlete who is superior to all other athletes), or determine that there is no such athlete.\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 1000) \u2014 the number of test cases. Then t test cases follow.\n\nThe first line of each test case contains a single integer n (1\u2264 n\u2264 50 000) \u2014 the number of athletes.\n\nThen n lines follow, each describing the ranking positions of one athlete.\n\nThe i-th of these lines contains the 5 integers r_{i,1},\\,r_{i,2},\\,r_{i,3},\\,r_{i,4},  r_{i,5} (1\u2264 r_{i,j}\u2264 50 000) \u2014 the ranking positions of athlete i in the past 5 marathons. It is guaranteed that, in each of the 5 past marathons, the n athletes have distinct ranking positions, i.e., for each 1\u2264 j\u2264 5, the n values r_{1,j},  r_{2, j},  ...,  r_{n, j} are distinct.\n\nIt is guaranteed that the sum of n over all test cases does not exceed 50 000.\n\nOutput\n\nFor each test case, print a single integer \u2014 the number of an athlete who is likely to get the gold medal (that is, an athlete who is superior to all other athletes). If there are no such athletes, print -1. If there is more than such one athlete, print any of them.\n\nExample\n\nInput\n\n\n4\n1\n50000 1 50000 50000 50000\n3\n10 10 20 30 30\n20 20 30 10 10\n30 30 10 20 20\n3\n1 1 1 1 1\n2 2 2 2 2\n3 3 3 3 3\n6\n9 5 3 7 1\n7 4 1 6 8\n5 6 7 3 2\n6 7 8 8 6\n4 2 2 4 5\n8 3 6 9 4\n\n\nOutput\n\n\n1\n-1\n1\n5\n\nNote\n\nExplanation of the first test case: There is only one athlete, therefore he is superior to everyone else (since there is no one else), and thus he is likely to get the gold medal.\n\nExplanation of the second test case: There are n=3 athletes. \n\n  * Athlete 1 is superior to athlete 2. Indeed athlete 1 ranks better than athlete 2 in the marathons 1, 2 and 3. \n  * Athlete 2 is superior to athlete 3. Indeed athlete 2 ranks better than athlete 3 in the marathons 1, 2, 4 and 5. \n  * Athlete 3 is superior to athlete 1. Indeed athlete 3 ranks better than athlete 1 in the marathons 3, 4 and 5. \n\n\n\nExplanation of the third test case: There are n=3 athletes. \n\n  * Athlete 1 is superior to athletes 2 and 3. Since he is superior to all other athletes, he is likely to get the gold medal. \n  * Athlete 2 is superior to athlete 3. \n  * Athlete 3 is not superior to any other athlete. \n\n\n\nExplanation of the fourth test case: There are n=6 athletes. \n\n  * Athlete 1 is superior to athletes 3, 4, 6. \n  * Athlete 2 is superior to athletes 1, 4, 6. \n  * Athlete 3 is superior to athletes 2, 4, 6. \n  * Athlete 4 is not superior to any other athlete. \n  * Athlete 5 is superior to athletes 1, 2, 3, 4, 6. Since he is superior to all other athletes, he is likely to get the gold medal. \n  * Athlete 6 is only superior to athlete 4. ",
+  "reference": "t = int(input().strip())\nwhile(t):\n    t-=1\n    n = int(input().strip())\n    a = []\n    for i in range(n):\n        a.append(list(map(int ,input().strip().split())))\n\n    if n==1:\n        print(1)\n        continue\n    \n    res = -1\n    gold = 0        # 0 is index of first player assuming he is superior\n\n    for i in range(1,n):\n        num = 0\n        for j in range(5):\n            if(a[i][j]<a[gold][j]):\n                num+=1\n        if(num>=3):\n            gold = i        \n\n    i = 0\n    for i in range(0,n):\n        num = 0\n        if(i!=gold):\n            for j in range(5):\n                if(a[i][j]<a[gold][j]):\n                    num+=1\n            if(num>=3):\n                res = -1\n                break\n    if(i==n-1):\n        res = gold+1\n\n    print(res)                            \n\n\n    # ath_rec = []\n\n    # for i in range(n):\n    #     ath_rec.append(list(map(int, input().strip().split())))\n\n    # # so ath_rec is a (N*5) matrix now we check for each column \n\n    # superior = [0]*(n+1)\n\n    # for k in range(5):\n    #     for i in range(n):\n    #         for j in range(n):\n    #             if(ath_rec[i][k]<ath_rec[j][k]):\n    #                 superior[i+1] +=1\n\n    # print(superior)                \n        \n\n\n\n    ",
+  "incorrect": "for hbdcjcsk in range(int(input())):\n    n=int(input())\n    a={}\n    for i in range(1,n+1):\n        l=list(map(int,input().split()))\n        a[i]=l\n    ans=-1\n    for i in a:\n        sum=50000*5-(a[i][0]+a[i][1]+a[i][2]+a[i][3]+a[i][4])\n        if sum<n-1:\n            break\n        sup=True\n        for j in a:\n            if j!=i:\n                count=0\n                if a[i][0]<a[j][0]:\n                    count+=1\n                if a[i][1]<a[j][1]:\n                    count+=1\n                if a[i][2]<a[j][2]:\n                    count+=1\n                if a[i][3]<a[j][3]:\n                    count+=1\n                if a[i][4]<a[j][4]:\n                    count+=1\n                if count<3:\n                    sup=False\n                    break\n        if sup:\n            ans=i\n            break\n    print(ans)",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   10,
+   12,
+   14,
+   15,
+   16,
+   17,
+   18
+  ],
+  "hard": [
+   9,
+   11,
+   13,
+   19
+  ]
+ },
+ {
+  "name": "maximize_the_intersections",
+  "description": "On a circle lie 2n distinct points, with the following property: however you choose 3 chords that connect 3 disjoint pairs of points, no point strictly inside the circle belongs to all 3 chords. The points are numbered 1,   2,   ...,   2n in clockwise order.\n\nInitially, k chords connect k pairs of points, in such a way that all the 2k endpoints of these chords are distinct.\n\nYou want to draw n - k additional chords that connect the remaining 2(n - k) points (each point must be an endpoint of exactly one chord).\n\nIn the end, let x be the total number of intersections among all n chords. Compute the maximum value that x can attain if you choose the n - k chords optimally.\n\nNote that the exact position of the 2n points is not relevant, as long as the property stated in the first paragraph holds.\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 100) \u2014 the number of test cases. Then t test cases follow.\n\nThe first line of each test case contains two integers n and k (1 \u2264 n \u2264 100, 0 \u2264 k \u2264 n) \u2014 half the number of points and the number of chords initially drawn.\n\nThen k lines follow. The i-th of them contains two integers x_i and y_i (1 \u2264 x_i,   y_i \u2264 2n, x_i \u2260 y_i) \u2014 the endpoints of the i-th chord. It is guaranteed that the 2k numbers x_1,   y_1,   x_2,   y_2,   ...,   x_k,   y_k are all distinct.\n\nOutput\n\nFor each test case, output the maximum number of intersections that can be obtained by drawing n - k additional chords.\n\nExample\n\nInput\n\n\n4\n4 2\n8 2\n1 5\n1 1\n2 1\n2 0\n10 6\n14 6\n2 20\n9 10\n13 18\n15 12\n11 7\n\n\nOutput\n\n\n4\n0\n1\n14\n\nNote\n\nIn the first test case, there are three ways to draw the 2 additional chords, shown below (black chords are the ones initially drawn, while red chords are the new ones):\n\n<image>\n\nWe see that the third way gives the maximum number of intersections, namely 4.\n\nIn the second test case, there are no more chords to draw. Of course, with only one chord present there are no intersections.\n\nIn the third test case, we can make at most one intersection by drawing chords 1-3 and 2-4, as shown below:\n\n<image>",
+  "reference": "def ch(x,y):\n    if (y[0]<x[0]<y[1] and not(y[0]<x[1]<y[1])) or (y[0]<x[1]<y[1] and not(y[0]<x[0]<y[1])):\n        return 1\n    return 0\n    \nt = int(input())\nfor i in range(t):\n    n, k = [int(i) for i in input().split()]\n    m = []\n    use  = [0]*(2*n+1)\n    for j in range(k):\n        l,r = [int(i) for i in input().split()]\n        if l>r:\n            l,r = r,l\n        use[l]=1\n        use[r]=1\n        m.append([l,r])\n    dontuse = []\n    for j in range(1, 2*n+1):\n        if not(use[j]):\n            dontuse.append(j)\n    ll = len(dontuse)\n    for j in range(ll//2):\n        m.append([dontuse[j],dontuse[j+ll//2]])\n    m.sort()\n    ans = 0\n    for j in range(n):\n        for k in range(j+1, n):\n            if ch(m[j],m[k]):\n                ans+=1\n    print(ans)\n        \n        \n        \n    \n    \n",
+  "incorrect": "def side(chord, i, n):\n    a, b = chord\n    a, b  = min(a, b), max(a, b)\n    if b-a==n and (i < a or i > b):\n        return 'Small'\n    elif b-a==n and (i < a < b):\n        return 'Large'\n    elif b-a < n and a < i < b:\n        return 'Small'\n    elif b-a> n and (i > b or i < a):\n        return 'Small'\n    else:\n        return 'Large'\n    \ndef process(n, chords):\n    k = len(chords)\n    answer = (n-k)*(n-k-1)//2\n    answer2 = 0\n    for a, b in chords:\n        a, b = min(a, b), max(a, b)\n        for a1, b1 in chords:\n            S1 = side([a, b], a1, n)\n            S2 = side([a, b], b1, n)\n            if abs(b1-a1)==n and abs(b-a)==n:\n                answer2+=1\n            elif S1 != S2:\n                answer2+=1\n    S = set([])\n    for a, b in chords:\n        S.add(a)\n        S.add(b)\n    answer2 = answer2//2\n    answer3 = 0\n    d = {}\n    for i in range(1, 2*n+1):\n        if i not in S:\n            for c in chords:\n                if c[0] not in d:\n                    d[c[0]] = [0, 0]\n                if side(c, i, n)=='Small':\n                    d[c[0]][0]+=1\n                else:\n                    d[c[0]][1]+=1\n    for c in d:\n        answer3+=min(d[c][0], d[c][1])\n    return answer+answer2+answer3\n\nt = int(input())\nfor i in range(t):\n    n, k  = [int(x) for x in input().split()]\n    chords = []\n    for j in range(k):\n        a, b = [int(x) for x in input().split()]\n        chords.append([a, b])\n    print(process(n, chords))",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   15
+  ]
+ },
+ {
+  "name": "digits_sum",
+  "description": "Let's define S(x) to be the sum of digits of number x written in decimal system. For example, S(5) = 5, S(10) = 1, S(322) = 7.\n\nWe will call an integer x interesting if S(x + 1) < S(x). In each test you will be given one integer n. Your task is to calculate the number of integers x such that 1 \u2264 x \u2264 n and x is interesting.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 1000) \u2014 number of test cases.\n\nThen t lines follow, the i-th line contains one integer n (1 \u2264 n \u2264 10^9) for the i-th test case.\n\nOutput\n\nPrint t integers, the i-th should be the answer for the i-th test case.\n\nExample\n\nInput\n\n\n5\n1\n9\n10\n34\n880055535\n\n\nOutput\n\n\n0\n1\n1\n3\n88005553\n\nNote\n\nThe first interesting number is equal to 9.",
+  "reference": "x=int(input())\nfor i in range(x):\n  y=int(input())\n  print((y+1)//10)",
+  "incorrect": "t = int(input())\nfor _ in range(t):\n    n = int(input())\n    if n<9:\n        print(0);\n    elif n==9:\n        print(1)\n    else:\n        print(n//10)",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   19
+  ],
+  "hard": [
+   18
+  ]
+ },
+ {
+  "name": "penalty",
+  "description": "Consider a simplified penalty phase at the end of a football match.\n\nA penalty phase consists of at most 10 kicks, the first team takes the first kick, the second team takes the second kick, then the first team takes the third kick, and so on. The team that scores more goals wins; if both teams score the same number of goals, the game results in a tie (note that it goes against the usual football rules). The penalty phase is stopped if one team has scored more goals than the other team could reach with all of its remaining kicks. For example, if after the 7-th kick the first team has scored 1 goal, and the second team has scored 3 goals, the penalty phase ends \u2014 the first team cannot reach 3 goals.\n\nYou know which player will be taking each kick, so you have your predictions for each of the 10 kicks. These predictions are represented by a string s consisting of 10 characters. Each character can either be 1, 0, or ?. This string represents your predictions in the following way:\n\n  * if s_i is 1, then the i-th kick will definitely score a goal; \n  * if s_i is 0, then the i-th kick definitely won't score a goal; \n  * if s_i is ?, then the i-th kick could go either way. \n\n\n\nBased on your predictions, you have to calculate the minimum possible number of kicks there can be in the penalty phase (that means, the earliest moment when the penalty phase is stopped, considering all possible ways it could go). Note that the referee doesn't take into account any predictions when deciding to stop the penalty phase \u2014 you may know that some kick will/won't be scored, but the referee doesn't.\n\nInput\n\nThe first line contains one integer t (1 \u2264 t \u2264 1 000) \u2014 the number of test cases.\n\nEach test case is represented by one line containing the string s, consisting of exactly 10 characters. Each character is either 1, 0, or ?.\n\nOutput\n\nFor each test case, print one integer \u2014 the minimum possible number of kicks in the penalty phase.\n\nExample\n\nInput\n\n\n4\n1?0???1001\n1111111111\n??????????\n0100000000\n\n\nOutput\n\n\n7\n10\n6\n9\n\nNote\n\nConsider the example test:\n\nIn the first test case, consider the situation when the 1-st, 5-th and 7-th kicks score goals, and kicks 2, 3, 4 and 6 are unsuccessful. Then the current number of goals for the first team is 3, for the second team is 0, and the referee sees that the second team can score at most 2 goals in the remaining kicks. So the penalty phase can be stopped after the 7-th kick.\n\nIn the second test case, the penalty phase won't be stopped until all 10 kicks are finished.\n\nIn the third test case, if the first team doesn't score any of its three first kicks and the second team scores all of its three first kicks, then after the 6-th kick, the first team has scored 0 goals and the second team has scored 3 goals, and the referee sees that the first team can score at most 2 goals in the remaining kicks. So, the penalty phase can be stopped after the 6-th kick.\n\nIn the fourth test case, even though you can predict the whole penalty phase, the referee understands that the phase should be ended only after the 9-th kick.",
+  "reference": "#----------FASTIOSTART-----------#\nfrom __future__ import division, print_function\nimport os\nimport sys\nfrom io import BytesIO, IOBase\nif sys.version_info[0] < 3:\n\tfrom __builtin__ import xrange as range\n\tfrom future_builtins import ascii, filter, hex, map, oct, zip\nBUFSIZE = 8192\nclass FastIO(IOBase):\n\tnewlines = 0\n\tdef __init__(self, file):\n\t\tself._fd = file.fileno()\n\t\tself.buffer = BytesIO()\n\t\tself.writable = \"x\" in file.mode or \"r\" not in file.mode\n\t\tself.write = self.buffer.write if self.writable else None\n\tdef read(self):\n\t\twhile True:\n\t\t\tb = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n\t\t\tif not b:\n\t\t\t\tbreak\n\t\t\tptr = self.buffer.tell()\n\t\t\tself.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n\t\tself.newlines = 0\n\t\treturn self.buffer.read()\n\tdef readline(self):\n\t\twhile self.newlines == 0:\n\t\t\tb = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n\t\t\tself.newlines = b.count(b\"\\n\") + (not b)\n\t\t\tptr = self.buffer.tell()\n\t\t\tself.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n\t\tself.newlines -= 1\n\t\treturn self.buffer.readline()\n\tdef flush(self):\n\t\tif self.writable:\n\t\t\tos.write(self._fd, self.buffer.getvalue())\n\t\t\tself.buffer.truncate(0), self.buffer.seek(0)\nclass IOWrapper(IOBase):\n\tdef __init__(self, file):\n\t\tself.buffer = FastIO(file)\n\t\tself.flush = self.buffer.flush\n\t\tself.writable = self.buffer.writable\n\t\tself.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n\t\tself.read = lambda: self.buffer.read().decode(\"ascii\")\n\t\tself.readline = lambda: self.buffer.readline().decode(\"ascii\")\ndef print(*args, **kwargs):\n\tsep, file = kwargs.pop(\"sep\", \" \"), kwargs.pop(\"file\", sys.stdout)\n\tat_start = True\n\tfor x in args:\n\t\tif not at_start:\n\t\t\tfile.write(sep)\n\t\tfile.write(str(x))\n\t\tat_start = False\n\tfile.write(kwargs.pop(\"end\", \"\\n\"))\n\tif kwargs.pop(\"flush\", False):\n\t\tfile.flush()\nif sys.version_info[0] < 3:\n\tsys.stdin, sys.stdout = FastIO(sys.stdin), FastIO(sys.stdout)\nelse:\n\tsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n#----------FASTIOFINISH----------#\nimport collections,string,bisect,re,random,queue,itertools,statistics,math\nfrom collections import *\nfrom bisect import *\nfrom string import *\nfrom itertools import * \nfrom statistics import *\nfrom math import *\nfrom re import *\nfrom queue import *\n#----------SASTA_STL-------------#\n# stack\nclass Stack:\n    def __init__(self):self.items = []\n    def push(self, item):self.items.append(item)\n    def pop(self):return self.items.pop()\n    def empty(self):return self.items == []\n    def size(self):return len(self.items)\n    def at(self,idx):\n    \ttry:return self.items[idx]\n    \texcept:return -1\n#priority_queue\nclass priority_queue(object):\n    def __init__(self):self.queue = []\n    def __str__(self):return ' '.join([str(i) for i in self.queue])\n    def empty(self):return len(self.queue) == 0\n    def push(self, data):self.queue.append(data)\n    def pop(self):\n        try:\n            max = 0\n            for i in range(len(self.queue)):\n                if self.queue[i] > self.queue[max]:\n                    max = i\n            item = self.queue[max]\n            del self.queue[max]\n            return item\n        except IndexError:\n            print()\n            exit()\n#----------SASTA_STL-------------#\nmod  = int(1e9+7)\nimax = float(\"inf\")\nimin = float(\"-inf\")\ntrue = True\nfalse= False\nN \t = int(1e5)\nnone = None\ninp = lambda : input()\nI   = lambda : int(inp())\nM   = lambda : map(int,inp().split())\nMS  = lambda : map(str,inp().split())\nS   = lambda : list(MS())\nL   = lambda : list(M())\ndef IO():\n\ttry:sys.stdin = open('input.txt', 'r');sys.stdout = open('uttar.txt', 'w')\n\texcept:pass\nIO()\n#----------TOTKA---------#\n\ndef kabraji_ka_totka():\n\t# totka hai dosto !\n\ts=inp()\n\tteam1=0;\n\tteam2=0;\n\tres=9;\n\tres=10\n\tmaxa=0;\n\tmaxb=0;\n\tmina=0\n\tminb=0\n\tfor i in range(10):\n\t\tif(i&1):\n\t\t\tif(s[i]!=\"0\"):\n\t\t\t\tmaxb+=1\n\t\t\tif(s[i]==\"1\"):\n\t\t\t\tminb+=1\n\t\telse:\n\t\t\tif(s[i]!=\"0\"):\n\t\t\t\tmaxa+=1\n\t\t\tif(s[i]==\"1\"):\n\t\t\t\tmina+=1\n\t\tif(maxa-minb > (10-i)//2):\n\t\t\tres=i+1\n\t\t\tbreak\n\t\tif(maxb-mina > (9-i)//2):\n\t\t\tres=i+1\n\t\t\tbreak\n\tprint(res)\n\n#----------TOTKA----------#\nif __name__ == '__main__':\n\tfor i in range(I()):kabraji_ka_totka()",
+  "incorrect": "t=int(input())\nfor x in range(t):\n    strr=list(input())\n    Ga=0\n    Gb=0\n    A=5\n    B=5\n    for i in range(10):\n        if i%2==0 and strr[i]=='?':\n            strr[i]=1\n        if i%2==1 and strr[i]=='?':\n            strr[i]=0\n        if i%2==0:\n            Ga+=int(strr[i])\n            A-=1\n        if i%2==1:\n            Gb+=int(strr[i])\n            B-=1\n        if Ga>Gb+B and Ga>=1:\n            print(i+1)\n            break\n        if Gb>Ga+A and Gb>=1:\n            print(i+1)\n            break\n        if i==9:\n            print(10)\n        \n        ",
+  "easy": [
+   0,
+   1,
+   3,
+   5,
+   6,
+   7,
+   8,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   18,
+   19
+  ],
+  "hard": [
+   2,
+   4,
+   9,
+   17
+  ]
+ },
+ {
+  "name": "common_divisor_graph",
+  "description": "Consider a sequence of distinct integers a_1, \u2026, a_n, each representing one node of a graph. There is an edge between two nodes if the two values are not coprime, i. e. they have a common divisor greater than 1.\n\nThere are q queries, in each query, you want to get from one given node a_s to another a_t. In order to achieve that, you can choose an existing value a_i and create new value a_{n+1} = a_i \u22c5 (1 + a_i), with edges to all values that are not coprime with a_{n+1}. Also, n gets increased by 1. You can repeat that operation multiple times, possibly making the sequence much longer and getting huge or repeated values. What's the minimum possible number of newly created nodes so that a_t is reachable from a_s?\n\nQueries are independent. In each query, you start with the initial sequence a given in the input.\n\nInput\n\nThe first line contains two integers n and q (2 \u2264 n \u2264 150 000, 1 \u2264 q \u2264 300 000) \u2014 the size of the sequence and the number of queries.\n\nThe second line contains n distinct integers a_1, a_2, \u2026, a_n (2 \u2264 a_i \u2264 10^6, a_i \u2260 a_j if i \u2260 j).\n\nThe j-th of the following q lines contains two distinct integers s_j and t_j (1 \u2264 s_j, t_j \u2264 n, s_j \u2260 t_j) \u2014 indices of nodes for j-th query.\n\nOutput\n\nPrint q lines. The j-th line should contain one integer: the minimum number of new nodes you create in order to move from a_{s_j} to a_{t_j}.\n\nExamples\n\nInput\n\n\n3 3\n2 10 3\n1 2\n1 3\n2 3\n\n\nOutput\n\n\n0\n1\n1\n\n\nInput\n\n\n5 12\n3 8 7 6 25\n1 2\n1 3\n1 4\n1 5\n2 1\n2 3\n2 4\n2 5\n3 1\n3 2\n3 4\n3 5\n\n\nOutput\n\n\n0\n1\n0\n1\n0\n1\n0\n1\n1\n1\n1\n2\n\nNote\n\nIn the first example, you can first create new value 2 \u22c5 3 = 6 or 10 \u22c5 11 = 110 or 3 \u22c5 4 = 12. None of that is needed in the first query because you can already get from a_1 = 2 to a_2 = 10.\n\nIn the second query, it's optimal to first create 6 or 12. For example, creating 6 makes it possible to get from a_1 = 2 to a_3 = 3 with a path (2, 6, 3).\n\n<image>\n\nIn the last query of the second example, we want to get from a_3 = 7 to a_5 = 25. One way to achieve that is to first create 6 \u22c5 7 = 42 and then create 25 \u22c5 26 = 650. The final graph has seven nodes and it contains a path from a_3 = 7 to a_5 = 25.",
+  "reference": "# ------------------- fast io --------------------\nimport os\nimport sys\nfrom io import BytesIO, IOBase\n\nBUFSIZE = 8192\n\n\nclass FastIO(IOBase):\n    newlines = 0\n    \n    def __init__(self, file):\n        self._fd = file.fileno()\n        self.buffer = BytesIO()\n        self.writable = \"x\" in file.mode or \"r\" not in file.mode\n        self.write = self.buffer.write if self.writable else None\n    \n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:\n                break\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n    \n    def readline(self):\n        while self.newlines == 0:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            self.newlines = b.count(b\"\\n\") + (not b)\n            ptr = self.buffer.tell()\n            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n    \n    def flush(self):\n        if self.writable:\n            os.write(self._fd, self.buffer.getvalue())\n            self.buffer.truncate(0), self.buffer.seek(0)\n\n\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file)\n        self.flush = self.buffer.flush\n        self.writable = self.buffer.writable\n        self.write = lambda s: self.buffer.write(s.encode(\"ascii\"))\n        self.read = lambda: self.buffer.read().decode(\"ascii\")\n        self.readline = lambda: self.buffer.readline().decode(\"ascii\")\n\n\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ninput = lambda: sys.stdin.readline().rstrip(\"\\r\\n\")\n\n# ------------------- fast io --------------------\nfrom math import ceil\n\n\ndef prod(a, mod=10 ** 9 + 7):\n    ans = 1\n    for each in a:\n        ans = (ans * each) % mod\n    return ans\n\n\ndef gcd(x, y):\n    while y:\n        x, y = y, x % y\n    return x\n\n\ndef lcm(a, b): return a * b // gcd(a, b)\n\n\ndef binary(x, length=16):\n    y = bin(x)[2:]\n    return y if len(y) >= length else \"0\" * (length - len(y)) + y\n\n\ndef connected_components(n, graph):\n    components, visited = [], [False] * n\n    \n    def dfs(start):\n        component, stack = [], [start]\n        \n        while stack:\n            start = stack[-1]\n            \n            if visited[start]:\n                stack.pop()\n                continue\n            else:\n                visited[start] = True\n                component.append(start)\n            \n            for i in graph[start]:\n                if not visited[i]:\n                    stack.append(i)\n        \n        return component\n    \n    for i in range(n):\n        if not visited[i]:\n            components.append(dfs(i))\n    \n    return components\n\ndef Sieve(limit=10 ** 6):\n    \"\"\"Uses Sieve algorithm and stores a factor of each number!\n        If isPrime[i] = 1, the number 'i' is prime.\"\"\"\n    isPrime = [1] * (limit + 1)\n    isPrime[0] = isPrime[1] = 0\n    for i in range(2, limit + 1):\n        if isPrime[i] != 1: continue\n        for j in range(i * i, limit + 1, i):\n            isPrime[j] = i\n    return isPrime\n\nisPrime = Sieve(10**6 + 2)\n\n\ndef prime_factors(n):\n    \"\"\"Returns prime factorisation of n!\"\"\"\n    if n < 2:\n        return []\n    result = []\n    while isPrime[n] > 1:\n        y = isPrime[n]\n        result += [y]\n        while n % y == 0:\n            n //= y\n    if n != 1:\n        result += [n]\n    return result\n\nfor _ in range(int(input()) if not True else 1):\n    #n = int(input())\n    n, q = map(int, input().split())\n    # a, b = map(int, input().split())\n    # c, d = map(int, input().split())\n    a = list(map(int, input().split()))\n    # b = list(map(int, input().split()))\n    # s = input()\n    graph = [[] for i in range(n)]\n    px = {}\n    for i in range(n):\n        for p in prime_factors(a[i]):\n            if p not in px:\n                px[p] = i\n            else:\n                graph[i] += [px[p]]\n                graph[px[p]] += [i]\n    \n    cp = connected_components(n, graph)\n    comp_num = [0] * n\n    for i in range(1, len(cp)):\n        for j in cp[i]:\n            comp_num[j] = i\n    \n    st2 = set()\n    for i in range(len(cp)):\n        for j in cp[i]:\n            y = set()\n            for prime in prime_factors(a[j] + 1):\n                if prime in px:\n                    st2.add((i, comp_num[px[prime]]))\n                    y.add(comp_num[px[prime]])\n            for y1 in y:\n                for y2 in y:\n                    if y1 != y2:\n                        st2.add((y1, y2))\n\n    for __ in range(q):\n        x, y = map(int, input().split())\n        x -= 1\n        y -= 1\n        if comp_num[x] == comp_num[y]:\n            print(0)\n            continue\n        p, q = comp_num[x], comp_num[y]\n        if (p, q) in st2 or (q, p) in st2:\n            print(1)\n            continue\n        print(2)",
+  "incorrect": "from bisect import bisect\nfrom collections import defaultdict\nfrom sys import stdin\n\n\ndef input():\n    return next(stdin)[:-1]\n\n\ndef readline():\n    return map(int, input().split())\n\n\nprimes = [2]\nfor q in range(3, 10**3, 2):\n    if all(q % p for p in primes):\n        primes.append(q)\n\n\ndef prime_divisors(n, primes=primes):\n    ret = []\n    for p in primes:\n        if p * p > n:\n            break\n        q, r = divmod(n, p)\n        if not r:\n            ret.append(p)\n        while not r:\n            n = q\n            q, r = divmod(n, p)\n    if n > 1:\n        ret.append(n)\n    return ret\n\n\ndef test_prime_divisors():\n    assert list(prime_divisors(6)) == [2, 3]\n    assert list(prime_divisors(9)) == [3]\n    assert list(prime_divisors(10)) == [2, 5]\n    assert list(prime_divisors(7)) == [7]\n    assert list(prime_divisors(997)) == [997]\n    assert list(prime_divisors(1009)) == [1009]\n\n\nclass DSU:\n    __slots__ = ('p',)\n\n    def __init__(self):\n        self.p = list(range(10**6))\n\n    def _get_root(self, a):\n        while self.p[a] != a:\n            a = self.p[a]\n        return a\n\n    def __setitem__(self, a, b):\n        assert b <= a\n        r = self._get_root(b)\n        while a != r:\n            self.p[a], a = r, self.p[a]\n\n    def __getitem__(self, a):\n        self[a] = a\n        return self.p[a]\n\n\ndef main():\n    n, q = readline()\n    a = list(readline())\n    queries = (readline() for __ in range(q))\n\n    min_divisor = list()\n    dsu = DSU()\n    for ai in a:\n        p, *rest = prime_divisors(ai)\n        min_divisor.append(p)\n        for q in rest:\n            dsu[q] = p\n\n    for i in range(len(dsu.p)):\n        dsu[i]\n    dsu = dsu.p\n\n    components = sorted(dsu[p] for p in min_divisor)\n\n    available = [set() for __ in range(len(components))]\n    for (ai, p) in zip(a, min_divisor):\n        p = dsu[p]\n        if p != dsu[2]:\n            idx = bisect(components, p) - 1\n            assert idx >= 0\n            available[idx].update(dsu[q] for q in prime_divisors(ai + 1))\n\n    def av(p, q):\n        return p in available[bisect(components, q) - 1]\n\n    for (s, t) in queries:\n        p = dsu[min_divisor[s-1]]\n        q = dsu[min_divisor[t-1]]\n        if p == q:\n            print(0)\n        elif dsu[2] in (p, q) or av(p, q) or av(q, p):\n            print(1)\n        else:\n            print(2)\n\n\nif __name__ == '__main__':\n    main()\n\n\n# t.me/belkka\n",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18
+  ],
+  "hard": [
+   19
+  ]
+ },
+ {
+  "name": "cherry",
+  "description": "You are given n integers a_1, a_2, \u2026, a_n. Find the maximum value of max(a_l, a_{l + 1}, \u2026, a_r) \u22c5 min(a_l, a_{l + 1}, \u2026, a_r) over all pairs (l, r) of integers for which 1 \u2264 l < r \u2264 n.\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 10 000) \u2014 the number of test cases.\n\nThe first line of each test case contains a single integer n (2 \u2264 n \u2264 10^5).\n\nThe second line of each test case contains n integers a_1, a_2, \u2026, a_n (1 \u2264 a_i \u2264 10^6).\n\nIt is guaranteed that the sum of n over all test cases doesn't exceed 3 \u22c5 10^5.\n\nOutput\n\nFor each test case, print a single integer \u2014 the maximum possible value of the product from the statement.\n\nExample\n\nInput\n\n\n4\n3\n2 4 3\n4\n3 2 3 1\n2\n69 69\n6\n719313 273225 402638 473783 804745 323328\n\n\nOutput\n\n\n12\n6\n4761\n381274500335\n\nNote\n\nLet f(l, r) = max(a_l, a_{l + 1}, \u2026, a_r) \u22c5 min(a_l, a_{l + 1}, \u2026, a_r).\n\nIn the first test case, \n\n  * f(1, 2) = max(a_1, a_2) \u22c5 min(a_1, a_2) = max(2, 4) \u22c5 min(2, 4) = 4 \u22c5 2 = 8. \n  * f(1, 3) = max(a_1, a_2, a_3) \u22c5 min(a_1, a_2, a_3) = max(2, 4, 3) \u22c5 min(2, 4, 3) = 4 \u22c5 2 = 8. \n  * f(2, 3) = max(a_2, a_3) \u22c5 min(a_2, a_3) = max(4, 3) \u22c5 min(4, 3) = 4 \u22c5 3 = 12. \n\n\n\nSo the maximum is f(2, 3) = 12.\n\nIn the second test case, the maximum is f(1, 2) = f(1, 3) = f(2, 3) = 6.",
+  "reference": "for _ in range(int(input())):\n    n=int(input())\n    l=list(map(int,input().split()))\n    mx=-10**9\n    for i in range(n-1):\n        if l[i]*l[i+1]>mx:\n            mx=l[i]*l[i+1]\n    print(mx)\n            ",
+  "incorrect": "'''Author- Nipun Jain'''\nimport os,sys;\nimport itertools\nfrom io import BytesIO, IOBase\nBUFSIZE = 8192\nclass FastIO(IOBase):\n    newlines = 0\n    def __init__(self, file):\n        self._fd = file.fileno();self.buffer = BytesIO();self.writable = \"x\" in file.mode or \"r\" not in file.mode;self.write = self.buffer.write if self.writable else None\n    def read(self):\n        while True:\n            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))\n            if not b:break\n            ptr = self.buffer.tell();self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines = 0\n        return self.buffer.read()\n    def readline(self):\n        while self.newlines == 0:b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE));self.newlines = b.count(b\"\\n\") + (not b);ptr = self.buffer.tell();self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)\n        self.newlines -= 1\n        return self.buffer.readline()\n    def flush(self):\n        if self.writable:os.write(self._fd, self.buffer.getvalue());self.buffer.truncate(0), self.buffer.seek(0)\nclass IOWrapper(IOBase):\n    def __init__(self, file):\n        self.buffer = FastIO(file);self.flush = self.buffer.flush;self.writable = self.buffer.writable;self.write = lambda s: self.buffer.write(s.encode(\"ascii\"));self.read = lambda: self.buffer.read().decode(\"ascii\");self.readline = lambda: self.buffer.readline().decode(\"ascii\")\nsys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)\ntry:\n    sys.stdin,sys.stdout=open('input.txt','r'),open('output.txt','w')\nexcept:\n    pass\nmod=int(1e9 + 7);from collections import *;\nimport math\nfrom sys import stdin, stdout\ndef input_array():\n    return list(map(int, stdin.readline().split()))\ndef input_one():\n    return int(stdin.readline())\ndef input_two():\n    a, b = map(int, stdin.readline().split())\n    return a, b\ndef input_three():\n    a, b, c = map(int, stdin.readline().split())\n    return a, b, c\ndef input_four():\n    a, b, c, d = map(int, stdin.readline().split())\n    return a, b, c, d\ndef input_five():\n    a, b, c, d, e = map(int, stdin.readline().split())\n    return a, b, c, d, e\ndef input_six():\n    a, b, c, d, e, f = map(int, stdin.readline().split())\n    return a, b, c, d, e, f\ndef input_s():\n    s=input()\n    return s\n# sys.setrecursionlimit(500000)\n###################### Start Here ######################\n    \nn=int(input())\nfor i in range(n):\n    t=int(input())\n    l=[int(x) for x in input().split()]\n    # a=sorted(l)\n    count=0\n    for i in range(0,t):\n        count=max(count,l[i]*l[i-1])\n    print(count)\n",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   12
+  ]
+ },
+ {
+  "name": "cobb",
+  "description": "You are given n integers a_1, a_2, \u2026, a_n and an integer k. Find the maximum value of i \u22c5 j - k \u22c5 (a_i | a_j) over all pairs (i, j) of integers with 1 \u2264 i < j \u2264 n. Here, | is the [bitwise OR operator](https://en.wikipedia.org/wiki/Bitwise_operation#OR).\n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 10 000) \u2014 the number of test cases.\n\nThe first line of each test case contains two integers n (2 \u2264 n \u2264 10^5) and k (1 \u2264 k \u2264 min(n, 100)).\n\nThe second line of each test case contains n integers a_1, a_2, \u2026, a_n (0 \u2264 a_i \u2264 n).\n\nIt is guaranteed that the sum of n over all test cases doesn't exceed 3 \u22c5 10^5.\n\nOutput\n\nFor each test case, print a single integer \u2014 the maximum possible value of i \u22c5 j - k \u22c5 (a_i | a_j).\n\nExample\n\nInput\n\n\n4\n3 3\n1 1 3\n2 2\n1 2\n4 3\n0 1 2 3\n6 6\n3 2 0 0 5 6\n\n\nOutput\n\n\n-1\n-4\n3\n12\n\nNote\n\nLet f(i, j) = i \u22c5 j - k \u22c5 (a_i | a_j).\n\nIn the first test case, \n\n  * f(1, 2) = 1 \u22c5 2 - k \u22c5 (a_1 | a_2) = 2 - 3 \u22c5 (1 | 1) = -1. \n  * f(1, 3) = 1 \u22c5 3 - k \u22c5 (a_1 | a_3) = 3 - 3 \u22c5 (1 | 3) = -6. \n  * f(2, 3) = 2 \u22c5 3 - k \u22c5 (a_2 | a_3) = 6 - 3 \u22c5 (1 | 3) = -3. \n\n\n\nSo the maximum is f(1, 2) = -1.\n\nIn the fourth test case, the maximum is f(3, 4) = 12.",
+  "reference": "for _ in range(int(input())):\n    n,k  = map( int, input().split(' ') )\n    arr = [int(w) for w in input().split(' ')]\n    ans = -10**18\n    temp =[]\n    cnt = 0 \n    for i in range(n-1,-1,-1):\n        temp.append( (arr[i],i) )\n        cnt += 1 \n        if cnt==300:\n            break \n    for i in range(len(temp)):\n        for j in range(i+1,len(temp)):\n            u1,v1 = temp[i]\n            u2,v2 = temp[j]\n            ans = max(ans ,  (v1+1)*(v2+1) - k*(u1|u2)  )\n    print(ans)",
+  "incorrect": "def solve(n, k, a):\n  x = n * (n - 1) - k * (a[-1] | a[-2])\n  r = list(reversed(range(n)))\n  for i in r:\n    for j in r:\n      if j >= i: continue\n      if i * j < x: return x\n      y = (i + 1) * (j + 1) - k * (a[i] | a[j])\n      x = max(x, y)\n\n  return x\n\nt = int(input())\nfor i in range(t):\n  n, k = map(int, input().split())\n  a = list(map(int, input().split()))\n  print(solve(n, k, a))\n",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   11,
+   12,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "hard": [
+   7,
+   9,
+   10,
+   13
+  ]
+ },
+ {
+  "name": "mikasa",
+  "description": "You are given two integers n and m. Find the \\operatorname{MEX} of the sequence n \u2295 0, n \u2295 1, \u2026, n \u2295 m. Here, \u2295 is the [bitwise XOR operator](https://en.wikipedia.org/wiki/Bitwise_operation#XOR).\n\n\\operatorname{MEX} of the sequence of non-negative integers is the smallest non-negative integer that doesn't appear in this sequence. For example, \\operatorname{MEX}(0, 1, 2, 4) = 3, and \\operatorname{MEX}(1, 2021) = 0. \n\nInput\n\nThe first line contains a single integer t (1 \u2264 t \u2264 30 000) \u2014 the number of test cases.\n\nThe first and only line of each test case contains two integers n and m (0 \u2264 n, m \u2264 10^9).\n\nOutput\n\nFor each test case, print a single integer \u2014 the answer to the problem.\n\nExample\n\nInput\n\n\n5\n3 5\n4 6\n3 2\n69 696\n123456 654321\n\n\nOutput\n\n\n4\n3\n0\n640\n530866\n\nNote\n\nIn the first test case, the sequence is 3 \u2295 0, 3 \u2295 1, 3 \u2295 2, 3 \u2295 3, 3 \u2295 4, 3 \u2295 5, or 3, 2, 1, 0, 7, 6. The smallest non-negative integer which isn't present in the sequence i. e. the \\operatorname{MEX} of the sequence is 4.\n\nIn the second test case, the sequence is 4 \u2295 0, 4 \u2295 1, 4 \u2295 2, 4 \u2295 3, 4 \u2295 4, 4 \u2295 5, 4 \u2295 6, or 4, 5, 6, 7, 0, 1, 2. The smallest non-negative integer which isn't present in the sequence i. e. the \\operatorname{MEX} of the sequence is 3.\n\nIn the third test case, the sequence is 3 \u2295 0, 3 \u2295 1, 3 \u2295 2, or 3, 2, 1. The smallest non-negative integer which isn't present in the sequence i. e. the \\operatorname{MEX} of the sequence is 0.",
+  "reference": "import sys\n\n\ninput = sys.stdin.readline\n\n\n# sys.setrecursionlimit(400000)\ndef I(): return input().strip()\n\n\ndef II(): return int(input().strip())\n\n\ndef LI(): return [*map(int, input().strip().split())]\n\n\nimport copy, string, math, time, functools, random, fractions\nfrom heapq import heappush, heappop, heapify\nfrom bisect import bisect_left, bisect_right\nfrom collections import deque, defaultdict, Counter, OrderedDict\nfrom itertools import permutations, combinations, groupby\nfrom operator import itemgetter\n\n\nfor _ in range(II()):\n    a, b = LI()\n    if a > b:\n        print(0)\n        continue\n    get_bin = lambda x, n: format(x, 'b').zfill(n)\n    A, B = get_bin(a, 32), get_bin(b + 1, 32)\n    ans = [0] * 32\n    for i in range(32):\n        if A[i] == B[i]:\n            continue\n        if A[i] == '1':\n            break\n        ans[i] = 1\n    print(int(''.join([str(x) for x in ans]), 2))",
+  "incorrect": "import math\nfor _ in range(int(input())):\n    n,m=map(int,input().split())\n    a=\" \"\n    b=0\n    li=[]\n    for i in range(32):\n        li.append(i)\n    if(n>m):\n        print(0)\n    else:\n        a=bin(n)[2:]\n        b=len(a)\n        i=b-1\n        j=0\n        while(i>=0):\n            if(a[i]==\"1\"):\n                li.remove(j)\n            j=j+1 \n            i=i-1\n        li.append(-1)\n        x=n \n        k=m-n+1\n        while(x<=m):\n            y=int(math.log(k,2))\n            for i in range(len(li)):\n                if(li[i]>=y and li[i-1]<y ):\n                    y=li[i]\n                    # print(li)\n                    break\n            x=x+(2**y)\n            k=k-(2**y)\n            # print(x,k,y,li)\n        print(x-n)",
+  "easy": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   18,
+   19
+  ],
+  "hard": [
+   4,
+   17
+  ]
+ }
+]
