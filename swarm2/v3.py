@@ -232,10 +232,22 @@ class PatientAgent(Agent):
         last = None
         for attempt in range(self.TRIES):
             try:
-                return self.client.responses.create(
+                r = self.client.responses.create(
                     model=self.model, instructions=self.system, input=self.items, tools=TOOLS,
                     temperature=0.8, max_output_tokens=MAX_OUTPUT_TOKENS,
-                    extra_body={"reasoning": {"effort": "none"}}, **kw)
+                    extra_body={"reasoning": {"effort": "none"}}, stream=True, **kw)
+                if hasattr(r, "output"):  # a client without streaming (tests)
+                    return r
+                final = None
+                for ev in r:  # streaming: long replies no longer hit the gateway's ~180 s timeout (504)
+                    t = getattr(ev, "type", "")
+                    if t in ("response.completed", "response.incomplete"):  # incomplete = hit max tokens
+                        final = ev.response
+                    elif t in ("response.failed", "error"):
+                        raise RuntimeError(f"stream event {t}: {str(ev)[:200]}")
+                if final is None:
+                    raise RuntimeError("stream ended without response.completed")
+                return final
             except Exception as e:  # noqa: BLE001
                 last = e
                 self.log.append({"event": "retry", "step": self.steps + 1, "attempt": attempt,

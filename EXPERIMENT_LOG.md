@@ -102,3 +102,10 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - Main run pass 1 started 19:36 IST (15 rollouts at once). By 20:20: 4 GLM rollouts complete (17–34 min each); 3 Qwen rollouts (`S08_r1`, `S11_r0`, `S15_r2`) incomplete after ~40 min each with repeated Adaption **504 Gateway Time-out**. All failures so far are on Qwen3.5-397B.
 - Fix for the rerun passes (the running pass keeps the old code): `PatientAgent` in `v3.py` makes the same API call as `Agent._create` but tries 16 times with waits up to 5 min (was 8 tries, up to 3 min). Failed rollouts now save their tick count and partial agent logs. `agent.py` not changed. Offline tests: 5 passed.
 - A background job runs `analyze_v3.py` every hour and pushes `results/main/` ("results: main run partial (n/112 …)").
+
+### 2026-11-08 20:45: Qwen 504 root cause found; main run restarted
+- By 20:30, Qwen had 0 of 4 main rollouts complete (all 504 after 38–53 min); GLM 5 of 5.
+- Probe 1: a ~140k-token Qwen input returns fine in 8 s → not a context-length limit.
+- Probe 2: a prompt asking for a long reply (8,000 max output tokens): **non-streaming → 504 after 183 s; streaming → completes in 125 s**. The gateway cuts any request longer than ~3 min. When a Qwen agent writes a long reply (e.g. a big file), every retry sends the same input and fails the same way, so the rollout dies.
+- Fix: `PatientAgent._create` now streams (`stream=True`) and takes the final `response.completed` (or `response.incomplete` at the token cap) as the reply. Live check: 3 steps each on qwen3.5-397b and glm-5.2, tools called, 0 retries.
+- Stopped pass 1 (in-flight rollouts lost; 5 complete GLM rollouts kept: `C06_r0`, `C14_r0`, `S06_r1`, `S20_r2`, + 1) and restarted all passes with the fix. Incomplete rollouts are rerun.
