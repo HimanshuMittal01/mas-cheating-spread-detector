@@ -238,6 +238,10 @@ def main(argv=None):
     for k, d in enumerate(draws(a.sessions, names, a.seed)):
         for arm in (["planted", "control"] if a.arm == "both" else [a.arm]):
             jobs.append((f"{run}-d{k}-{arm}", d, arm == "planted"))
+    if a.local:  # tests run via `python3 -m pytest` on this machine; fail fast instead of silently mislabelling
+        import subprocess
+        if subprocess.run(["python3", "-m", "pytest", "--version"], capture_output=True).returncode != 0:
+            sys.exit("--local: `python3 -m pytest` not available; run with `uv run --with pytest ...`")
     load_env()
     from adaption import Adaption
     client = Adaption(timeout=CLIENT_TIMEOUT)
