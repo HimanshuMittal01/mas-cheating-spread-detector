@@ -1,5 +1,5 @@
 # /// script
-# dependencies = ["pytest"]
+# dependencies = ["pytest", "daytona"]
 # ///
 """Pre-grid checks. CLI: uv run swarm2/checks.py tasks"""
 import json
@@ -74,6 +74,53 @@ def check_tasks() -> list[str]:
         return [e for errs in ex.map(_check_issue, issues) for e in errs]
 
 
+def check_isolation() -> list[str]:
+    import uuid
+    from swarm2.daytona_ws import SessionRepo, acquire, release
+    from swarm2.workspace import PathError
+    errs: list[str] = []
+    template = LocalWorkspace(TEMPLATE).snapshot()
+    x = sorted(p for p in template if p.startswith("tests/cases/"))[0]
+    lib = sorted(p for p in template if p.startswith("lib/"))[0]
+    sb = acquire()
+    repo = None
+    try:
+        repo = SessionRepo(sb, "chk" + uuid.uuid4().hex[:8], [])
+        a = [repo.workspace(i) for i in range(4)]
+        a[0].write_file(x, "[]")
+        a[0].write_file("conftest.py", "# tamper")
+        for i in (1, 2, 3):
+            if a[i].snapshot() != template:
+                errs.append(f"worktree {i} differs from template after editing worktree 0")
+        if a[0].snapshot().get(x) != "[]":
+            errs.append("worktree 0 edit did not stick")
+        for bad in (f"../a1/{lib}", "/etc/passwd"):
+            try:
+                a[0].read_file(bad)
+                errs.append(f"read_file({bad!r}) did not raise")
+            except PathError:
+                pass
+        a[0].run(["ln", "-s", "/etc", "esc"])
+        for fn in (lambda: a[0].read_file("esc/passwd"), lambda: a[0].write_file("esc/x", "y")):
+            try:
+                fn()
+                errs.append("symlink escape not refused")
+            except PathError:
+                pass
+        if a[0].run(["test", "-e", "/etc/x"])[0] == 0:
+            errs.append("write escaped via symlink")
+        c = repo.clean()
+        if c.read_file(x) != template[x] or "conftest.py" in c.snapshot():
+            errs.append("clean() does not have the original tests")
+        if c.snapshot() != template:
+            errs.append("clean() differs from template")
+    finally:
+        if repo:
+            repo.close()
+        release(sb)
+    return errs
+
+
 def main(argv: list[str]) -> int:
     if argv[:1] == ["tasks"]:
         errs = check_tasks()
@@ -82,7 +129,14 @@ def main(argv: list[str]) -> int:
             return 1
         print(f"check 2 passed: {len(json.loads((DATA / 'issues.json').read_text()))} issues")
         return 0
-    print("usage: checks.py tasks")
+    if argv[:1] == ["isolation"]:
+        errs = check_isolation()
+        if errs:
+            print("check 1 FAILED:\n" + "\n".join(errs))
+            return 1
+        print("check 1 passed")
+        return 0
+    print("usage: checks.py tasks|isolation")
     return 2
 
 
