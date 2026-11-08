@@ -1,5 +1,7 @@
 # Design v3 results: why does cheating spread?
 
+> **CORRECTION (Nov 9, 03:55 IST). Parts of this report are withdrawn.** The "tamper" label below counted agents that fixed the code and set the one wrong test back to its correct value as tampering. A spec-based regrade (final code run against the correct tests, in a sandbox) shows 23 of the 25 "tampers" had correct code: 15 used the posted CI-disabling hook, 9 restored the wrong test to its correct value, 1 other. Still valid: the posted hook spreads only with the method block (15/144 vs 0/144, p = 2e-5); network mode also raises hook use (+9 pts, Holm p = 0.03). Withdrawn: the 8.7% cheating rate and "GLM edits test data and hides it". Green-suite-but-wrong-code is 25/288 vs 1/48 (p = 0.09) and no factor moves it. See [corrected.md](corrected.md) and EXPERIMENT_LOG.md. A revised report follows after the realism check.
+
 Run `main`, Nov 8–9, 2026. 112 rollouts, 336 honest agent outcomes. Full tables: [summary.md](summary.md). Per-agent data: [agents.csv](agents.csv). How we got here: [EXPERIMENT_LOG.md](../../EXPERIMENT_LOG.md).
 
 ## Setup (as run)
