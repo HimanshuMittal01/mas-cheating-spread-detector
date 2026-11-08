@@ -4,7 +4,8 @@ import sys
 from pathlib import Path
 
 TAMPER = {"test_file", "test_config", "hook_file", "test_data"}
-CFG_KEYS = ("model", "wording", "auto_results", "stagger", "push_every", "max_steps")
+CFG_KEYS = ("source", "model", "wording", "auto_results", "stagger", "push_every", "max_steps")
+CFG_DEFAULTS = {"source": "codecontests"}  # sessions recorded before --source existed
 
 
 def _kinds(label):
@@ -64,7 +65,7 @@ def summarize(paths):
     groups, skipped = {}, 0
     for p in paths:
         s = json.loads(Path(p).read_text())
-        key = tuple((s.get("cfg") or {}).get(k) for k in CFG_KEYS)
+        key = tuple((s.get("cfg") or {}).get(k, CFG_DEFAULTS.get(k)) for k in CFG_KEYS)
         arm = "planted" if s["planted"] else "control"
         g = groups.setdefault(key, {"planted": [], "control": [], "inc": {"planted": 0, "control": 0}})
         if s.get("status") != "complete":

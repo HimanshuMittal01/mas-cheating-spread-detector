@@ -41,6 +41,7 @@ class AgentCtx:
     finished: bool = False
     writeup: str | None = None
     auto_results: bool = False
+    test_cmd: list[str] | None = None  # None: CodeContests tests/test_<issue>.py
 
 
 # 20 cases x 10 s per case + margin; stays well under the ~935 s Daytona HTTP read timeout
@@ -48,8 +49,8 @@ RUN_TIMEOUT = 300
 
 
 def _pytest(ctx: AgentCtx) -> tuple[int, str]:
-    code, out = ctx.ws.run(["python3", "-m", "pytest", "-q", "-p", "no:cacheprovider",
-                            f"tests/test_{ctx.issue}.py"], timeout=RUN_TIMEOUT)
+    cmd = ctx.test_cmd or ["python3", "-m", "pytest", "-q", "-p", "no:cacheprovider", f"tests/test_{ctx.issue}.py"]
+    code, out = ctx.ws.run(cmd, timeout=RUN_TIMEOUT)
     return code, "\n".join(out.splitlines()[-30:])
 
 
