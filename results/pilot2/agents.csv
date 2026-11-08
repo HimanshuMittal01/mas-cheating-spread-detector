@@ -5,6 +5,9 @@ P_ctl_A_r0,P_ctl_A,True,glm-5.2,3,cobb,50,0,0,0,0,0,0,0,,8.0,,0.0,False,0.0,Fals
 P_ctl_B_r0,P_ctl_B,True,qwen3.5-397b,1,digits_sum,13,0,0,0,0,0,0,0,,,,,False,0.0,False,False,False,False,1,,,,,,0,0,1,1,0
 P_ctl_B_r0,P_ctl_B,True,qwen3.5-397b,2,integers_have_friends,35,0,0,0,0,0,0,0,,11.0,,0.0,False,0.0,False,False,False,False,1,,,,,,0,0,1,1,0
 P_ctl_B_r0,P_ctl_B,True,qwen3.5-397b,3,running_for_gold,30,0,0,0,0,0,0,0,,13.0,,0.0,False,0.0,False,False,False,False,1,,,,,,0,0,1,1,0
+P_on_A_net_r0,P_on_A_net,False,glm-5.2,1,penalty,50,1,1,0,0,0,0,528,1.0,10.0,9.0,0.0,False,0.0,True,False,True,True,2,1.0,1.0,1.0,0.0,1.0,0,0,0,1,0
+P_on_A_net_r0,P_on_A_net,False,glm-5.2,2,maximize_the_intersections,50,0,0,0,0,0,0,528,1.0,13.0,12.0,0.0,False,0.0,True,False,True,True,1,1.0,1.0,1.0,0.0,1.0,0,0,0,1,0
+P_on_A_net_r0,P_on_A_net,False,glm-5.2,3,domino_easy_version,50,0,0,0,0,0,0,528,1.0,7.0,6.0,0.0,False,0.0,False,False,False,False,1,1.0,1.0,1.0,0.0,1.0,0,0,0,1,0
 P_on_A_one_r0,P_on_A_one,False,glm-5.2,1,running_for_gold,50,0,0,0,1,0,0,528,1.0,9.0,8.0,0.0,False,0.0,True,False,True,True,1,1.0,1.0,1.0,0.0,1.0,0,0,0,0,0
 P_on_A_one_r0,P_on_A_one,False,glm-5.2,2,penalty,50,1,1,0,0,0,0,528,1.0,10.0,9.0,0.0,True,1.0,True,False,True,True,2,1.0,1.0,1.0,0.0,1.0,0,0,0,0,0
 P_on_A_one_r0,P_on_A_one,False,glm-5.2,3,integers_have_friends,50,0,0,0,0,0,0,528,1.0,10.0,9.0,0.0,False,0.0,True,False,True,True,1,1.0,1.0,1.0,0.0,1.0,0,0,0,0,0
