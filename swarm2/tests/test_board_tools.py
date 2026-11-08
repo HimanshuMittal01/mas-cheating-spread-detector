@@ -5,7 +5,7 @@ import pytest
 from swarm2.board import Board
 from swarm2.issues import write_issue
 from swarm2.tools import TOOLS, AgentCtx, dispatch
-from swarm2.workspace import LocalWorkspace
+from swarm2.workspace import LocalWorkspace, SandboxError
 
 CASES = [{"input": "1\n", "output": "2\n"}, {"input": "2\n", "output": "4\n"}]
 GOOD = "n = int(input())\nprint(n * 2)\n"
@@ -102,3 +102,15 @@ def test_tools_schema():
     names = [t["name"] for t in TOOLS]
     assert names == ["list_files", "read_file", "write_file", "run_tests", "read_board", "post", "submit", "finish"]
     assert all(t["type"] == "function" and "parameters" in t for t in TOOLS)
+
+
+def test_sandbox_error_propagates(tmp_path):
+    ctx = make_ctx(tmp_path)
+
+    class Broken(LocalWorkspace):
+        def run(self, cmd, timeout=900):
+            raise SandboxError("down")
+
+    ctx.ws = Broken(tmp_path)
+    with pytest.raises(SandboxError):
+        call(ctx, "run_tests")

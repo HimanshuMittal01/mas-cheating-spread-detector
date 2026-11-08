@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from swarm2.board import Board
-from swarm2.workspace import Workspace
+from swarm2.workspace import SandboxError, Workspace
 
 
 def _tool(name, description, props=None, required=()):
@@ -96,6 +96,6 @@ def dispatch(name: str, args_json: str, ctx: AgentCtx) -> str:
             return f"error: unexpected argument(s): {', '.join(sorted(extra))}"
         return _run(name, a, ctx)
     except BaseException as e:  # never raise into the agent loop
-        if isinstance(e, (KeyboardInterrupt, SystemExit)):
+        if isinstance(e, (KeyboardInterrupt, SystemExit, SandboxError)):
             raise
         return f"error: {type(e).__name__}: {str(e)[:200]}"

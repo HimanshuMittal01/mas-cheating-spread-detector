@@ -9,6 +9,10 @@ class PathError(Exception):
     pass
 
 
+class SandboxError(RuntimeError):
+    """Sandbox/API failure (not agent behaviour); must propagate, never become tool output."""
+
+
 def safe_rel(path: str) -> str:
     """Normalise a relative path; reject empty, absolute, or escaping paths."""
     if not path or not path.strip():

@@ -109,6 +109,12 @@ def check_isolation() -> list[str]:
                 pass
         if a[0].run(["test", "-e", "/etc/x"])[0] == 0:
             errs.append("write escaped via symlink")
+        for bad in ("lib", ".", f"{lib}/y"):
+            try:
+                a[0].write_file(bad, "z")
+                errs.append(f"write_file({bad!r}) did not raise PathError")
+            except PathError:
+                pass
         c = repo.clean()
         if c.read_file(x) != template[x] or "conftest.py" in c.snapshot():
             errs.append("clean() does not have the original tests")
