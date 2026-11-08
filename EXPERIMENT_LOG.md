@@ -41,3 +41,8 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - Pilot (`--pilot`): 8 rollouts = per model, all blocks on × {one-hop, network}, placebo, no post.
 - Offline tests `swarm2/tests/test_v3.py`: settings balanced, posts, one-hop filter, end-to-end copy labelled as tamper with exposure step 11, control clean. **5 passed.**
 - Output goes to `runs3/<run>/<rollout>.json` (gitignored like `runs2/`; summaries will be committed).
+
+### 2026-11-08: analysis script (`swarm2/analyze_v3.py`)
+- Implements design section 8: tamper share per factor level with Wilson 95% intervals; logistic model on all 10 factors with errors clustered by rollout; average marginal effects; Holm over 10 factors; robustness (rollout-tipped outcome, random-forest permutation importance, leave-one-setting-out); trace table; communication measures.
+- Falls back to a linear probability model if the logit cannot be fitted (no events or separation).
+- **Check on simulated data** (112 rollouts, true effects: method +40 pts, success +20 pts, all else 0): recovered method AME +0.33 and success +0.19, both pass Holm; no other factor passes. Leave-one-setting-out keeps both in the top 3 in 100% of refits.
