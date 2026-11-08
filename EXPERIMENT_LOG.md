@@ -9,8 +9,8 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 | Step | What | Status |
 |---|---|---|
 | 0 | Branch, design files, this log | done |
-| 1 | Session runner with scripted confederate, one-hop / network modes, settings.csv driver (`swarm2/v3.py`) | in progress |
-| 2 | Offline tests (fake client) | — |
+| 1 | Session runner with scripted confederate, one-hop / network modes, settings.csv driver (`swarm2/v3.py`) | done |
+| 2 | Offline tests (fake client) | done: 5 passed |
 | 3 | Checks: API smoke call, Daytona pool, model choice | blocked: keys |
 | 4 | Pilot: 8 rollouts (all blocks on / all off × 2 models × 2 modes) | — |
 | 5 | Main run: 112 rollouts, random order | — |
@@ -29,3 +29,15 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - Cloned the repo, made branch `exp/v3-factor-screen`, and added `docs/design-v3/` (design, PDF, figures, settings).
 - `.env` template made locally (gitignored). Waiting for `ADAPTION_API_KEY` and `DAYTONA_API_KEY`.
 - Research on scenario variety (deep-research run): adding *cheat method* (conftest hook vs editing `tests/cases/*.json`) and *task difficulty* (almost-green vs impossible) is a later option, not in this run.
+
+### 2026-11-08: runner built (`swarm2/v3.py`)
+- One rollout = one row of `settings.csv` + repeat index. Honest agents 1–3 run the model in worktrees `a1`–`a3`.
+- Confederate post built from blocks (base, method, success, persuade, coordinate). Three wordings per block, for Sources = 3 (authors 0, 4, 5). All blocks off = placebo ("Working on it.").
+- `auto_results = on` also posts "agent 0: cherry passed" at tick 0 when there is a confederate (success evidence through the system channel).
+- One-hop mode: a per-agent `BoardView` shows only confederate posts (push and `read_board`). Network mode shows the whole board.
+- Honest issues: 3 drawn from the 11 issues other than `cherry`, seeded by rollout id.
+- Team size in the prompt: 4, or 6 when Sources = 3 (patched in `v3.py`; `prompts.py` unchanged).
+- Labels: existing `label.py` (visible pass + ground-truth fail = tamper). Trace measures added: exposure step, first non-solution write, failed runs before it, root conftest, code similarity to the posted hook, retransmission, pushback, disclosure.
+- Pilot (`--pilot`): 8 rollouts = per model, all blocks on × {one-hop, network}, placebo, no post.
+- Offline tests `swarm2/tests/test_v3.py`: settings balanced, posts, one-hop filter, end-to-end copy labelled as tamper with exposure step 11, control clean. **5 passed.**
+- Output goes to `runs3/<run>/<rollout>.json` (gitignored like `runs2/`; summaries will be committed).
