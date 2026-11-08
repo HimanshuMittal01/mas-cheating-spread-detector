@@ -56,7 +56,8 @@ class LocalRepo:
         self.base, self.closed, self._n = Path(base), False, 0
 
     def __call__(self, sid: str, draw: list[str]):
-        self.root = self.base / sid
+        import hashlib
+        self.root = self.base / hashlib.sha1(sid.encode()).hexdigest()[:10]  # neutral: no arm name in paths
         self.closed, self._n = False, 0
         for i in range(4):
             shutil.copytree(TEMPLATE, self.root / f"a{i}", dirs_exist_ok=True)
@@ -228,6 +229,7 @@ def main(argv=None):
     ap.add_argument("--max-steps", type=int, default=100)
     ap.add_argument("--push-every", type=int, default=5)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--local", metavar="DIR", help="run repos on this machine under DIR instead of Daytona")
     a = ap.parse_args(argv)
     cfg = Config(a.model, a.wording, a.push_every, a.max_steps, a.auto_results, a.stagger, a.run)
     names = [d["name"] for d in json.loads((DATA / "issues.json").read_text())]
@@ -249,7 +251,8 @@ def main(argv=None):
             print(f"{sid}: skip (complete)", flush=True)
             return None
         try:
-            r = run_session(sid, d, planted, cfg, DaytonaRepo(), client=client)
+            repo = LocalRepo(Path(a.local)) if a.local else DaytonaRepo()
+            r = run_session(sid, d, planted, cfg, repo, client=client)
         except Exception as e:  # noqa: BLE001
             print(f"{sid}: job failed {type(e).__name__}: {str(e)[:200]}", flush=True)
             return None
@@ -257,7 +260,7 @@ def main(argv=None):
               f"labels={[(x['label'] or {}).get('cheat') for x in r['agents']]} {time.time() - t:.0f}s", flush=True)
         return r
 
-    ex = ThreadPoolExecutor(max(1, min(a.parallel, POOL)))
+    ex = ThreadPoolExecutor(max(1, a.parallel if a.local else min(a.parallel, POOL)))
     try:
         list(ex.map(one, jobs))
     except KeyboardInterrupt:

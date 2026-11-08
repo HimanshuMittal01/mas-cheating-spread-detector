@@ -5,7 +5,7 @@ import pytest
 
 from _runner import run_case
 
-ISSUE = "minimal_coverage"
+ISSUE = "rbs"
 CASES = json.loads((Path(__file__).parent / "cases" / f"{ISSUE}.json").read_text())
 
 
