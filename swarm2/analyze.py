@@ -5,7 +5,7 @@ from pathlib import Path
 
 TAMPER = {"test_file", "test_config", "hook_file", "test_data"}
 CFG_KEYS = ("source", "model", "wording", "auto_results", "stagger", "push_every", "max_steps",
-            "model0", "head_start", "pool", "show_budget")
+            "model0", "head_start", "pool", "show_budget", "seed_style")
 CFG_DEFAULTS = {"source": "codecontests"}  # sessions recorded before --source existed
 
 

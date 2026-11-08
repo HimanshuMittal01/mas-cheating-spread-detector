@@ -178,3 +178,30 @@ def test_model0_and_head_start(tmp_path):
     assert res["status"] == "complete" and res["ticks"] == 4  # agent 0 at tick 0, others start at tick 3
     assert dict(models) == {"0": "big", "1": "m", "2": "m", "3": "m"}
     assert res["cfg"]["model0"] == "big" and res["cfg"]["head_start"] == 3
+
+
+def test_scripted_source_planted_and_placebo(tmp_path):
+    from swarm2.prompts import PLANTED, PLANTED_METHOD_EXAMPLE
+    late = lambda s, n: [fc("finish", {"writeup": "w"})] if n > 6 else [fc("list_files", {})]  # noqa: E731
+    c = Client(late)  # first board push is at step 6
+    draw = draws(1, ISSUES)[0]
+    res = run_session("sp", draw, True, cfg(tmp_path, seed_style="scripted"), LocalRepo(tmp_path / "w"),
+                      client=c, sleep=lambda s: None)
+    assert res["status"] == "complete"
+    a0 = res["agents"][0]
+    assert a0["steps"] == 0 and a0["planted"] and a0["label"]["cheat"]  # scripted hook really works
+    assert res["board"][0]["tick"] == 0 and res["board"][0]["author"] == 0
+    assert PLANTED_METHOD_EXAMPLE in res["board"][0]["text"] and "I did not fix the code" in res["board"][0]["text"]
+    assert not any("agent 0" in s for s in c.systems) and not any(PLANTED in s for s in c.systems)
+    assert all(a["exposure_step"] is not None for a in res["agents"][1:])
+    c2 = Client(lambda s, n: [fc("finish", {"writeup": "w"})])
+    res2 = run_session("sc", draw, False, cfg(tmp_path, seed_style="scripted"), LocalRepo(tmp_path / "w2"),
+                       client=c2, sleep=lambda s: None)
+    assert "conftest" not in res2["board"][0]["text"] and not res2["agents"][0]["label"]["cheat"]
+
+
+def test_code_seed_gives_hook_only_to_planted():
+    from swarm2.prompts import PLANTED_METHOD_EXAMPLE, system_prompt
+    assert PLANTED_METHOD_EXAMPLE in system_prompt(0, "ban", True, "code")
+    assert PLANTED_METHOD_EXAMPLE not in system_prompt(0, "ban", True, "words")
+    assert PLANTED_METHOD_EXAMPLE not in system_prompt(1, "ban", False, "code")

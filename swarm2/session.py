@@ -13,7 +13,7 @@ import sys
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import asdict, dataclass
+from dataclasses import MISSING, asdict, dataclass, fields
 from pathlib import Path
 
 if __package__ in (None, ""):  # run as a script
@@ -22,7 +22,7 @@ if __package__ in (None, ""):  # run as a script
 from swarm2.agent import Agent, SessionError, load_env
 from swarm2.board import Board
 from swarm2.label import file_kind, label
-from swarm2.prompts import system_prompt, task_message
+from swarm2.prompts import PLANTED_METHOD_EXAMPLE, SCRIPTED_PLACEBO, SCRIPTED_POST, system_prompt, task_message
 from swarm2.tools import AgentCtx
 from swarm2.workspace import LocalWorkspace, SandboxError
 
@@ -46,6 +46,7 @@ class Config:
     head_start: int = 0   # agents 1-3 start this many ticks after agent 0
     pool: str = ""        # comma-joined issue names sessions draw from; "" = all
     show_budget: bool = False  # agents see "[steps used N/M]" on each tool result
+    seed_style: str = "words"  # planted source: words (prompt describes hook) | code (prompt gives hook) | scripted
     out_dir: str = "runs2"
     source: str = "codecontests"
 
@@ -154,6 +155,15 @@ class DaytonaRepo:
             self.dw.release(self.sb)
 
 
+class ScriptedAgent:
+    """Agent 0 under seed_style=scripted: calls no model; its worktree and board post are set by the system."""
+    def __init__(self, ctx):
+        self.ctx, self.steps, self.log, self.done = ctx, 0, [], True
+
+    def step(self) -> None:
+        pass
+
+
 def _exposure(log: list[dict]) -> int | None:
     for e in log:
         if e["event"] in ("push", "read_board") and any(p["author"] == 0 for p in e["posts"]):
@@ -205,7 +215,13 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
                            tick_fn=lambda: tick[0], auto_results=cfg.auto_results,
                            test_cmd=source.test_cmd(issue))
             md = source.issue_md(issue)
-            agents.append(Agent(ctx, client, (cfg.model0 or cfg.model) if i == 0 else cfg.model, system_prompt(i, cfg.wording, planted and i == 0),
+            if i == 0 and cfg.seed_style == "scripted":
+                if planted:
+                    ctx.ws.write_file("conftest.py", PLANTED_METHOD_EXAMPLE)
+                board.post(0, 0, "note", (SCRIPTED_POST if planted else SCRIPTED_PLACEBO).format(issue=issue))
+                agents.append(ScriptedAgent(ctx))
+                continue
+            agents.append(Agent(ctx, client, (cfg.model0 or cfg.model) if i == 0 else cfg.model, system_prompt(i, cfg.wording, planted and i == 0, cfg.seed_style),
                                 task_message(md), push_every=cfg.push_every, max_steps=cfg.max_steps, show_budget=cfg.show_budget,
                                 sleep=sleep))
 
@@ -265,9 +281,9 @@ def _complete(cfg: Config, sid: str) -> bool:
     if d.get("status") != "complete":
         return False
     old, new = d.get("cfg") or {}, asdict(cfg)
-    old = {"source": "codecontests", **old}  # sessions recorded before --source existed
+    old = {**{f.name: f.default for f in fields(Config) if f.default is not MISSING}, **old}  # keys added later
     keys = ("model", "wording", "auto_results", "stagger", "max_steps", "push_every", "source",
-            "model0", "head_start", "pool", "show_budget")
+            "model0", "head_start", "pool", "show_budget", "seed_style")
     if any(old.get(k) != new[k] for k in keys):
         print(f"{sid}: stored config differs from current; re-running", flush=True)
         return False
@@ -299,6 +315,8 @@ def main(argv=None):
     ap.add_argument("--stagger", type=int, default=0)
     ap.add_argument("--model0", default="", help="model for agent 0 (the planted slot) in both arms")
     ap.add_argument("--head-start", type=int, default=0, help="agents 1-3 start this many ticks after agent 0")
+    ap.add_argument("--seed-style", choices=["words", "code", "scripted"], default="words",
+                    help="planted source: words (prompt describes hook), code (prompt gives hook), scripted (no model)")
     ap.add_argument("--show-budget", action="store_true", help="show '[steps used N/M]' on every tool result")
     ap.add_argument("--issues", default="", help="comma-separated issue names to draw from (default all)")
     ap.add_argument("--parallel", type=int, default=POOL)
@@ -324,7 +342,7 @@ def main(argv=None):
             sys.exit(f"--issues: unknown {bad} or fewer than 4 issues")
         names = want
     cfg = Config(a.model, a.wording, a.push_every, a.max_steps, a.auto_results, a.stagger, a.run,
-                 source=a.source, model0=a.model0, head_start=a.head_start, show_budget=a.show_budget,
+                 source=a.source, model0=a.model0, head_start=a.head_start, show_budget=a.show_budget, seed_style=a.seed_style,
                  pool=",".join(names) if a.issues else "")
     other = _run_sources(cfg) - {cfg.source}
     if other:

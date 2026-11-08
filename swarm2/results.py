@@ -47,6 +47,8 @@ def cfg_str(c: dict) -> str:
     if c.get("head_start"):
         parts.append(f"head={c['head_start']}")
     parts.append(c.get("wording", "?"))
+    if c.get("seed_style", "words") != "words":
+        parts.append(f"seed={c['seed_style']}")
     if c.get("pool"):
         parts.append(f"pool={len(c['pool'].split(','))}")
     if c.get("source", "codecontests") != "codecontests":
