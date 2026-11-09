@@ -84,7 +84,8 @@ class Agent:
             except Exception as e:
                 last = e
                 sc = getattr(e, "status_code", None)
-                fatal = isinstance(sc, int) and 400 <= sc < 500 and sc != 429
+                # 403 retries: the gateway has returned a one-off "Invalid token" 403 for a valid key mid-run
+                fatal = isinstance(sc, int) and 400 <= sc < 500 and sc not in (403, 429)
                 self.log.append({"event": "retry", "attempt": attempt, "error": f"{type(e).__name__}: {str(e)[:120]}"})
                 if fatal:
                     raise SessionError(f"API error {sc}: {type(e).__name__}: {str(e)[:200]}") from e
