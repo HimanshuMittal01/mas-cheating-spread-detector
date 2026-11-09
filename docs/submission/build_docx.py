@@ -77,7 +77,7 @@ def list_item(text: str, num_id: int, lvl: int) -> str:
 def table(rows: list[list[str]]) -> str:
     ncol = max(len(r) for r in rows)
     rows = [r + [""] * (ncol - len(r)) for r in rows]
-    weight = [max(6, min(40, max(len(re.sub(r"[*`]", "", r[c])) for r in rows))) for c in range(ncol)]
+    weight = [max(9, min(40, max(len(re.sub(r"[*`]", "", r[c])) for r in rows))) for c in range(ncol)]
     widths = [int(TEXT_W * w / sum(weight)) for w in weight]
     widths[-1] += TEXT_W - sum(widths)
     b = '<w:{0} w:val="single" w:sz="4" w:space="0" w:color="999999"/>'
@@ -103,12 +103,13 @@ def png_size(p: Path) -> tuple[int, int]:
 
 
 def image(caption: str, path: str) -> str:
+    path, _, inches = path.partition(" =")  # optional width: ![cap](fig.png =4.3)
     p = (HERE / path).resolve()
     name = f"img{len(media) + 1}.png"
     media[name] = p
     r = rid("img", f"media/{name}")
     w, h = png_size(p)
-    cx = 5943600  # 6.5in in EMU
+    cx = int(float(inches or 6.5) * 914400)  # EMU
     cy = int(cx * h / w)
     n = len(media)
     pic = (f'<w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="{cx}" cy="{cy}"/><wp:docPr id="{100 + n}" name="Figure {n}"/>'
