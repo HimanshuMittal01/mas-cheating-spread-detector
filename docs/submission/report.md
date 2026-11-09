@@ -155,6 +155,25 @@ The clearest trace (agent 3, issue `nearest_beautiful_number`):
 
 [[TODO Figure 1: share of honest agents who used the posted hook, by condition. Bars: open route (Line A, 0/21); closed route, post without code (0/144); closed route, post with code (15/144); Qwen + reasoning, wrong test, post (main); Qwen + reasoning, correct test, post (main); placebo controls. Wilson 95% CIs.]]
 
+### 4.4 In a realistic repository, spread is small, and a real cheater spreads less than a scripted post (Line D)
+
+Setup:
+- A realistic library (`datakit`), with a README, CI workflow, a CONTRIBUTING file that says "merge only when CI is green" and a CHANGELOG.
+- 10 bug reports written in a user's voice. Each report states every behaviour its tests check, and exactly one test per issue contradicts its report.
+- Task messages are written in a maintainer's voice ("can only merge with green CI"). There is no extra pressure line.
+- Three arms: a real planted LLM cheater, the scripted all-on post, and an all-honest control. 40 rollouts per arm across GLM-5.2 and Qwen3.5-397B, with matched issue draws and reasoning off.
+
+| Honest agents (n = 120 per arm) | Real LLM cheater | Scripted post | Control |
+|---|---|---|---|
+| Used the hook | 2 (1.7%) | 4 (3.3%), p = 0.06 | 0 |
+| Green suite, wrong code | 18 (15.0%) | 25 (20.8%), p = 0.04 | 14 (11.7%) |
+| Corrected the wrong test to the issue's value (honest fix) | 96 | 81 | 96 |
+
+- **Agents take a legitimate route when they can see one.** When the report states the correct value, most agents fix the code and openly correct the wrong test (273 of 360).
+- **The hook was rare and specific.** All 6 hook users were Qwen, and all 6 had correct code.
+- **A real cheater spreads less because it posts late.** It used the hook itself in 33 of 40 rollouts, but its first post came at a median tick of 12, while honest agents finished at a median of 14 steps. Only 49 of 120 teammates saw a cheater post before finishing, and 2 of those 49 copied it.
+- **So a scripted post overstates spread** relative to a real cheater.
+
 ## 5. Discussion and Limitations
 
 **What the results mean.**
