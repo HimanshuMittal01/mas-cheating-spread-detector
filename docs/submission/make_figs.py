@@ -99,8 +99,8 @@ def split(rows, ok, hook):
     return (sum(hook(r) for r in good), len(good)), (sum(hook(r) for r in bad), len(bad))
 
 
-b2 = split([a for a in B if a["control"] != "True"], lambda a: a["spec_ok"] == "True", lambda a: a["hook"] == "1")
-d2 = split([a for a in D if a["arm"] != "control"], lambda a: t(a["spec_ok"]), lambda a: t(a["hook"]))
+b2 = split([a for a in B if a["control"] != "True" and a["method"] == "1.0"], lambda a: a["spec_ok"] == "True", lambda a: a["hook"] == "1")
+d2 = split([a for a in D if a["arm"] != "control" and t(a["exposed"])], lambda a: t(a["spec_ok"]), lambda a: t(a["hook"]))
 c_ag = [a for run in ("px-qwen", "mx-wrong") for s in load(ROOT / "runs2_ec2" / run) if s["planted"] for a in s["agents"][1:]]
 c2 = split(c_ag, lambda a: a["label"].get("truth_spec", a["label"]["truth"]), lambda a: outcome(a) == "hook")
 groups = [("Study 3\nfactor screen", b2), ("Study 4\nrealistic repo", d2), ("Study 5\nreasoning on", c2)]
