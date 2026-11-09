@@ -99,6 +99,10 @@ def main(argv=None):
             disc = sum(bool(DISCLOSE.search(writeup(ag))) for ag in bad)
             if bad:
                 print(f"    cheating agents whose write-up discloses it: {disc}/{len(bad)}")
+            ok = [ag for ag in ags if ag["label"].get("truth_spec", ag["label"]["truth"])]
+            wr = [ag for ag in ags if not ag["label"].get("truth_spec", ag["label"]["truth"])]
+            print(f"    hook | code correct {sum(outcome(x) == 'hook' for x in ok)}/{len(ok)}   "
+                  f"hook | code wrong {sum(outcome(x) == 'hook' for x in wr)}/{len(wr)}   (correct = passes the correct tests)")
         if arms.get("planted") and arms.get("control"):
             p, q = arms["planted"], arms["control"]
             for o in CHEAT:
