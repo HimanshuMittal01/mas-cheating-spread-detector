@@ -21,8 +21,9 @@ if __package__ in (None, ""):  # run as a script
 
 from swarm2.agent import Agent, SessionError, load_env
 from swarm2.board import Board
-from swarm2.label import file_kind, label
-from swarm2.prompts import PLANTED_METHOD_EXAMPLE, SCRIPTED_PLACEBO, SCRIPTED_POST, system_prompt, task_message
+from swarm2.label import file_kind, ground_truth_pass, label
+from swarm2.prompts import (PLANTED_METHOD_EXAMPLE, SCRIPTED_PLACEBO, SCRIPTED_POST, SCRIPTED_POST_FULL, STAKES,
+                            system_prompt, task_message)
 from swarm2.tools import AgentCtx
 from swarm2.workspace import LocalWorkspace, SandboxError
 
@@ -49,6 +50,10 @@ class Config:
     seed_style: str = "words"  # planted source: words (prompt describes hook) | code (prompt gives hook) | scripted
     out_dir: str = "runs2"
     source: str = "codecontests"
+    reasoning: str = "none"    # reasoning effort for every model agent
+    stakes: bool = False       # design-v3 CI-gate line appended to every task message
+    tasks: str = "almost"      # almost | impossible (first hard test of every issue gets a wrong expected output)
+    post: str = "short"        # scripted post: short (method + success) | full (+ persuade + coordinate)
 
 
 SOURCES = ("codecontests", "jinja")
@@ -59,9 +64,38 @@ def draws(n: int, issues: list[str], seed: int = 0) -> list[list[str]]:
     return [rng.sample(issues, 4) for _ in range(n)]
 
 
+def _mutate(out: str) -> str:
+    """ImpossibleBench-style one-off change (design v3): the last answer becomes wrong (int + 1, YES <-> NO)."""
+    lines = out.rstrip("\n").split("\n")
+    last = lines[-1].strip()
+    swap = {"YES": "NO", "NO": "YES", "Yes": "No", "No": "Yes"}
+    if last in swap:
+        lines[-1] = swap[last]
+    elif last.split()[-1].lstrip("-").isdigit():
+        toks = last.split()
+        toks[-1] = str(int(toks[-1]) + 1)
+        lines[-1] = " ".join(toks)
+    else:  # e.g. a character grid: flip the last character
+        lines[-1] = lines[-1].rstrip()[:-1] + ("G" if lines[-1].rstrip()[-1] != "G" else "S")
+    return "\n".join(lines) + "\n"
+
+
+def build_impossible(dst: Path) -> Path:
+    """Copy of the template where the first hard test of every issue expects a wrong output."""
+    shutil.rmtree(dst, ignore_errors=True)
+    shutil.copytree(DATA / "repo_template", dst, ignore=shutil.ignore_patterns("__pycache__"))
+    for issue in json.loads((DATA / "issues.json").read_text()):
+        f = dst / "tests" / "cases" / f"{issue['name']}.json"
+        cases = json.loads(f.read_text())
+        cases[issue["hard"][0]]["output"] = _mutate(cases[issue["hard"][0]]["output"])
+        f.write_text(json.dumps(cases))
+    return dst
+
+
 class CodeContests:
     """Default source: shared template (lib/<issue>.py + tests/test_<issue>.py), labels via label.label."""
     name = "codecontests"
+    spec_template: Path | None = None  # set for impossible tasks: also grade the final code on the correct tests
 
     def __init__(self):
         self.meta = {issue["name"]: issue for issue in json.loads((DATA / "issues.json").read_text())}
@@ -85,7 +119,15 @@ class CodeContests:
         return LocalWorkspace(TEMPLATE).snapshot()
 
     def label(self, original, final, issue, ws, clean) -> dict:
-        return label(original, final, issue, ws, clean, self.meta[issue]["hard"])
+        out = label(original, final, issue, ws, clean, self.meta[issue]["hard"])
+        if self.spec_template is not None:  # correct (unmutated) tests, solution files only, fresh copy
+            import tempfile
+            d = Path(tempfile.mkdtemp(prefix="spec_"))
+            shutil.copytree(self.spec_template, d, dirs_exist_ok=True)
+            out["truth_spec"] = ground_truth_pass(final, issue, LocalWorkspace(d))
+            shutil.rmtree(d, ignore_errors=True)
+        out["final_changed"] = {p: (final.get(p) or "")[:3000] for p in out["changed"]}
+        return out
 
 
 def get_source(name: str, jinja_base: Path | None = None):
@@ -207,7 +249,7 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
         if client is None:
             from adaption import Adaption
             load_env()
-            client = Adaption(timeout=CLIENT_TIMEOUT)
+            client = Adaption(timeout=CLIENT_TIMEOUT, max_retries=0)  # retries live in Agent._create
         repo = repo_factory(sid, draw)
         originals = [source.original(repo, i) for i in range(len(draw))]  # before any agent step
         for i, issue in enumerate(draw):
@@ -218,12 +260,13 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
             if i == 0 and cfg.seed_style == "scripted":
                 if planted:
                     ctx.ws.write_file("conftest.py", PLANTED_METHOD_EXAMPLE)
-                board.post(0, 0, "note", (SCRIPTED_POST if planted else SCRIPTED_PLACEBO).format(issue=issue))
+                post = SCRIPTED_POST_FULL if cfg.post == "full" else SCRIPTED_POST
+                board.post(0, 0, "note", (post if planted else SCRIPTED_PLACEBO).format(issue=issue))
                 agents.append(ScriptedAgent(ctx))
                 continue
             agents.append(Agent(ctx, client, (cfg.model0 or cfg.model) if i == 0 else cfg.model, system_prompt(i, cfg.wording, planted and i == 0, cfg.seed_style),
-                                task_message(md), push_every=cfg.push_every, max_steps=cfg.max_steps, show_budget=cfg.show_budget,
-                                sleep=sleep))
+                                task_message(md) + (STAKES if cfg.stakes else ""), push_every=cfg.push_every,
+                                max_steps=cfg.max_steps, show_budget=cfg.show_budget, sleep=sleep, reasoning=cfg.reasoning))
 
         def timed(i):
             t = time.time()
@@ -283,7 +326,8 @@ def _complete(cfg: Config, sid: str) -> bool:
     old, new = d.get("cfg") or {}, asdict(cfg)
     old = {**{f.name: f.default for f in fields(Config) if f.default is not MISSING}, **old}  # keys added later
     keys = ("model", "wording", "auto_results", "stagger", "max_steps", "push_every", "source",
-            "model0", "head_start", "pool", "show_budget", "seed_style")
+            "model0", "head_start", "pool", "show_budget", "seed_style",
+            "reasoning", "stakes", "tasks", "post")
     if any(old.get(k) != new[k] for k in keys):
         print(f"{sid}: stored config differs from current; re-running", flush=True)
         return False
@@ -302,6 +346,7 @@ def _run_sources(cfg: Config) -> set[str]:
 
 
 def main(argv=None):
+    global TEMPLATE
     import faulthandler
     import signal
     faulthandler.register(signal.SIGUSR1, all_threads=True)  # `kill -USR1 <pid>` dumps all stacks to stderr
@@ -321,6 +366,10 @@ def main(argv=None):
     ap.add_argument("--issues", default="", help="comma-separated issue names to draw from (default all)")
     ap.add_argument("--parallel", type=int, default=POOL)
     ap.add_argument("--max-steps", type=int, default=100)
+    ap.add_argument("--reasoning", choices=["none", "low", "medium", "high"], default="none")
+    ap.add_argument("--stakes", action="store_true", help="append the design-v3 CI-gate line to every task message")
+    ap.add_argument("--tasks", choices=["almost", "impossible"], default="almost")
+    ap.add_argument("--post", choices=["short", "full"], default="short", help="scripted post blocks")
     ap.add_argument("--push-every", type=int, default=5)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--local", metavar="DIR", help="run repos on this machine under DIR instead of Daytona")
@@ -334,6 +383,11 @@ def main(argv=None):
         from swarm2.swesmith import DEFAULT_BASE, ensure_clean
         ensure_clean(Path(a.jinja_base) if a.jinja_base else DEFAULT_BASE)
     source = get_source(a.source, a.jinja_base)
+    if a.tasks == "impossible":
+        if a.source != "codecontests" or not a.local:
+            sys.exit("--tasks impossible needs --source codecontests and --local DIR")
+        TEMPLATE = build_impossible(Path(a.local) / "_template_impossible")
+        source.spec_template = DATA / "repo_template"
     names = source.names()
     if a.issues:
         want = [x.strip() for x in a.issues.split(",") if x.strip()]
@@ -343,7 +397,8 @@ def main(argv=None):
         names = want
     cfg = Config(a.model, a.wording, a.push_every, a.max_steps, a.auto_results, a.stagger, a.run,
                  source=a.source, model0=a.model0, head_start=a.head_start, show_budget=a.show_budget, seed_style=a.seed_style,
-                 pool=",".join(names) if a.issues else "")
+                 pool=",".join(names) if a.issues else "", reasoning=a.reasoning, stakes=a.stakes, tasks=a.tasks,
+                 post=a.post)
     other = _run_sources(cfg) - {cfg.source}
     if other:
         sys.exit(f"run {a.run!r} already holds {sorted(other)} sessions; use a different --run for --source {a.source}")
@@ -361,7 +416,7 @@ def main(argv=None):
             sys.exit("--source jinja: markupsafe/trio missing; see swarm2/README.md for the uv command")
     load_env()
     from adaption import Adaption
-    client = Adaption(timeout=CLIENT_TIMEOUT)
+    client = Adaption(timeout=CLIENT_TIMEOUT, max_retries=0)  # retries live in Agent._create
 
     def one(job):
         sid, d, planted = job

@@ -205,3 +205,26 @@ def test_code_seed_gives_hook_only_to_planted():
     assert PLANTED_METHOD_EXAMPLE in system_prompt(0, "ban", True, "code")
     assert PLANTED_METHOD_EXAMPLE not in system_prompt(0, "ban", True, "words")
     assert PLANTED_METHOD_EXAMPLE not in system_prompt(1, "ban", False, "code")
+
+
+def test_impossible_template_mutates_one_hard_case_per_issue(tmp_path):
+    from swarm2.session import DATA, build_impossible
+    dst = build_impossible(tmp_path / "imp")
+    for issue in json.loads((DATA / "issues.json").read_text()):
+        a = json.loads((DATA / "repo_template" / "tests" / "cases" / f"{issue['name']}.json").read_text())
+        b = json.loads((dst / "tests" / "cases" / f"{issue['name']}.json").read_text())
+        diff = [i for i in range(len(a)) if a[i] != b[i]]
+        assert diff == [issue["hard"][0]]
+
+
+def test_stakes_line_and_full_post(tmp_path):
+    from swarm2.prompts import STAKES
+    c = Client(lambda s, n: [fc("finish", {"writeup": "w"})])
+    seen = []
+    orig = c.create
+    c.create = lambda **kw: (seen.append(kw["input"][0]["content"]), orig(**kw))[1]
+    c.responses = c
+    res = run_session("st", draws(1, ISSUES)[0], True, cfg(tmp_path, seed_style="scripted", stakes=True, post="full"),
+                      LocalRepo(tmp_path / "w"), client=c, sleep=lambda s: None)
+    assert res["status"] == "complete" and all(STAKES in s for s in seen)
+    assert "Let us all do this" in res["board"][0]["text"] and "not fair" in res["board"][0]["text"]

@@ -230,3 +230,15 @@ def test_rate_limit_waits_without_spending_attempts(tmp_path):
     a, ctx, client = make(tmp_path, script)
     a.step()
     assert ctx.finished and sum(e["event"] == "retry" for e in a.log) == 12
+
+
+def test_reasoning_effort_passed_and_text_logged(tmp_path):
+    r = Item(type="reasoning", content=[SimpleNamespace(text="think about the hook")], summary=None)
+    r.model_dump = lambda exclude_none=False: {"type": "reasoning"}
+    a, ctx, c = make(tmp_path, [resp(r, fc("list_files", {}))], reasoning="medium")
+    a.step()
+    assert c.calls[0]["extra_body"] == {"reasoning": {"effort": "medium"}}
+    assert a.log[-1]["reasoning"] == "think about the hook"
+    b, _, c2 = make(tmp_path / "b", [resp(fc("list_files", {}))])
+    b.step()
+    assert c2.calls[0]["extra_body"] == {"reasoning": {"effort": "none"}} and b.log[-1]["reasoning"] == ""

@@ -6,6 +6,7 @@
 import argparse
 import json
 import os
+import random
 import sys
 import time
 from pathlib import Path
@@ -46,9 +47,20 @@ def _final(stream):
         getattr(stream, "close", lambda: None)()
 
 
+def _reasoning_text(r) -> str:
+    parts = []
+    for it in getattr(r, "output", None) or []:
+        if getattr(it, "type", "") == "reasoning":
+            for c in list(getattr(it, "content", None) or []) + list(getattr(it, "summary", None) or []):
+                parts.append(getattr(c, "text", "") or "")
+    return "\n".join(x for x in parts if x)
+
+
 class Agent:
     def __init__(self, ctx: AgentCtx, client, model: str, system: str, first_user: str,
-                 push_every: int = 10, max_steps: int = 100, sleep=time.sleep, show_budget: bool = False):
+                 push_every: int = 10, max_steps: int = 100, sleep=time.sleep, show_budget: bool = False,
+                 reasoning: str = "none"):
+        self.reasoning = reasoning  # reasoning effort; anything but "none" also logs the reasoning text
         self.ctx, self.client, self.model, self.system = ctx, client, model, system
         self.push_every, self.max_steps, self.sleep = push_every, max_steps, sleep
         self.show_budget = show_budget  # environment status line on tool results, like a harness budget meter
@@ -64,7 +76,7 @@ class Agent:
                 r = self.client.responses.create(
                     model=self.model, instructions=self.system, input=self.items, tools=TOOLS,
                     temperature=0.8, max_output_tokens=MAX_OUTPUT_TOKENS,
-                    extra_body={"reasoning": {"effort": "none"}}, stream=True, **kw)
+                    extra_body={"reasoning": {"effort": self.reasoning}}, stream=True, **kw)
                 return r if hasattr(r, "output") else _final(r)  # fakes in tests return a response
             except Exception as e:
                 last = e
@@ -73,9 +85,11 @@ class Agent:
                 self.log.append({"event": "retry", "attempt": attempt, "error": f"{type(e).__name__}: {str(e)[:120]}"})
                 if fatal:
                     raise SessionError(f"API error {sc}: {type(e).__name__}: {str(e)[:200]}") from e
-                if sc == 429 and limited < 60:  # per-user rate limit: wait as asked, don't spend an attempt
-                    limited += 1  # ponytail: 60 x 60 s cap (1 h), raise if runs stay saturated longer
-                    self.sleep(60)
+                if sc == 429 and limited < 400:  # per-user rate limit: don't spend an attempt
+                    # short jittered wait, not the advertised 60 s: fixed waits made every throttled agent retry
+                    # at once (re-triggering the limit) and left most of the account's capacity idle
+                    limited += 1
+                    self.sleep(random.uniform(5, 20))
                     continue
                 attempt += 1
                 if attempt < 8:
@@ -119,7 +133,8 @@ class Agent:
         if not calls:
             self.items.append({"role": "user", "content": NUDGE})
         self.steps += 1
-        self.log.append({"event": "step", "step": self.steps, "calls": calls, "text": r.output_text})
+        self.log.append({"event": "step", "step": self.steps, "calls": calls, "text": r.output_text,
+                         "reasoning": _reasoning_text(r)})
         self._trim()
         self.done = self.ctx.finished
         if not self.done and (self.steps >= self.max_steps or self.ctx.submissions >= self.ctx.max_submissions):
