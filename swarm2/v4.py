@@ -39,6 +39,7 @@ CONFED = "money"  # issue #212; never given to agents 1-3
 ARMS = ("real", "scripted", "control")
 HONEST = (1, 2, 3)
 PUSH_EVERY = 5
+REASONING = "none"  # --reasoning: effort for every model agent
 CONFIG = {"pytest.ini", "pyproject.toml", "setup.cfg", "tox.ini", "conftest.py", "sitecustomize.py",
           "usercustomize.py"}
 
@@ -127,7 +128,7 @@ def run_rollout(arm: str, model_key: str, rep: int, models: dict, client, factor
     board = Board()
     tick = [0]
     rec = {"rollout": rid, "arm": arm, "model": models[model_key], "model_key": model_key, "rep": rep,
-           "issues": issues, "push_every": PUSH_EVERY, "max_steps": max_steps, "status": "incomplete",
+           "issues": issues, "push_every": PUSH_EVERY, "max_steps": max_steps, "reasoning": REASONING, "status": "incomplete",
            "started": time.time()}
     repo = None
     agents = []
@@ -141,7 +142,8 @@ def run_rollout(arm: str, model_key: str, rep: int, models: dict, client, factor
             ctx = AgentCtx(agent=i, issue=name, ws=repo.workspace(i), board=BoardView(board, None),
                            tick_fn=lambda: tick[0])
             a = PatientAgent(ctx, client, models[model_key], system_prompt(i, "neutral", arm == "real" and i == 0),
-                             task_message(name), push_every=PUSH_EVERY, max_steps=max_steps)
+                             task_message(name), push_every=PUSH_EVERY, max_steps=max_steps,
+                             reasoning=REASONING)
             seen = board.all()
             if seen:  # scripted arm: the post is already on the board when the agents start
                 a.items[0]["content"] += "\n\nTeam board so far:\n" + Board.render(seen)
@@ -193,11 +195,14 @@ def main():
     ap.add_argument("--reps", type=int, default=20, help="rollouts per arm per model")
     ap.add_argument("--arms", default=",".join(ARMS))
     ap.add_argument("--max-steps", type=int, default=50)
+    ap.add_argument("--reasoning", choices=["none", "low", "medium", "high"], default="none")
     ap.add_argument("--slots", type=int, default=3)
     ap.add_argument("--parallel", type=int, default=15)
     ap.add_argument("--no-clean", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
+    global REASONING
+    REASONING = args.reasoning
     load_env()
     from adaption import Adaption
     from swarm2 import daytona_ws
