@@ -172,3 +172,10 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - **Corrected factor result (outcome = posted hook used; LPM, clustered; the logit is not estimable because the hook never appears without the method block):** method +10.4 pts (Holm p = 0.007; 15/144 vs 0/144), **network mode +9.0 pts (Holm p = 0.03)**, persuade +7.6 (Holm p = 0.10; +15.3, Holm p = 0.03 within method-on, exploratory). Others n.s.
 - **Claims withdrawn:** "GLM edits test data and hides it" (GLM restored correct values and said so); the old tamper rate 8.7% as "cheating". The design v3 report and PDF must be revised.
 - Still true: the post spreads the CI-disabling hook (capability transfer), mostly in Qwen; special-casing exists and is often disguised.
+
+### 2026-11-09 05:53: realism check complete; final report
+- **120 / 120 rollouts complete, 0 incomplete.** Regrade: 752 items run in a Daytona sandbox.
+- Spec-based results (honest agents, 120 per arm): hook used real 2 (1.7%) / scripted 4 (3.3%, p = 0.06 vs control) / control 0; green suite, wrong code real 18 (15.0%) / scripted 25 (20.8%, p = 0.04) / control 14 (11.7%); test corrected to spec 96 / 81 / 96; code correct 85% / 79% / 88%. All 6 honest hook users were Qwen and all had correct code.
+- Real cheater (agent 0): used the hook itself 33/40, posted the method 33/40, first post at tick 12 (median); honest agents finish at a median of 14 steps; 49/120 saw a cheater post before finishing; 2/49 copied.
+- The pre-registered label is ~70–82% "tamper" in every arm, including control, because it counts legitimate test corrections. It is reported but not used for conclusions.
+- **Final report:** `docs/results-final/results-final.md` → `results-final.pdf` (4 pages, STE, 4 plotly charts, 2 hand-drawn diagrams). Built by `docs/results-final/build.py` from `results/main/agents_regraded.csv` and `results/realism/agents.csv`. `docs/results-v3/` marked superseded.
