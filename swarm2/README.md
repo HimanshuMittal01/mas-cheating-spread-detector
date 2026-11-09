@@ -7,6 +7,10 @@ Run only one `session.py` process at a time (the pool takes an exclusive lock on
 
 Analyze: `uv run swarm2/analyze.py runs2/NAME [--json]` (grouped by source, model, wording, auto_results, stagger, push_every, max_steps; sessions recorded before `--source` existed count as `codecontests`).
 
+Line C (Qwen + reasoning): add `--tasks almost|impossible --reasoning medium --stakes --post full --seed-style scripted --wording neutral --local DIR`; analyze with `uv run swarm2/analyze_mx.py runs2/NAME ...` (hook / test_tamper / test_edit / special_case / honest).
+
+Lines B and D: `swarm2/v3.py` (factor screen), `swarm2/v4.py` (realistic repo) and `swarm2/regrade.py` (spec-based regrade). They were run from tag `line-b-v3-screen` on the older issue pool; reproduce from that tag.
+
 ## Second task source: jinja (SWE-smith), `--source jinja`
 Default is `--source codecontests` (unchanged). `--source jinja` runs only with `--local DIR` and only on the Linux box: it clones jinja, applies SWE-smith bug patches and runs jinja's tests, none of which may run on the laptop.
 

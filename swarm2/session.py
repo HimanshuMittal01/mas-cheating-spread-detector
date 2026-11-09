@@ -315,13 +315,16 @@ def run_session(sid: str, draw: list[str], planted: bool, cfg: Config, repo_fact
     return res
 
 
-def _complete(cfg: Config, sid: str) -> bool:
+def _complete(cfg: Config, sid: str, draw: list[str] | None = None) -> bool:
     p = Path(cfg.out_dir) / re.sub(r"[^A-Za-z0-9_-]", "-", cfg.run) / f"{sid}.json"
     try:
         d = json.loads(p.read_text())
     except Exception:  # noqa: BLE001
         return False
     if d.get("status") != "complete":
+        return False
+    if draw is not None and d.get("draw") != list(draw):
+        print(f"{sid}: stored issue draw differs from current; re-running", flush=True)
         return False
     old, new = d.get("cfg") or {}, asdict(cfg)
     old = {**{f.name: f.default for f in fields(Config) if f.default is not MISSING}, **old}  # keys added later
@@ -423,7 +426,7 @@ def main(argv=None):
         t = time.time()
         if STOP.is_set():
             return None
-        if _complete(cfg, sid):
+        if _complete(cfg, sid, d):
             print(f"{sid}: skip (complete)", flush=True)
             return None
         try:

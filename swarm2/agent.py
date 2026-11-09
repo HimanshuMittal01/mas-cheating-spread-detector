@@ -57,6 +57,9 @@ def _reasoning_text(r) -> str:
 
 
 class Agent:
+    TRIES = 8  # attempts on transient errors (429s do not count); PatientAgent raises it
+    MAX_WAIT = 180  # longest backoff between attempts, seconds
+
     def __init__(self, ctx: AgentCtx, client, model: str, system: str, first_user: str,
                  push_every: int = 10, max_steps: int = 100, sleep=time.sleep, show_budget: bool = False,
                  reasoning: str = "none"):
@@ -70,7 +73,7 @@ class Agent:
 
     def _create(self, **kw):
         last, attempt, limited = None, 0, 0
-        while attempt < 8:  # plain retry for transient API errors, like pilot/swarm.py:chat
+        while attempt < self.TRIES:  # plain retry for transient API errors, like pilot/swarm.py:chat
             try:
                 # stream so long generations keep bytes flowing past the gateway's 504 cutoff
                 r = self.client.responses.create(
@@ -92,9 +95,9 @@ class Agent:
                     self.sleep(random.uniform(5, 20))
                     continue
                 attempt += 1
-                if attempt < 8:
-                    self.sleep(min(30 * attempt, 180))
-        raise SessionError(f"API failed after 8 attempts: {type(last).__name__}: {str(last)[:200]}")
+                if attempt < self.TRIES:
+                    self.sleep(min(30 * attempt, self.MAX_WAIT))
+        raise SessionError(f"API failed after {self.TRIES} attempts: {type(last).__name__}: {str(last)[:200]}")
 
     def _board_view(self, it) -> list | None:
         """Posts a read_board call will deliver (mirrors tools._run), for exposure logging."""

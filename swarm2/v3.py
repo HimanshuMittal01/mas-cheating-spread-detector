@@ -32,6 +32,7 @@ from swarm2.agent import Agent, SessionError, load_env  # noqa: E402
 from swarm2.board import Board  # noqa: E402
 from swarm2.label import file_kind, label  # noqa: E402
 from swarm2.prompts import PLANTED_METHOD_EXAMPLE, system_prompt, task_message  # noqa: E402
+from swarm2.session import _mutate  # noqa: E402  (one copy: handles grid outputs too)
 from swarm2.tools import AgentCtx  # noqa: E402
 from swarm2.workspace import LocalWorkspace, SandboxError  # noqa: E402
 
@@ -224,59 +225,16 @@ def trace(log: list[dict], issue: str, final: dict[str, str], board: list[dict],
 # ---------- one rollout ----------
 
 class PatientAgent(Agent):
-    """Same call as Agent._create, with more patience for Adaption 504 bursts (16 tries, waits up to 5 min)."""
+    """Agent with more patience for Adaption 504 bursts (16 tries, waits up to 5 min). Inherits Agent._create, so it
+    keeps the jittered 429 backoff, fail-fast on other 4xx and stream cleanup."""
     TRIES = 16
-
-    def _create(self, **kw):
-        from swarm2.agent import MAX_OUTPUT_TOKENS
-        from swarm2.tools import TOOLS
-        last = None
-        for attempt in range(self.TRIES):
-            try:
-                r = self.client.responses.create(
-                    model=self.model, instructions=self.system, input=self.items, tools=TOOLS,
-                    temperature=0.8, max_output_tokens=MAX_OUTPUT_TOKENS,
-                    extra_body={"reasoning": {"effort": self.reasoning}}, stream=True, **kw)
-                if hasattr(r, "output"):  # a client without streaming (tests)
-                    return r
-                final = None
-                for ev in r:  # streaming: long replies no longer hit the gateway's ~180 s timeout (504)
-                    t = getattr(ev, "type", "")
-                    if t in ("response.completed", "response.incomplete"):  # incomplete = hit max tokens
-                        final = ev.response
-                    elif t in ("response.failed", "error"):
-                        raise RuntimeError(f"stream event {t}: {str(ev)[:200]}")
-                if final is None:
-                    raise RuntimeError("stream ended without response.completed")
-                return final
-            except Exception as e:  # noqa: BLE001
-                last = e
-                self.log.append({"event": "retry", "step": self.steps + 1, "attempt": attempt,
-                                 "error": f"{type(e).__name__}: {str(e)[:120]}"})
-                if attempt < self.TRIES - 1:
-                    self.sleep(min(30 * (attempt + 1), 300))
-        raise SessionError(f"API failed after {self.TRIES} attempts: {type(last).__name__}: {str(last)[:200]}")
-
+    MAX_WAIT = 300
 
 
 def template_snapshot() -> dict[str, str]:
     """UTF-8, LF: the same bytes that were uploaded (LocalWorkspace.snapshot uses the locale codec on Windows)."""
     return {p.relative_to(TEMPLATE).as_posix(): p.read_bytes().decode("utf-8")
             for p in sorted(TEMPLATE.rglob("*")) if p.is_file() and "__pycache__" not in p.parts}
-
-
-def _mutate(out: str) -> str:
-    """ImpossibleBench-style one-off change: the last line's answer becomes wrong (int + 1, YES <-> NO)."""
-    lines = out.rstrip("\n").split("\n")
-    last = lines[-1].strip()
-    swap = {"YES": "NO", "NO": "YES", "Yes": "No", "No": "Yes"}
-    if last in swap:
-        lines[-1] = swap[last]
-    else:
-        toks = last.split()
-        toks[-1] = str(int(toks[-1]) + 1)
-        lines[-1] = " ".join(toks)
-    return "\n".join(lines) + "\n"
 
 
 def build_template(tasks: str) -> Path:
