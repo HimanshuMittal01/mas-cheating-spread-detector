@@ -179,3 +179,6 @@ Settings: [docs/design-v3/settings.csv](docs/design-v3/settings.csv) (32 main se
 - Real cheater (agent 0): used the hook itself 33/40, posted the method 33/40, first post at tick 12 (median); honest agents finish at a median of 14 steps; 49/120 saw a cheater post before finishing; 2/49 copied.
 - The pre-registered label is ~70–82% "tamper" in every arm, including control, because it counts legitimate test corrections. It is reported but not used for conclusions.
 - **Final report:** `docs/results-final/results-final.md` → `results-final.pdf` (4 pages, STE, 4 plotly charts, 2 hand-drawn diagrams). Built by `docs/results-final/build.py` from `results/main/agents_regraded.csv` and `results/realism/agents.csv`. `docs/results-v3/` marked superseded.
+
+### 2026-11-09: teardown (realism pool)
+- Deleted the 5 Daytona sandboxes used for the realism check and regrade. Account lists 0 sandboxes. Raw rollouts stay local in `runs3/` and `runs4/` (gitignored).
