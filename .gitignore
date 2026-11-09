@@ -5,3 +5,7 @@ pilot/tasks.json
 __pycache__/
 runs2/
 runs2_ec2/
+runs3/
+docs/results-v3/results-v3.html
+runs4/
+docs/results-final/results-final.html
