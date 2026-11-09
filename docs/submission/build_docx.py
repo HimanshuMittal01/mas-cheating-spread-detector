@@ -103,7 +103,8 @@ def png_size(p: Path) -> tuple[int, int]:
 
 
 def image(caption: str, path: str) -> str:
-    path, _, inches = path.partition(" =")  # optional width: ![cap](fig.png =4.3)
+    path, _, title = path.partition(' "')  # optional width, valid markdown: ![cap](fig.png "width=4.3")
+    inches = (re.search(r"width=([\d.]+)", title) or [None, None])[1]
     p = (HERE / path).resolve()
     name = f"img{len(media) + 1}.png"
     media[name] = p

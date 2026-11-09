@@ -193,6 +193,8 @@ Across both pairs: the shortcut was used in 1 of the 2 sessions with the post an
 
 ## Appendix A: every run, its internal name and where its data lives
 
+**Names in the paper** (`docs/submission/report.md`): experiments 1–2 = the preliminary toy-board study; experiments 3–4 = Study 1; experiment 5 = Study 2; experiment 6 = Study 3; experiment 7 = Study 4; experiment 8 = Study 5.
+
 The team's notes and the code use these names. In the notes, experiment 4 is "Line A", experiment 6 is "Line B", experiment 8 is "Line C" and experiment 7 is "Line D".
 
 | Story step | Internal name / runs | Size | Result | Evidence |
